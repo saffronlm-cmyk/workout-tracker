@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>Strength + Pilates Tracker</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#fdf6f0;font-family:Georgia,serif;color:#3d2b24;padding-bottom:80px;font-size:15px}
+.hdr{background:linear-gradient(135deg,#c9a99a,#e8d5cc);padding:50px 18px 16px;text-align:center}
+.hdr h1{font-size:1.2rem;color:#fff;font-weight:bold}
+.hdr p{font-size:0.72rem;color:rgba(255,255,255,0.85);margin-top:3px}
+.tab{display:none}.tab.on{display:block}
+.card{background:#fff9f5;border-radius:13px;border:1px solid #ecddd8;margin:12px 13px;padding:15px}
+.stitle{font-size:0.62rem;font-weight:bold;letter-spacing:1.4px;text-transform:uppercase;color:#9c7b72;margin-bottom:10px}
+.pills{display:flex;gap:6px;flex-wrap:wrap}
+.pill{padding:7px 13px;border-radius:20px;border:1.5px solid #ecddd8;background:#fff;color:#9c7b72;cursor:pointer;font-size:0.76rem;font-family:Georgia,serif}
+.pill.on{background:#c9a99a;color:#fff;border-color:#c9a99a;font-weight:bold}
+.pill.sm{font-size:0.68rem;padding:5px 10px}
+.pbar{height:6px;border-radius:4px;background:#ecddd8;margin-top:10px;overflow:hidden}
+.pfill{height:100%;background:linear-gradient(90deg,#c9a99a,#e8d5cc);border-radius:4px;transition:width .3s}
+.plbl{font-size:0.63rem;color:#9c7b72;margin-top:3px}
+.crow{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid #ecddd8}
+.crow:last-child{border-bottom:none}
+.crow input[type=checkbox]{width:20px;height:20px;accent-color:#c9a99a;flex-shrink:0;margin-top:1px;cursor:pointer}
+.clbl{font-size:0.82rem;flex:1}
+/* Exercise block */
+.exblock{border-bottom:1px solid #ecddd8;padding:12px 0}
+.exblock:last-child{border-bottom:none}
+.exname{font-weight:bold;font-size:0.84rem;display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+.exmeta{font-size:0.68rem;color:#9c7b72;margin-bottom:2px}
+.exnote{font-size:0.68rem;color:#d4a0a0;font-style:italic;margin-bottom:6px}
+.lbadge{background:#d4a0a0;color:#fff;border-radius:5px;padding:1px 6px;font-size:0.6rem;font-weight:bold;white-space:nowrap}
+.rbadge{background:#9c7b72;color:#fff;border-radius:5px;padding:1px 6px;font-size:0.6rem;font-weight:bold;white-space:nowrap}
+.sbadge{font-size:0.62rem;color:#9c7b72;margin-left:auto;white-space:nowrap}
+/* Set rows table */
+.set-table{width:100%;border-collapse:collapse}
+.set-table th{font-size:0.6rem;color:#9c7b72;font-weight:bold;padding:3px 4px;text-align:left;border-bottom:1px solid #ecddd8;font-family:Georgia,serif}
+.set-table td{padding:4px 3px;vertical-align:middle}
+.set-num{font-size:0.7rem;font-weight:bold;color:#9c7b72;width:22px}
+.set-input{border:1px solid #ecddd8;border-radius:7px;padding:6px 5px;font-size:0.8rem;background:#fff;color:#3d2b24;font-family:Georgia,serif;width:100%}
+.leg-section{margin-top:8px}
+.leg-label{font-size:0.7rem;font-weight:bold;margin-bottom:4px;display:flex;align-items:center;gap:6px}
+.fsec{margin-bottom:13px}
+.flbl{font-size:0.74rem;font-weight:bold;margin-bottom:6px}
+.frow{display:flex;gap:6px;flex-wrap:wrap}
+.fbtn{padding:6px 12px;border-radius:15px;border:1.5px solid #ecddd8;background:#fff;color:#9c7b72;cursor:pointer;font-size:0.73rem;font-family:Georgia,serif}
+.fbtn.sn{background:#c9a99a;color:#fff;border-color:#c9a99a}
+.fbtn.sw{background:#c47a7a;color:#fff;border-color:#c47a7a}
+textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;font-size:0.78rem;font-family:Georgia,serif;background:#fff;color:#3d2b24;resize:vertical;min-height:60px}
+.sbtn{width:100%;padding:12px;border-radius:22px;background:#c9a99a;color:#fff;border:none;font-size:0.88rem;font-family:Georgia,serif;font-weight:bold;cursor:pointer;margin-top:11px}
+.bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ecddd8;display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:99}
+.nbtn{flex:1;padding:9px 2px 7px;background:none;border:none;cursor:pointer;font-family:Georgia,serif;font-size:0.58rem;color:#9c7b72;display:flex;flex-direction:column;align-items:center;gap:2px}
+.nbtn.on{color:#c9a99a;font-weight:bold}
+.nbtn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2}
+.dgrid{display:flex;gap:3px;margin-bottom:8px}
+.dcell{flex:1;padding:8px 2px;border-radius:9px;text-align:center;border:1.5px solid #ecddd8;background:#fff}
+.dcell.on{background:#c9a99a;border-color:#c9a99a}
+.dcell.rest{background:#ecddd8}
+.dname{font-size:0.6rem;font-weight:bold;color:#9c7b72}
+.dcell.on .dname{color:#fff}
+.dsess{font-size:0.53rem;color:#9c7b72;margin-top:2px}
+.dcell.on .dsess{color:rgba(255,255,255,0.85)}
+.prow{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid #ecddd8;align-items:flex-start}
+.prow:last-child{border-bottom:none}
+.frow2{padding:8px 0;border-bottom:1px solid #ecddd8}
+.frow2:last-child{border-bottom:none}
+.fcond{font-size:0.76rem;font-weight:bold;color:#c47a7a}
+.fact{font-size:0.72rem;color:#9c7b72;margin-top:3px}
+.srow{display:flex;gap:9px;margin:0 13px 4px}
+.sc{background:#fff9f5;border-radius:10px;border:1px solid #ecddd8;padding:12px 13px;flex:1}
+.snum{font-size:1.5rem;font-weight:bold;color:#c9a99a}
+.slbl{font-size:0.64rem;color:#9c7b72;margin-top:1px}
+.htags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.htag{font-size:0.6rem;background:#ecddd8;border-radius:7px;padding:2px 7px}
+.hnote{font-size:0.72rem;color:#9c7b72;font-style:italic;margin-top:5px}
+.hlogs{margin-top:7px}
+.hlog{font-size:0.7rem;padding:2px 0;border-bottom:1px solid #ecddd8}
+.hlog:last-child{border-bottom:none}
+.hlog-name{font-weight:bold;font-size:0.72rem}
+.hlog-sets{font-size:0.68rem;color:#9c7b72;margin-top:1px}
+.empty{text-align:center;color:#9c7b72;font-size:0.84rem;padding:36px 20px}
+.setrow{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #ecddd8}
+.setrow:last-child{border-bottom:none}
+.setlbl{font-weight:bold;font-size:0.84rem}
+.setsub{font-size:0.68rem;color:#9c7b72;margin-top:2px}
+.tgl{padding:6px 14px;border-radius:15px;border:1.5px solid #ecddd8;background:#fff;color:#9c7b72;font-family:Georgia,serif;font-size:0.76rem;cursor:pointer}
+.tgl.on{background:#c9a99a;color:#fff;border-color:#c9a99a;font-weight:bold}
+.rrow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #ecddd8;font-size:0.77rem}
+.rrow:last-child{border-bottom:none}
+.deload-banner{background:linear-gradient(135deg,#f0d5cc,#e8d5cc);border-radius:9px;padding:9px 13px;margin:12px 13px 0;font-size:0.76rem;font-weight:bold;color:#3d2b24;text-align:center}
+.opthdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.sfocus{font-size:0.72rem;color:#9c7b72;margin-top:7px}
+/* Calendar */
+.calhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.calmonth{font-size:1rem;font-weight:bold}
+.calarw{background:none;border:1.5px solid #ecddd8;border-radius:50%;width:32px;height:32px;font-size:1.1rem;cursor:pointer;color:#3d2b24;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;line-height:1}
+.calgrid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:10px}
+.calday-name{text-align:center;font-size:0.58rem;font-weight:bold;color:#9c7b72;padding:4px 0}
+.calday{min-height:38px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:0.75rem;cursor:pointer;border:1.5px solid transparent;padding:3px 1px}
+.calday.empty-cell{cursor:default;background:transparent}
+.calday.is-today{border-color:#c9a99a;font-weight:bold}
+.calday.has-sess{background:#f5e6e0}
+.calday.is-sel{background:#e8d5cc;border-color:#c9a99a}
+.calday-num{font-size:0.78rem}
+.calday-dot{width:5px;height:5px;border-radius:50%;margin-top:2px}
+.cal-legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:0.66rem;color:#9c7b72}
+.leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0}
+.cal-detail{margin-top:12px;padding-top:12px;border-top:1px solid #ecddd8}
+.cal-detail-date{font-size:0.72rem;color:#9c7b72;margin-bottom:6px}
+.cal-sess-pill{display:inline-block;color:#fff;border-radius:8px;padding:3px 10px;font-size:0.74rem;margin:2px 3px 2px 0}
+.streak-card{background:linear-gradient(135deg,#f5e6e0,#fff9f5);border-radius:11px;border:1px solid #ecddd8;padding:13px 15px;display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.streak-num{font-size:1.8rem;font-weight:bold;color:#c9a99a}
+.streak-lbl{font-size:0.65rem;color:#9c7b72;margin-top:1px}
+.wk-summary{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-top:6px}
+.wk-cell{text-align:center;padding:6px 2px;border-radius:7px;background:#f0ebe8}
+.wk-cell.done{background:#c9a99a}
+.wk-cell-d{font-size:0.58rem;color:#9c7b72;font-weight:bold}
+.wk-cell.done .wk-cell-d{color:rgba(255,255,255,0.9)}
+.wk-cell-s{font-size:0.5rem;color:#9c7b72;margin-top:2px}
+.wk-cell.done .wk-cell-s{color:rgba(255,255,255,0.85)}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <h1>&#128170; Strength + Pilates</h1>
+  <p id="hsub">Upper/Lower Hybrid &middot; 5-Day Split</p>
+</div>
+<div id="t-today" class="tab on"></div>
+<div id="t-split" class="tab"></div>
+<div id="t-calendar" class="tab"></div>
+<div id="t-history" class="tab"></div>
+<div id="t-settings" class="tab"></div>
+<nav class="bnav">
+  <button class="nbtn on" id="nb-today" onclick="goTab('today')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Today
+  </button>
+  <button class="nbtn" id="nb-split" onclick="goTab('split')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>Split
+  </button>
+  <button class="nbtn" id="nb-calendar" onclick="goTab('calendar')">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14" stroke-width="3"/><line x1="12" y1="14" x2="12" y2="14" stroke-width="3"/><line x1="16" y1="14" x2="16" y2="14" stroke-width="3"/></svg>Calendar
+  </button>
+  <button class="nbtn" id="nb-history" onclick="goTab('history')">
+    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>History
+  </button>
+  <button class="nbtn" id="nb-settings" onclick="goTab('settings')">
+    <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings
+  </button>
+</nav>
+<script>
+// bilateral = logs one set of rows shared for both legs
+// unilateral = logs separate left/right leg rows
+// sets = number of set rows to show
+var DATA = {
+  "Upper A":{
+    focus:"Chest, shoulders, triceps, core",
+    warmup:["2 min light walk / treadmill","10x cat-cow","10x arm circles (both directions)","10x scapular push-ups","10x glute bridges"],
+    strength:[
+      {id:"ua1",name:"Dumbbell Chest Press",sets:4,reps:"10-12",rest:"60s"},
+      {id:"ua2",name:"Single-Arm Dumbbell Rows",sets:4,reps:"10",rest:"60s",left:1,note:"Left arm first each set",uni:1},
+      {id:"ua3",name:"Incline Push-ups",sets:3,reps:"8-12",rest:"45s"},
+      {id:"ua4",name:"Overhead Press",sets:3,reps:"12-15",rest:"45s"},
+      {id:"ua5",name:"Lateral Raises",sets:3,reps:"12-15",rest:"45s"}
+    ],
+    opt:[
+      {id:"ua6",name:"Tricep Dips",sets:3,reps:"8-12"},
+      {id:"ua7",name:"Bicep Curls",sets:3,reps:"12-15"}
+    ],
+    pilates:[
+      {id:"up1",name:"Plank Hold (60s)"},
+      {id:"up2",name:"Plank Alternating Arm Lifts - 8-10 each side"},
+      {id:"up3",name:"Plank Taps - 8-10 each side"},
+      {id:"up4",name:"Dead Bug - 3x8-10 per side"},
+      {id:"up5",name:"Bird Dog Hold - 3x30s + 10 pulses",left:1,note:"Left: 2-3 extra reps"},
+      {id:"up6",name:"Chest Stretch + Shoulder Opener (2 min)"}
+    ]
+  },
+  "Upper B":{
+    focus:"Back, rear shoulders, rotational core",
+    warmup:["2 min light walk / treadmill","10x arm circles","10x scapular push-ups","10x glute bridges","5x cat-cow"],
+    strength:[
+      {id:"ub1",name:"Barbell / Dumbbell Deadlift",sets:4,reps:"8-10",rest:"90s"},
+      {id:"ub2",name:"Prone Single-Arm Dumbbell Rows",sets:3,reps:"10",rest:"60s",left:1,note:"Left arm first each set",uni:1},
+      {id:"ub3",name:"Assisted Pull-ups / Lat Pulldowns",sets:4,reps:"8-12",rest:"60s"},
+      {id:"ub4",name:"Face Pulls",sets:3,reps:"12-15",rest:"45s"},
+      {id:"ub5",name:"Y-Raises",sets:3,reps:"12-15",rest:"45s"}
+    ],
+    opt:[
+      {id:"ub6",name:"Single-Arm Farmer Carry",sets:3,reps:"40 steps",uni:1},
+      {id:"ub7",name:"Reverse Flyes",sets:3,reps:"12-15"}
+    ],
+    pilates:[
+      {id:"ubp1",name:"Prone Y-hold (30s) x2-3 rounds"},
+      {id:"ubp2",name:"Prone I-hold (30s) x2-3 rounds"},
+      {id:"ubp3",name:"Prone T-hold (30s) x2-3 rounds"},
+      {id:"ubp4",name:"Quadruped Shoulder Taps - 3x10-12 per side",left:1,note:"Left: extra 2 reps"},
+      {id:"ubp5",name:"Side-lying Leg Lifts - 3x12 per side",left:1,note:"Left: 3-4 extra reps"},
+      {id:"ubp6",name:"Thoracic Rotation Stretch (2 min)"}
+    ]
+  },
+  "Lower A":{
+    focus:"Glutes, quads, left-leg stability",
+    warmup:["2 min treadmill / walk","10x glute bridges","10x leg swings forward/back (each leg)","10x lateral leg swings (each leg)","5x 90/90 hip stretch (each side)"],
+    strength:[
+      {id:"la1",name:"Goblet Squats",sets:4,reps:"10-12",rest:"90s"},
+      {id:"la2",name:"Single-Leg Glute Bridges",sets:4,reps:"12",rest:"60s",left:1,note:"Left: 3-4 extra reps, 2s hold",uni:1},
+      {id:"la3",name:"Banded Glute Kickbacks",sets:3,reps:"15",rest:"45s",left:1,note:"Left: 2-3 extra reps",uni:1},
+      {id:"la4",name:"Reverse Lunges",sets:3,reps:"10",rest:"60s",left:1,note:"Left leg slower, heavier if able",uni:1},
+      {id:"la5",name:"Step-ups",sets:3,reps:"10",rest:"45s",left:1,note:"Left leg leads",uni:1}
+    ],
+    opt:[
+      {id:"la6",name:"Single-Leg Romanian Deadlifts",sets:3,reps:"8-10",uni:1,left:1,note:"Left: 2-3 extra reps"},
+      {id:"la7",name:"Lateral Band Walks",sets:3,reps:"12 steps each way"}
+    ],
+    pilates:[
+      {id:"lap1",name:"Glute Bridge Pulses - 3x20"},
+      {id:"lap2",name:"Clam Shells - 3x12-15 per side",left:1,note:"Left: 4-5 extra reps"},
+      {id:"lap3",name:"Side-Lying Leg Lifts - 3x12-15 per side",left:1,note:"Left: 3-4 extra reps"},
+      {id:"lap4",name:"Pigeon Stretch Holds (90s per side)"}
+    ]
+  },
+  "Lower B":{
+    focus:"Left-leg stability, glute asymmetry, single-leg strength",
+    warmup:["2 min treadmill / walk","10x glute bridges","10x leg swings (each leg)","10x cossack squats","5x 90/90 stretch (each side)"],
+    strength:[
+      {id:"lb1",name:"Single-Leg Goblet Squats",sets:3,reps:"8-10",rest:"90s",left:1,note:"Left leg first",uni:1},
+      {id:"lb2",name:"Single-Leg Glute Bridges",sets:4,reps:"12-15",rest:"60s",left:1,note:"Left: 4-5 extra reps, 2s hold",uni:1},
+      {id:"lb3",name:"Single-Leg Deadlifts",sets:3,reps:"8-10",rest:"60s",left:1,note:"Left leg first",uni:1},
+      {id:"lb4",name:"Bulgarian Split Squats",sets:3,reps:"10",rest:"60s",left:1,note:"Left leg leads, 2-3 extra reps",uni:1},
+      {id:"lb5",name:"Lateral Lunges",sets:3,reps:"10",rest:"45s",left:1,note:"Left: 2-3 extra reps",uni:1}
+    ],
+    opt:[
+      {id:"lb6",name:"Single-Leg Calf Raises",sets:3,reps:"12-15",uni:1,left:1,note:"Left: extra 3-5 reps"},
+      {id:"lb7",name:"Monster Walks",sets:3,reps:"12 fwd + 12 back"}
+    ],
+    pilates:[
+      {id:"lbp1",name:"Single-Leg Glute Bridges + Pulses 3x15+10",left:1,note:"Left: 3s hold at top"},
+      {id:"lbp2",name:"Fire Hydrants - 3x12-15 per side",left:1,note:"Left: 4-5 extra reps"},
+      {id:"lbp3",name:"Side-Lying Leg Lifts + Pulses 3x12+10",left:1,note:"Left: extra 4-5 pulses"},
+      {id:"lbp4",name:"Deep Quad and Hip Flexor Stretch (2 min)"}
+    ]
+  }
+};
+
+var SP={4:["Upper A","Lower A","Upper B","Lower B"],5:["Upper A","Lower A","Upper B","Lower B","Upper A"],6:["Upper A","Lower A","Upper B","Lower B","Upper A","Lower B"]};
+var DAYS=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+var MNAMES=["January","February","March","April","May","June","July","August","September","October","November","December"];
+var CMAP={"Upper A":"#c9a99a","Upper B":"#b8887a","Lower A":"#88a880","Lower B":"#6b9068"};
+
+var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null};
+(function(){
+  try{var x=localStorage.getItem("spt3");if(x){var p=JSON.parse(x);S.sess=p.sess||S.sess;S.split=p.split||S.split;S.deload=p.deload||false;S.opt=false;S.logs=p.logs||{};S.checks=p.checks||{};S.feels=p.feels||{};S.notes=p.notes||{};S.hist=p.hist||[];}}catch(e){}
+})();
+
+function td(){return new Date().toISOString().slice(0,10);}
+function csk(){return S.sess+"_"+td();}
+function sv(){try{localStorage.setItem("spt3",JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist}));}catch(e){}}
+function pad2(n){return n<10?"0"+n:String(n);}
+
+function goTab(name){
+  var tabs=["today","split","calendar","history","settings"];
+  for(var i=0;i<tabs.length;i++){
+    document.getElementById("t-"+tabs[i]).className="tab"+(tabs[i]===name?" on":"");
+    document.getElementById("nb-"+tabs[i]).className="nbtn"+(tabs[i]===name?" on":"");
+  }
+  if(name==="today")rToday();
+  else if(name==="split")rSplit();
+  else if(name==="calendar")rCal();
+  else if(name==="history")rHist();
+  else rSet();
+}
+
+function calcPct(){
+  var s=DATA[S.sess];
+  var ex=s.strength.concat(S.opt?s.opt:[]);
+  var k=csk(); var lg=0;
+  for(var i=0;i<ex.length;i++){
+    var e=ex[i];
+    if(e.uni){
+      var dl=S.logs[k]&&S.logs[k][e.id+"_L"];
+      var dr=S.logs[k]&&S.logs[k][e.id+"_R"];
+      if(dl&&(dl[0]&&(dl[0].w||dl[0].r))) lg+=0.5;
+      if(dr&&(dr[0]&&(dr[0].w||dr[0].r))) lg+=0.5;
+    } else {
+      var d=S.logs[k]&&S.logs[k][e.id];
+      if(d&&d[0]&&(d[0].w||d[0].r)) lg++;
+    }
+  }
+  var pd=0;
+  for(var j=0;j<s.pilates.length;j++){if(S.checks[k+"_"+s.pilates[j].id])pd++;}
+  var total=ex.length+s.pilates.length;
+  return total?Math.round((lg+pd)/total*100):0;
+}
+function updPct(){
+  var p=calcPct();
+  var f=document.getElementById("pfill");var l=document.getElementById("plbl");
+  if(f)f.style.width=p+"%";if(l)l.textContent="Session progress: "+p+"%";
+}
+
+// Build set rows for an exercise
+function buildSetRows(exId, sets, side){
+  var k=csk();
+  var logKey=side?exId+"_"+side:exId;
+  if(!S.logs[k])S.logs[k]={};
+  if(!S.logs[k][logKey])S.logs[k][logKey]=[];
+  var h='<table class="set-table"><thead><tr><th>Set</th><th>kg</th><th>Reps</th><th>Note</th></tr></thead><tbody>';
+  for(var s=0;s<sets;s++){
+    var sd=S.logs[k][logKey][s]||{};
+    var wv=sd.w||""; var rv=sd.r||""; var nv=sd.n||"";
+    var sid=side?side:"B";
+    h+='<tr>';
+    h+='<td class="set-num">'+(s+1)+'</td>';
+    h+='<td><input class="set-input" type="number" inputmode="decimal" placeholder="-" value="'+wv+'" onchange="setLg(\''+exId+'\',\''+sid+'\','+s+',\'w\',this.value)"/></td>';
+    h+='<td><input class="set-input" type="number" inputmode="numeric" placeholder="-" value="'+rv+'" onchange="setLg(\''+exId+'\',\''+sid+'\','+s+',\'r\',this.value)"/></td>';
+    h+='<td><input class="set-input" type="text" placeholder="-" value="'+nv+'" onchange="setLg(\''+exId+'\',\''+sid+'\','+s+',\'n\',this.value)" style="width:70px"/></td>';
+    h+='</tr>';
+  }
+  h+='</tbody></table>';
+  return h;
+}
+
+function rToday(){
+  var s=DATA[S.sess]; var k=csk(); var p=calcPct();
+  var ex=s.strength.concat(S.opt?s.opt:[]);
+  var h="";
+  if(S.deload)h+='<div class="deload-banner">&#127800; DELOAD WEEK — drop 1-2 sets, lighter weights</div>';
+
+  h+='<div class="card"><div class="stitle">Select Session</div><div class="pills">';
+  var sk=Object.keys(DATA);
+  for(var i=0;i<sk.length;i++)h+='<button class="pill'+(S.sess===sk[i]?" on":"")+'" onclick="setSess(\''+sk[i]+'\')">'+sk[i]+'</button>';
+  h+='</div><div class="sfocus">'+s.focus+'</div>';
+  h+='<div class="pbar"><div class="pfill" id="pfill" style="width:'+p+'%"></div></div>';
+  h+='<div class="plbl" id="plbl">Session progress: '+p+'%</div></div>';
+
+  // Warmup
+  h+='<div class="card"><div class="stitle">Warm-up (5-10 min)</div>';
+  for(var i=0;i<s.warmup.length;i++){
+    var ck=k+"_wu"+i;
+    h+='<div class="crow"><input type="checkbox"'+(S.checks[ck]?" checked":"")+' onchange="togCk(\''+ck+'\')"/><span class="clbl">'+s.warmup[i]+'</span></div>';
+  }
+  h+='</div>';
+
+  // Strength
+  h+='<div class="card"><div class="opthdr"><div class="stitle" style="margin:0">Strength Block</div>';
+  h+='<button class="pill sm'+(S.opt?" on":"")+'" onclick="togOpt()">'+(S.opt?"Hide Optional":"+ Optional")+'</button></div>';
+
+  for(var i=0;i<ex.length;i++){
+    var e=ex[i];
+    h+='<div class="exblock"><div class="exname">'+e.name;
+    if(e.left)h+='<span class="lbadge">&#9666; LEFT</span>';
+    if(e.sets&&e.reps)h+='<span class="sbadge">'+e.sets+' sets &middot; '+e.reps+' reps</span>';
+    h+='</div>';
+    if(e.note)h+='<div class="exnote">&#8594; '+e.note+'</div>';
+    if(e.rest)h+='<div class="exmeta">Rest: '+e.rest+'</div>';
+
+    if(e.uni){
+      // Separate left and right leg sections
+      h+='<div class="leg-section"><div class="leg-label"><span class="lbadge">&#9666; LEFT</span></div>';
+      h+=buildSetRows(e.id,e.sets,"L");
+      h+='</div>';
+      h+='<div class="leg-section" style="margin-top:10px"><div class="leg-label"><span class="rbadge">RIGHT</span></div>';
+      h+=buildSetRows(e.id,e.sets,"R");
+      h+='</div>';
+    } else {
+      h+=buildSetRows(e.id,e.sets,null);
+    }
+    h+='</div>';
+  }
+  h+='</div>';
+
+  // Pilates
+  h+='<div class="card"><div class="stitle">Pilates Finisher (15-30 min)</div>';
+  for(var i=0;i<s.pilates.length;i++){
+    var pl=s.pilates[i]; var ck=k+"_"+pl.id;
+    h+='<div class="crow"><input type="checkbox"'+(S.checks[ck]?" checked":"")+' onchange="togCk(\''+ck+'\')"/>';
+    h+='<div style="flex:1"><div class="clbl" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">'+pl.name;
+    if(pl.left)h+='<span class="lbadge">&#9666; LEFT</span>';
+    h+='</div>';
+    if(pl.note)h+='<div class="exnote">&#8594; '+pl.note+'</div>';
+    h+='</div></div>';
+  }
+  h+='</div>';
+
+  // Feels
+  var ff=[
+    {k:"knees",l:"Knees",o:["Fine","Slightly achy","Sore"],w:["Sore"]},
+    {k:"back",l:"Lower back",o:["Fine","Slight tingle","Sore"],w:["Sore","Slight tingle"]},
+    {k:"energy",l:"Energy",o:["Strong","Steady","Low"],w:["Low"]},
+    {k:"inflam",l:"Inflammation (post-workout)",o:["Low","Moderate","High"],w:["High","Moderate"]}
+  ];
+  h+='<div class="card"><div class="stitle">How Did You Feel?</div>';
+  for(var i=0;i<ff.length;i++){
+    var f=ff[i];
+    h+='<div class="fsec"><div class="flbl">'+f.l+'</div><div class="frow">';
+    for(var j=0;j<f.o.length;j++){
+      var o=f.o[j]; var sel=S.feels[k]&&S.feels[k][f.k]===o; var iswarn=f.w.indexOf(o)>=0;
+      h+='<button class="fbtn'+(sel?(iswarn?" sw":" sn"):"")+'" onclick="setFeel(\''+f.k+'\',\''+o+'\')">'+o+'</button>';
+    }
+    h+='</div></div>';
+  }
+  var nv=S.notes[k]||"";
+  h+='<div class="flbl">Session notes</div>';
+  h+='<textarea placeholder="What felt good? What needs adjustment?" onchange="setNote(this.value)">'+nv+'</textarea>';
+  h+='<button class="sbtn" onclick="saveSess()">Save Session &#10003;</button></div>';
+  document.getElementById("t-today").innerHTML=h;
+}
+
+function rSplit(){
+  var plan=SP[S.split];
+  var h='<div class="card"><div class="stitle">Choose Your Split</div><div class="pills" style="margin-bottom:13px">';
+  h+='<button class="pill'+(S.split===4?" on":"")+'" onclick="setSplit(4)">4-Day</button>';
+  h+='<button class="pill'+(S.split===5?" on":"")+'" onclick="setSplit(5)">5-Day</button>';
+  h+='<button class="pill'+(S.split===6?" on":"")+'" onclick="setSplit(6)">6-Day</button>';
+  h+='</div><div class="dgrid">';
+  for(var i=0;i<7;i++){
+    var sess=plan[i]; var isrest=i>=plan.length;
+    h+='<div class="dcell'+(isrest?" rest":sess?" on":"")+'"><div class="dname">'+DAYS[i]+'</div>';
+    h+='<div class="dsess">'+(isrest?"rest":(sess||"").replace("Upper ","U").replace("Lower ","L"))+'</div></div>';
+  }
+  h+='</div><div style="font-size:0.7rem;color:#9c7b72;margin-top:6px">';
+  if(S.split===4)h+='PCOS-friendly. 3 rest days, maximum recovery.';
+  else if(S.split===5)h+='Balanced — one repeat session, two rest days.';
+  else h+='Full double split. Rest Wed + Sun recommended.';
+  h+='</div></div>';
+  h+='<div class="card"><div class="stitle">Asymmetry Protocol</div>';
+  var tips=["Left leg performs first in every lower-body session","Left leg gets 2-5 extra reps on Pilates accessories","Single-leg goblet squats and deadlifts are your asymmetry-fixers","Progress left-leg weights faster until it matches right"];
+  for(var i=0;i<tips.length;i++)h+='<div class="prow"><span class="lbadge" style="margin-top:1px;flex-shrink:0">&#9666;</span><span style="font-size:0.79rem">'+tips[i]+'</span></div>';
+  h+='</div>';
+  h+='<div class="card"><div class="stitle">PCOS Adjustment Flags</div>';
+  var flags=[{c:"Knees worse 24hr after lower-body",a:"Reduce goblet squat reps, add extra rest day"},{c:"Lower back tingling",a:"Skip deadlifts next session, increase Pilates time"},{c:"Inflammation trending up",a:"Drop to 4 days, increase rest-day walks"}];
+  for(var i=0;i<flags.length;i++)h+='<div class="frow2"><div class="fcond">&#9888; '+flags[i].c+'</div><div class="fact">&#8594; '+flags[i].a+'</div></div>';
+  h+='</div>';
+  document.getElementById("t-split").innerHTML=h;
+}
+
+function rCal(){
+  var now=new Date(); var todayStr=td(); var y=S.caly; var m=S.calm;
+  var dmap={};
+  for(var i=0;i<S.hist.length;i++){var e=S.hist[i];if(!dmap[e.date])dmap[e.date]=[];dmap[e.date].push(e.sess);}
+  var streak=0; var chk=new Date(now); chk.setHours(0,0,0,0);
+  for(var n=0;n<365;n++){var ds=chk.toISOString().slice(0,10);if(dmap[ds]&&dmap[ds].length){streak++;chk.setDate(chk.getDate()-1);}else break;}
+  var wkStart=new Date(now); var dow=(now.getDay()+6)%7; wkStart.setDate(now.getDate()-dow); wkStart.setHours(0,0,0,0);
+  var h='<div class="card"><div class="streak-card">';
+  h+='<div><div class="streak-num">'+streak+'</div><div class="streak-lbl">day streak &#128293;</div></div>';
+  h+='<div style="text-align:right"><div class="streak-num">'+S.hist.length+'</div><div class="streak-lbl">total sessions</div></div>';
+  h+='</div><div class="stitle">This Week</div><div class="wk-summary">';
+  for(var i=0;i<7;i++){
+    var wd=new Date(wkStart); wd.setDate(wkStart.getDate()+i);
+    var wds=wd.toISOString().slice(0,10); var wsess=dmap[wds]||[]; var wdone=wsess.length>0;
+    h+='<div class="wk-cell'+(wdone?" done":"")+'"><div class="wk-cell-d">'+DAYS[i]+'</div>';
+    h+='<div class="wk-cell-s">'+(wdone?wsess[0].replace("Upper ","U").replace("Lower ","L"):"&#183;")+'</div></div>';
+  }
+  h+='</div></div>';
+  var firstDay=new Date(y,m,1).getDay(); var firstMon=(firstDay+6)%7; var dim=new Date(y,m+1,0).getDate();
+  h+='<div class="card"><div class="calhdr">';
+  h+='<button class="calarw" onclick="calNav(-1)">&#8249;</button>';
+  h+='<div class="calmonth">'+MNAMES[m]+' '+y+'</div>';
+  h+='<button class="calarw" onclick="calNav(1)">&#8250;</button>';
+  h+='</div><div class="calgrid">';
+  for(var i=0;i<7;i++)h+='<div class="calday-name">'+DAYS[i]+'</div>';
+  for(var b=0;b<firstMon;b++)h+='<div class="calday empty-cell"></div>';
+  for(var day=1;day<=dim;day++){
+    var dstr=y+"-"+pad2(m+1)+"-"+pad2(day); var dsess=dmap[dstr]||[];
+    var cls="calday"+(dstr===todayStr?" is-today":"")+(dsess.length?" has-sess":"")+(S.calsel===dstr?" is-sel":"");
+    h+='<div class="'+cls+'" onclick="calSel(\''+dstr+'\')">';
+    h+='<div class="calday-num">'+day+'</div>';
+    if(dsess.length)h+='<div class="calday-dot" style="background:'+(CMAP[dsess[0]]||"#c9a99a")+'"></div>';
+    h+='</div>';
+  }
+  h+='</div><div class="cal-legend">';
+  var ck=Object.keys(CMAP);
+  for(var i=0;i<ck.length;i++)h+='<div class="leg-item"><div class="leg-dot" style="background:'+CMAP[ck[i]]+'"></div>'+ck[i]+'</div>';
+  h+='</div>';
+  if(S.calsel){
+    var ss=dmap[S.calsel]||[];
+    h+='<div class="cal-detail"><div class="cal-detail-date">'+S.calsel+'</div>';
+    if(ss.length){
+      for(var i=0;i<ss.length;i++)h+='<span class="cal-sess-pill" style="background:'+(CMAP[ss[i]]||"#c9a99a")+'">'+ss[i]+'</span>';
+      var he=null;
+      for(var i=0;i<S.hist.length;i++){if(S.hist[i].date===S.calsel&&S.hist[i].sess===ss[0]){he=S.hist[i];break;}}
+      if(he&&he.feels&&Object.keys(he.feels).length){
+        h+='<div class="htags">';
+        var fk=Object.keys(he.feels);
+        for(var i=0;i<fk.length;i++)h+='<span class="htag">'+fk[i]+': '+he.feels[fk[i]]+'</span>';
+        h+='</div>';
+      }
+      if(he&&he.note)h+='<div class="hnote">"'+he.note+'"</div>';
+    } else {h+='<div style="font-size:0.78rem;color:#9c7b72">No session logged this day</div>';}
+    h+='</div>';
+  }
+  h+='</div>';
+  document.getElementById("t-calendar").innerHTML=h;
+}
+
+function calNav(dir){S.calm+=dir;if(S.calm>11){S.calm=0;S.caly++;}else if(S.calm<0){S.calm=11;S.caly--;}rCal();}
+function calSel(ds){S.calsel=(S.calsel===ds?null:ds);rCal();}
+
+function rHist(){
+  var h=S.hist;
+  if(!h.length){document.getElementById("t-history").innerHTML='<div class="empty">No sessions logged yet.<br>Complete a session and tap Save &#10003;</div>';return;}
+  var low=0;
+  for(var i=0;i<h.length;i++){if(h[i].feels&&h[i].feels.inflam==="Low")low++;}
+  var out='<div class="srow"><div class="sc"><div class="snum">'+h.length+'</div><div class="slbl">Sessions logged</div></div>';
+  out+='<div class="sc"><div class="snum">'+low+'</div><div class="slbl">Low inflammation days</div></div></div>';
+  var allEx=[];
+  var dk=Object.keys(DATA);
+  for(var i=0;i<dk.length;i++)allEx=allEx.concat(DATA[dk[i]].strength,DATA[dk[i]].opt);
+  for(var i=0;i<h.length;i++){
+    var e=h[i];
+    out+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start">';
+    out+='<div><div style="font-weight:bold;font-size:0.88rem">'+e.sess+'</div><div style="font-size:0.68rem;color:#9c7b72">'+e.date+'</div></div></div>';
+    if(e.feels&&Object.keys(e.feels).length){
+      out+='<div class="htags">';
+      var fk=Object.keys(e.feels);
+      for(var j=0;j<fk.length;j++)out+='<span class="htag">'+fk[j]+': '+e.feels[fk[j]]+'</span>';
+      out+='</div>';
+    }
+    if(e.note)out+='<div class="hnote">"'+e.note+'"</div>';
+    if(e.logs){
+      var lk=Object.keys(e.logs); var lines="";
+      for(var j=0;j<lk.length;j++){
+        var logKey=lk[j];
+        var side=null; var exId=logKey;
+        if(logKey.slice(-2)==="_L"||logKey.slice(-2)==="_R"){side=logKey.slice(-1);exId=logKey.slice(0,-2);}
+        var ex=null;
+        for(var x=0;x<allEx.length;x++){if(allEx[x].id===exId){ex=allEx[x];break;}}
+        if(!ex)continue;
+        var sets=e.logs[logKey];
+        if(!sets||!sets.length)continue;
+        var setStrs=[];
+        for(var s=0;s<sets.length;s++){
+          var sd=sets[s];
+          if(sd&&(sd.w||sd.r))setStrs.push("Set "+(s+1)+": "+(sd.w?sd.w+"kg":"-")+(sd.r?" x "+sd.r:"")+(sd.n?" ("+sd.n+")":""));
+        }
+        if(setStrs.length){
+          lines+='<div class="hlog"><div class="hlog-name">'+ex.name+(side?" — "+(side==="L"?"Left":"Right"):"")+'</div>';
+          lines+='<div class="hlog-sets">'+setStrs.join(" &middot; ")+'</div></div>';
+        }
+      }
+      if(lines)out+='<div class="hlogs">'+lines+'</div>';
+    }
+    out+='</div>';
+  }
+  document.getElementById("t-history").innerHTML=out;
+}
+
+function rSet(){
+  var h='<div class="card"><div class="stitle">Settings</div>';
+  h+='<div class="setrow"><div><div class="setlbl">Deload Week</div><div class="setsub">Drop 1-2 sets, lighter weights, form focus</div></div>';
+  h+='<button class="tgl'+(S.deload?" on":"")+'" onclick="togDeload()">'+(S.deload?"ON &#127800;":"OFF")+'</button></div>';
+  h+='<div class="setrow"><div><div class="setlbl">Active Split</div></div><div class="pills">';
+  h+='<button class="pill sm'+(S.split===4?" on":"")+'" onclick="setSplit(4)">4-Day</button>';
+  h+='<button class="pill sm'+(S.split===5?" on":"")+'" onclick="setSplit(5)">5-Day</button>';
+  h+='<button class="pill sm'+(S.split===6?" on":"")+'" onclick="setSplit(6)">6-Day</button>';
+  h+='</div></div></div>';
+  h+='<div class="card"><div class="stitle">Rep and Weight Guide</div>';
+  var guide=[{t:"Main compound",r:"8-12 reps",f:"RPE 7-8"},{t:"Secondary compound",r:"10-15 reps",f:"RPE 6-7"},{t:"Isolation",r:"12-15 reps",f:"RPE 5-6"},{t:"Pilates",r:"Slow / isometric",f:"BW or light"}];
+  for(var i=0;i<guide.length;i++)h+='<div class="rrow"><span style="font-weight:bold">'+guide[i].t+'</span><span style="color:#9c7b72;font-size:0.7rem">'+guide[i].r+' &middot; '+guide[i].f+'</span></div>';
+  h+='</div>';
+  h+='<div class="card"><div class="stitle">About</div><div style="font-size:0.76rem;color:#9c7b72;line-height:1.7">Strength + Pilates Hybrid Tracker<br>Upper/Lower Split &middot; 4-6 Days Flexible<br><br>Data saved locally on your device.</div></div>';
+  document.getElementById("t-settings").innerHTML=h;
+}
+
+// Actions
+function setSess(nm){S.sess=nm;sv();rToday();}
+function togOpt(){S.opt=!S.opt;rToday();}
+function togCk(key){S.checks[key]=!S.checks[key];sv();updPct();}
+function setLg(exId,side,setIdx,field,val){
+  var k=csk();
+  if(!S.logs[k])S.logs[k]={};
+  var logKey=side==="B"?exId:exId+"_"+side;
+  if(!S.logs[k][logKey])S.logs[k][logKey]=[];
+  if(!S.logs[k][logKey][setIdx])S.logs[k][logKey][setIdx]={};
+  S.logs[k][logKey][setIdx][field]=val;
+  sv();updPct();
+}
+function setFeel(field,val){var k=csk();if(!S.feels[k])S.feels[k]={};S.feels[k][field]=val;sv();rToday();}
+function setNote(val){S.notes[csk()]=val;sv();}
+function setSplit(n){S.split=n;sv();document.getElementById("hsub").textContent="Upper/Lower Hybrid · "+n+"-Day Split"+(S.deload?" · DELOAD":"");var at=document.querySelector(".tab.on").id.replace("t-","");if(at==="split")rSplit();else if(at==="settings")rSet();else if(at==="calendar")rCal();}
+function togDeload(){S.deload=!S.deload;sv();document.getElementById("hsub").textContent="Upper/Lower Hybrid · "+S.split+"-Day Split"+(S.deload?" · DELOAD":"");rSet();rToday();}
+function saveSess(){
+  var k=csk();
+  var entry={date:td(),sess:S.sess,logs:S.logs[k]||{},feels:S.feels[k]||{},note:S.notes[k]||""};
+  var nh=[];
+  for(var i=0;i<S.hist.length;i++){if(!(S.hist[i].date===entry.date&&S.hist[i].sess===entry.sess))nh.push(S.hist[i]);}
+  nh.unshift(entry);if(nh.length>60)nh=nh.slice(0,60);S.hist=nh;sv();
+  var btn=document.querySelector(".sbtn");
+  if(btn){btn.textContent="&#10003; Saved!";btn.style.background="#88a880";setTimeout(function(){btn.textContent="Save Session &#10003;";btn.style.background="#c9a99a";},1800);}
+}
+
+document.getElementById("hsub").textContent="Upper/Lower Hybrid · "+S.split+"-Day Split"+(S.deload?" · DELOAD":"");
+rToday();
+</script>
+</body>
+</html>
