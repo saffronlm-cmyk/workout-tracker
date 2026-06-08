@@ -29,11 +29,17 @@ body{background:#fdf6f0;font-family:Georgia,serif;color:#3d2b24;padding-bottom:8
 .exblock{border-bottom:1px solid #ecddd8;padding:12px 0}
 .exblock:last-child{border-bottom:none}
 .exname{font-weight:bold;font-size:0.84rem;display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:4px}
+.exname-tap{cursor:pointer;border-bottom:1px dotted #c9a99a}
+.exinfo{font-size:0.62rem;color:#c9a99a;margin-left:3px}
 .exmeta{font-size:0.68rem;color:#9c7b72;margin-bottom:2px}
 .exnote{font-size:0.68rem;color:#d4a0a0;font-style:italic;margin-bottom:6px}
 .lbadge{background:#d4a0a0;color:#fff;border-radius:5px;padding:1px 6px;font-size:0.6rem;font-weight:bold;white-space:nowrap}
 .rbadge{background:#9c7b72;color:#fff;border-radius:5px;padding:1px 6px;font-size:0.6rem;font-weight:bold;white-space:nowrap}
 .sbadge{font-size:0.62rem;color:#9c7b72;margin-left:auto;white-space:nowrap}
+/* Overload hint */
+.ovhint{font-size:0.67rem;color:#5f7d57;background:#eef4ea;border-radius:7px;padding:5px 9px;margin-bottom:7px;line-height:1.4}
+.ovhint.ovnone{color:#9c7b72;background:#f5efe9}
+.ovhint b{color:#3d2b24}
 /* Set rows table */
 .set-table{width:100%;border-collapse:collapse}
 .set-table th{font-size:0.6rem;color:#9c7b72;font-weight:bold;padding:3px 4px;text-align:left;border-bottom:1px solid #ecddd8;font-family:Georgia,serif}
@@ -50,8 +56,9 @@ body{background:#fdf6f0;font-family:Georgia,serif;color:#3d2b24;padding-bottom:8
 .fbtn.sw{background:#c47a7a;color:#fff;border-color:#c47a7a}
 textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;font-size:0.78rem;font-family:Georgia,serif;background:#fff;color:#3d2b24;resize:vertical;min-height:60px}
 .sbtn{width:100%;padding:12px;border-radius:22px;background:#c9a99a;color:#fff;border:none;font-size:0.88rem;font-family:Georgia,serif;font-weight:bold;cursor:pointer;margin-top:11px}
+.sbtn.alt{background:#fff;color:#9c7b72;border:1.5px solid #ecddd8;font-size:0.8rem;padding:10px;margin-top:8px}
 .bnav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ecddd8;display:flex;padding-bottom:env(safe-area-inset-bottom);z-index:99}
-.nbtn{flex:1;padding:9px 2px 7px;background:none;border:none;cursor:pointer;font-family:Georgia,serif;font-size:0.58rem;color:#9c7b72;display:flex;flex-direction:column;align-items:center;gap:2px}
+.nbtn{flex:1;padding:9px 1px 7px;background:none;border:none;cursor:pointer;font-family:Georgia,serif;font-size:0.54rem;color:#9c7b72;display:flex;flex-direction:column;align-items:center;gap:2px}
 .nbtn.on{color:#c9a99a;font-weight:bold}
 .nbtn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:2}
 .dgrid{display:flex;gap:3px;margin-bottom:8px}
@@ -92,6 +99,28 @@ textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;
 .deload-banner{background:linear-gradient(135deg,#f0d5cc,#e8d5cc);border-radius:9px;padding:9px 13px;margin:12px 13px 0;font-size:0.76rem;font-weight:bold;color:#3d2b24;text-align:center}
 .opthdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .sfocus{font-size:0.72rem;color:#9c7b72;margin-top:7px}
+/* Library */
+.librow{display:flex;align-items:center;gap:8px;padding:11px 0;border-bottom:1px solid #ecddd8;cursor:pointer}
+.librow:last-child{border-bottom:none}
+.libtxt{flex:1}
+.libname{font-weight:bold;font-size:0.82rem}
+.libmus{font-size:0.66rem;color:#9c7b72;margin-top:1px}
+.libchev{color:#c9a99a;font-size:1.2rem}
+/* Exercise detail modal */
+.exmodal{display:none;position:fixed;inset:0;background:rgba(61,43,36,0.55);z-index:200;align-items:flex-end;justify-content:center}
+.exmodal.on{display:flex}
+.exmodal-box{background:#fdf6f0;border-radius:18px 18px 0 0;width:100%;max-width:560px;max-height:86vh;overflow-y:auto;padding:20px 18px 44px;position:relative}
+.exmodal-x{position:absolute;top:10px;right:13px;background:none;border:none;font-size:1.7rem;color:#9c7b72;cursor:pointer;line-height:1;font-family:Georgia,serif}
+.exm-title{font-size:1.05rem;font-weight:bold;margin-bottom:2px;padding-right:30px}
+.exm-muscle{font-size:0.72rem;color:#c47a7a;font-weight:bold;margin-bottom:12px}
+.exm-sec{margin-bottom:14px}
+.exm-h{font-size:0.62rem;font-weight:bold;letter-spacing:1px;text-transform:uppercase;color:#9c7b72;margin-bottom:4px;margin-top:8px}
+.exm-t{font-size:0.82rem;line-height:1.5}
+.exm-prow{display:flex;justify-content:space-between;font-size:0.74rem;padding:5px 0;border-bottom:1px solid #ecddd8;gap:10px}
+.exm-prow:last-child{border-bottom:none}
+.exm-pd{color:#9c7b72;white-space:nowrap}
+.exm-ps{text-align:right}
+.impexp-ta{width:100%;min-height:64px;font-family:monospace;font-size:0.62rem;margin-top:8px}
 /* Calendar */
 .calhdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .calmonth{font-size:1rem;font-weight:bold}
@@ -131,6 +160,7 @@ textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;
 <div id="t-today" class="tab on"></div>
 <div id="t-split" class="tab"></div>
 <div id="t-calendar" class="tab"></div>
+<div id="t-library" class="tab"></div>
 <div id="t-history" class="tab"></div>
 <div id="t-settings" class="tab"></div>
 <nav class="bnav">
@@ -143,6 +173,9 @@ textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;
   <button class="nbtn" id="nb-calendar" onclick="goTab('calendar')">
     <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="14" x2="8" y2="14" stroke-width="3"/><line x1="12" y1="14" x2="12" y2="14" stroke-width="3"/><line x1="16" y1="14" x2="16" y2="14" stroke-width="3"/></svg>Calendar
   </button>
+  <button class="nbtn" id="nb-library" onclick="goTab('library')">
+    <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Library
+  </button>
   <button class="nbtn" id="nb-history" onclick="goTab('history')">
     <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>History
   </button>
@@ -150,6 +183,9 @@ textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings
   </button>
 </nav>
+<div id="exModal" class="exmodal" onclick="if(event.target===this)closeExDetail()">
+  <div class="exmodal-box"><button class="exmodal-x" onclick="closeExDetail()">&times;</button><div id="exModalBody"></div></div>
+</div>
 <script>
 // bilateral = logs one set of rows shared for both legs
 // unilateral = logs separate left/right leg rows
@@ -157,98 +193,177 @@ textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;
 var DATA = {
   "Upper A":{
     focus:"Chest, shoulders, triceps, core",
-    warmup:["2 min light walk / treadmill","10x cat-cow","10x arm circles (both directions)","10x scapular push-ups","10x glute bridges"],
+    warmup:[
+      {name:"Band pull-aparts x15"},
+      {name:"Scapular push-ups x10"},
+      {name:"Cat-cow x10"},
+      {name:"Light DB overhead press x12",note:"Very light — prime the shoulders"}
+    ],
     strength:[
       {id:"ua1",name:"Dumbbell Chest Press",sets:4,reps:"10-12",rest:"60s"},
       {id:"ua2",name:"Single-Arm Dumbbell Rows",sets:4,reps:"10",rest:"60s",left:1,note:"Left arm first each set",uni:1},
       {id:"ua3",name:"Incline Push-ups",sets:3,reps:"8-12",rest:"45s"},
       {id:"ua4",name:"Overhead Press",sets:3,reps:"12-15",rest:"45s"},
-      {id:"ua5",name:"Lateral Raises",sets:3,reps:"12-15",rest:"45s"}
+      {id:"ua5",name:"Lateral Raises",sets:3,reps:"12-15",rest:"45s"},
+      {id:"ua6",name:"Tricep Dips",sets:3,reps:"8-12",rest:"45s"},
+      {id:"ua7",name:"Bicep Curls",sets:3,reps:"12-15",rest:"45s"}
     ],
     opt:[
-      {id:"ua6",name:"Tricep Dips",sets:3,reps:"8-12"},
-      {id:"ua7",name:"Bicep Curls",sets:3,reps:"12-15"}
-    ],
-    pilates:[
-      {id:"up1",name:"Plank Hold (60s)"},
-      {id:"up2",name:"Plank Alternating Arm Lifts - 8-10 each side"},
-      {id:"up3",name:"Plank Taps - 8-10 each side"},
-      {id:"up4",name:"Dead Bug - 3x8-10 per side"},
-      {id:"up5",name:"Bird Dog Hold - 3x30s + 10 pulses",left:1,note:"Left: 2-3 extra reps"},
-      {id:"up6",name:"Chest Stretch + Shoulder Opener (2 min)"}
+      {id:"ua8",name:"Overhead Tricep Extension",sets:2,reps:"12-15"},
+      {id:"ua9",name:"Concentration Curls",sets:2,reps:"12-15",uni:1,left:1,note:"Left arm first"}
     ]
   },
   "Upper B":{
-    focus:"Back, rear shoulders, rotational core",
-    warmup:["2 min light walk / treadmill","10x arm circles","10x scapular push-ups","10x glute bridges","5x cat-cow"],
+    focus:"Back, rear shoulders, biceps/triceps, rotational core",
+    warmup:[
+      {name:"Band pull-aparts x15"},
+      {name:"Prone Y-T-W raises x8 each"},
+      {name:"Cat-cow x10"},
+      {name:"Light DB rows x12",note:"Light — wake up the back"}
+    ],
     strength:[
       {id:"ub1",name:"Barbell / Dumbbell Deadlift",sets:4,reps:"8-10",rest:"90s"},
       {id:"ub2",name:"Prone Single-Arm Dumbbell Rows",sets:3,reps:"10",rest:"60s",left:1,note:"Left arm first each set",uni:1},
       {id:"ub3",name:"Assisted Pull-ups / Lat Pulldowns",sets:4,reps:"8-12",rest:"60s"},
       {id:"ub4",name:"Face Pulls",sets:3,reps:"12-15",rest:"45s"},
-      {id:"ub5",name:"Y-Raises",sets:3,reps:"12-15",rest:"45s"}
+      {id:"ub5",name:"Y-Raises",sets:3,reps:"12-15",rest:"45s"},
+      {id:"ub8",name:"Overhead Tricep Extension",sets:3,reps:"10-12",rest:"45s"},
+      {id:"ub9",name:"Hammer Curls",sets:3,reps:"10-12",rest:"45s"}
     ],
     opt:[
       {id:"ub6",name:"Single-Arm Farmer Carry",sets:3,reps:"40 steps",uni:1},
       {id:"ub7",name:"Reverse Flyes",sets:3,reps:"12-15"}
-    ],
-    pilates:[
-      {id:"ubp1",name:"Prone Y-hold (30s) x2-3 rounds"},
-      {id:"ubp2",name:"Prone I-hold (30s) x2-3 rounds"},
-      {id:"ubp3",name:"Prone T-hold (30s) x2-3 rounds"},
-      {id:"ubp4",name:"Quadruped Shoulder Taps - 3x10-12 per side",left:1,note:"Left: extra 2 reps"},
-      {id:"ubp5",name:"Side-lying Leg Lifts - 3x12 per side",left:1,note:"Left: 3-4 extra reps"},
-      {id:"ubp6",name:"Thoracic Rotation Stretch (2 min)"}
     ]
   },
   "Lower A":{
-    focus:"Glutes, quads, left-leg stability",
-    warmup:["2 min treadmill / walk","10x glute bridges","10x leg swings forward/back (each leg)","10x lateral leg swings (each leg)","5x 90/90 hip stretch (each side)"],
+    focus:"Glutes, quads, inner thigh, left-leg stability",
+    warmup:[
+      {name:"Glute bridges x15"},
+      {name:"Leg swings x10 each (front/back + lateral)"},
+      {name:"Bodyweight squats x12"},
+      {name:"Banded lateral walks x10 each way"}
+    ],
     strength:[
       {id:"la1",name:"Goblet Squats",sets:4,reps:"10-12",rest:"90s"},
       {id:"la2",name:"Single-Leg Glute Bridges",sets:4,reps:"12",rest:"60s",left:1,note:"Left: 3-4 extra reps, 2s hold",uni:1},
       {id:"la3",name:"Banded Glute Kickbacks",sets:3,reps:"15",rest:"45s",left:1,note:"Left: 2-3 extra reps",uni:1},
       {id:"la4",name:"Reverse Lunges",sets:3,reps:"10",rest:"60s",left:1,note:"Left leg slower, heavier if able",uni:1},
-      {id:"la5",name:"Step-ups",sets:3,reps:"10",rest:"45s",left:1,note:"Left leg leads",uni:1}
+      {id:"la5",name:"Step-ups",sets:3,reps:"10",rest:"45s",left:1,note:"Left leg leads",uni:1},
+      {id:"la8",name:"Sumo Goblet Squat",sets:3,reps:"10-12",rest:"60s",note:"Wide stance, toes out — drive the knees out to load the inner thighs"}
     ],
     opt:[
       {id:"la6",name:"Single-Leg Romanian Deadlifts",sets:3,reps:"8-10",uni:1,left:1,note:"Left: 2-3 extra reps"},
       {id:"la7",name:"Lateral Band Walks",sets:3,reps:"12 steps each way"}
-    ],
-    pilates:[
-      {id:"lap1",name:"Glute Bridge Pulses - 3x20"},
-      {id:"lap2",name:"Clam Shells - 3x12-15 per side",left:1,note:"Left: 4-5 extra reps"},
-      {id:"lap3",name:"Side-Lying Leg Lifts - 3x12-15 per side",left:1,note:"Left: 3-4 extra reps"},
-      {id:"lap4",name:"Pigeon Stretch Holds (90s per side)"}
     ]
   },
   "Lower B":{
-    focus:"Left-leg stability, glute asymmetry, single-leg strength",
-    warmup:["2 min treadmill / walk","10x glute bridges","10x leg swings (each leg)","10x cossack squats","5x 90/90 stretch (each side)"],
+    focus:"Left-leg stability, glute asymmetry, inner thigh, single-leg strength",
+    warmup:[
+      {name:"Glute bridges x15"},
+      {name:"Cossack squats x6 each side"},
+      {name:"Single-leg RDL reach x8 each",note:"Balance + hamstring prep"},
+      {name:"Clamshells x12 each"}
+    ],
     strength:[
       {id:"lb1",name:"Single-Leg Goblet Squats",sets:3,reps:"8-10",rest:"90s",left:1,note:"Left leg first",uni:1},
       {id:"lb2",name:"Single-Leg Glute Bridges",sets:4,reps:"12-15",rest:"60s",left:1,note:"Left: 4-5 extra reps, 2s hold",uni:1},
       {id:"lb3",name:"Single-Leg Deadlifts",sets:3,reps:"8-10",rest:"60s",left:1,note:"Left leg first",uni:1},
       {id:"lb4",name:"Bulgarian Split Squats",sets:3,reps:"10",rest:"60s",left:1,note:"Left leg leads, 2-3 extra reps",uni:1},
-      {id:"lb5",name:"Lateral Lunges",sets:3,reps:"10",rest:"45s",left:1,note:"Left: 2-3 extra reps",uni:1}
+      {id:"lb5",name:"Lateral Lunges",sets:3,reps:"10",rest:"45s",left:1,note:"Left: 2-3 extra reps",uni:1},
+      {id:"lb8",name:"Copenhagen Plank",sets:3,reps:"20-30s each",rest:"45s",left:1,note:"Inner thigh — bend the top knee to scale. Left side first",uni:1}
     ],
     opt:[
       {id:"lb6",name:"Single-Leg Calf Raises",sets:3,reps:"12-15",uni:1,left:1,note:"Left: extra 3-5 reps"},
       {id:"lb7",name:"Monster Walks",sets:3,reps:"12 fwd + 12 back"}
-    ],
-    pilates:[
-      {id:"lbp1",name:"Single-Leg Glute Bridges + Pulses 3x15+10",left:1,note:"Left: 3s hold at top"},
-      {id:"lbp2",name:"Fire Hydrants - 3x12-15 per side",left:1,note:"Left: 4-5 extra reps"},
-      {id:"lbp3",name:"Side-Lying Leg Lifts + Pulses 3x12+10",left:1,note:"Left: extra 4-5 pulses"},
-      {id:"lbp4",name:"Deep Quad and Hip Flexor Stretch (2 min)"}
     ]
+  },
+  "Cardio":{
+    focus:"Conditioning + targeted core",
+    warmup:[
+      {name:"Brisk walk / easy cycle 3 min"},
+      {name:"Leg swings x10 each"},
+      {name:"Arm circles x10 each way"},
+      {name:"Bodyweight squats x10"}
+    ],
+    cardio:[
+      {id:"cd1",name:"Steady-state 25-30 min — incline walk / cycle / row (Zone 2, can hold a conversation)"},
+      {id:"cd2",name:"Intervals — 8 x (1 min hard / 1 min easy)"},
+      {id:"cd3",name:"Low-impact 20 min — elliptical / swim + 5 min mobility"}
+    ],
+    abs:[
+      {id:"ab1",name:"Dead Bug",note:"3 x 10 each side"},
+      {id:"ab2",name:"Bicycle Crunches",note:"3 x 15 each"},
+      {id:"ab3",name:"Plank Hold",note:"3 x 45s"},
+      {id:"ab4",name:"Russian Twists",note:"3 x 20"},
+      {id:"ab5",name:"Hollow Hold",note:"3 x 30s"}
+    ],
+    strength:[],opt:[]
   }
 };
 
-var SP={4:["Upper A","Lower A","Upper B","Lower B"],5:["Upper A","Lower A","Upper B","Lower B","Upper A"],6:["Upper A","Lower A","Upper B","Lower B","Upper A","Lower B"]};
+// Exercise library — keyed by movement name. Single source of truth for the
+// Library tab and the detail modal (matched case-insensitively).
+var LIB = {
+  "Dumbbell Chest Press":{muscles:"Chest, front delts, triceps",instructions:"Lie on a bench with dumbbells at chest height. Press up until the arms are nearly straight, then lower under control to a deep chest stretch.",benefit:"Builds horizontal pressing strength and chest/triceps size with a joint-friendly range.",alts:["Barbell Bench Press","Push-ups","Machine Chest Press"]},
+  "Single-Arm Dumbbell Rows":{muscles:"Lats, mid-back, biceps, rear delts",instructions:"Brace one hand and knee on a bench. Row the dumbbell to your hip with a flat back, squeezing the shoulder blade at the top.",benefit:"Trains each side independently to fix left/right imbalances and build back thickness.",alts:["Bent-Over Row","Seated Cable Row","Chest-Supported Row"]},
+  "Incline Push-ups":{muscles:"Chest, shoulders, triceps, core",instructions:"Hands on a raised surface, body in a straight line. Lower the chest toward the edge, then press back up.",benefit:"Scalable push-up that builds pressing strength with less load on the wrists and shoulders.",alts:["Knee Push-ups","Standard Push-ups","Machine Chest Press"]},
+  "Overhead Press":{muscles:"Shoulders, triceps, upper chest",instructions:"Press dumbbells or a bar from shoulder height to overhead without flaring the ribs; lower under control.",benefit:"Primary vertical press for shoulder strength and overhead stability.",alts:["Seated DB Press","Arnold Press","Landmine Press"]},
+  "Lateral Raises":{muscles:"Side deltoids",instructions:"Raise dumbbells out to the sides to shoulder height with a slight bend in the elbows; lower slowly.",benefit:"Isolates the side delts for shoulder width and shape.",alts:["Cable Lateral Raise","Upright Row","Machine Lateral Raise"]},
+  "Tricep Dips":{muscles:"Triceps, chest, front delts",instructions:"Hands on a bench or parallel bars, lower until the elbows reach about 90°, then press back up keeping the elbows tucked.",benefit:"Compound triceps builder that also recruits the chest and shoulders.",alts:["Bench Dips","Close-Grip Push-ups","Overhead Tricep Extension"]},
+  "Bicep Curls":{muscles:"Biceps, forearms",instructions:"Curl dumbbells with the elbows pinned to your sides; squeeze at the top and lower fully.",benefit:"Direct biceps work for arm size and elbow-flexion strength.",alts:["Hammer Curls","Cable Curls","Resistance-Band Curls"]},
+  "Overhead Tricep Extension":{muscles:"Triceps (long head)",instructions:"Hold one dumbbell overhead with both hands. Lower it behind the head by bending the elbows, then extend back up.",benefit:"Stretches and strengthens the long head of the triceps for fuller upper arms.",alts:["Cable Pushdown","Skull Crushers","Tricep Dips"]},
+  "Concentration Curls":{muscles:"Biceps (peak)",instructions:"Seated with the elbow braced on the inner thigh, curl one dumbbell with strict form and a hard squeeze.",benefit:"Maximal biceps isolation to even out arm-to-arm differences.",alts:["Bicep Curls","Preacher Curls","Cable Curls"]},
+  "Barbell / Dumbbell Deadlift":{muscles:"Glutes, hamstrings, lower back, lats",instructions:"Hinge at the hips with a flat back, grip the weight, and drive through the floor to stand tall; lower under control.",benefit:"Full posterior-chain strength and the foundation of hip-hinge power.",alts:["Romanian Deadlift","Trap-Bar Deadlift","Hip Thrust"]},
+  "Prone Single-Arm Dumbbell Rows":{muscles:"Lats, mid-back, rear delts",instructions:"Lie chest-down on an incline bench and row one dumbbell to the hip with a controlled squeeze.",benefit:"Removes momentum so each side of the back works through a full range.",alts:["Single-Arm Dumbbell Rows","Chest-Supported Row","Seated Cable Row"]},
+  "Assisted Pull-ups / Lat Pulldowns":{muscles:"Lats, biceps, mid-back",instructions:"Pull the bar or handle to the upper chest leading with the elbows; control the way back up.",benefit:"Builds vertical pulling strength toward unassisted pull-ups.",alts:["Band-Assisted Pull-ups","Lat Pulldown","Inverted Rows"]},
+  "Face Pulls":{muscles:"Rear delts, rotator cuff, upper traps",instructions:"Pull a rope or band toward your face with the hands splitting apart and elbows high; squeeze the rear delts.",benefit:"Balances pressing volume and supports healthy shoulder posture.",alts:["Reverse Flyes","Band Pull-Aparts","Rear-Delt Row"]},
+  "Y-Raises":{muscles:"Lower traps, rear delts",instructions:"Raise light dumbbells overhead into a Y shape with thumbs up; control the lowering.",benefit:"Strengthens the lower traps for scapular stability.",alts:["Prone Y-Raise","Face Pulls","Wall Slides"]},
+  "Hammer Curls":{muscles:"Biceps, brachialis, forearms",instructions:"Curl dumbbells with a neutral (palms-facing) grip, keeping the elbows still.",benefit:"Builds the brachialis for thicker-looking arms and stronger forearms.",alts:["Bicep Curls","Cable Rope Curls","Reverse Curls"]},
+  "Single-Arm Farmer Carry":{muscles:"Core, grip, traps",instructions:"Hold one heavy dumbbell at your side and walk tall, resisting the urge to lean toward the weight.",benefit:"Builds anti-lateral-flexion core strength and grip.",alts:["Suitcase Carry","Side Plank","Pallof Press"]},
+  "Reverse Flyes":{muscles:"Rear delts, mid-back",instructions:"Hinge forward and raise dumbbells out to the sides with soft elbows; squeeze the shoulder blades.",benefit:"Targets the rear delts to balance the shoulders.",alts:["Face Pulls","Band Pull-Aparts","Machine Rear Delt"]},
+  "Goblet Squats":{muscles:"Quads, glutes, core",instructions:"Hold a dumbbell at your chest, squat between the knees to depth, and drive up through the mid-foot.",benefit:"Teaches an upright squat pattern while building leg strength.",alts:["Front Squat","Leg Press","Bodyweight Squat"]},
+  "Single-Leg Glute Bridges":{muscles:"Glutes, hamstrings, core",instructions:"On your back with one foot planted and the other leg extended, drive the hips up squeezing the glute; lower under control.",benefit:"Isolates each glute to correct side-to-side strength gaps.",alts:["Hip Thrust","Double-Leg Glute Bridge","Step-ups"]},
+  "Banded Glute Kickbacks":{muscles:"Glutes (max)",instructions:"With a band around the ankles, drive one leg straight back squeezing the glute; control the return.",benefit:"Adds direct glute volume and improves hip extension.",alts:["Cable Kickback","Donkey Kicks","Hip Thrust"]},
+  "Reverse Lunges":{muscles:"Quads, glutes, hamstrings",instructions:"Step back into a lunge, lower the back knee toward the floor, and drive through the front heel to stand.",benefit:"Knee-friendly single-leg builder for balanced leg strength.",alts:["Forward Lunge","Split Squat","Step-ups"]},
+  "Step-ups":{muscles:"Quads, glutes",instructions:"Drive through the lead foot to step onto a box, stand tall, then lower under control.",benefit:"Single-leg strength and balance with a big glute and quad demand.",alts:["Reverse Lunge","Bulgarian Split Squat","Box Squat"]},
+  "Sumo Goblet Squat":{muscles:"Inner thighs (adductors), glutes, quads",instructions:"Take a wide stance with the toes turned out and hold a dumbbell at the chest. Squat straight down, keeping the knees tracking over the toes.",benefit:"Emphasises the inner-thigh adductors and glutes that a normal-stance squat under-trains.",alts:["Sumo Deadlift","Cossack Squat","Adductor Machine"]},
+  "Single-Leg Romanian Deadlifts":{muscles:"Hamstrings, glutes, core",instructions:"Hinge over one leg, lowering the weight toward the floor with a flat back; return by squeezing the glute.",benefit:"Builds hamstring/glute strength and single-leg balance.",alts:["Romanian Deadlift","Single-Leg Glute Bridge","Good Morning"]},
+  "Lateral Band Walks":{muscles:"Glute medius (hip abductors)",instructions:"With a band around the legs, drop into a half-squat and step sideways keeping tension; don't let the knees cave in.",benefit:"Strengthens the side glutes for hip and knee stability.",alts:["Monster Walks","Clamshells","Cable Hip Abduction"]},
+  "Single-Leg Goblet Squats":{muscles:"Quads, glutes, core",instructions:"Hold a light weight at the chest and squat on one leg to a box or to depth, controlling every rep.",benefit:"Maximal single-leg strength and stability for evening out imbalances.",alts:["Pistol Squat","Bulgarian Split Squat","Step-ups"]},
+  "Single-Leg Deadlifts":{muscles:"Hamstrings, glutes, core",instructions:"Balance on one leg and hinge to lower the weight, keeping the hips square; return by squeezing the glute.",benefit:"Builds posterior-chain strength and corrects single-leg balance.",alts:["Single-Leg RDL","Romanian Deadlift","Good Morning"]},
+  "Bulgarian Split Squats":{muscles:"Quads, glutes, adductors",instructions:"With the rear foot elevated on a bench, lower straight down on the front leg and drive up through the heel.",benefit:"One of the best single-leg builders for strength and balance.",alts:["Split Squat","Reverse Lunge","Step-ups"]},
+  "Lateral Lunges":{muscles:"Inner thighs (adductors), glutes, quads",instructions:"Step wide to one side and sit back into that hip while the other leg stays straight; push back to centre.",benefit:"Trains the adductors and lateral movement that most leg work misses.",alts:["Cossack Squat","Sumo Goblet Squat","Side Step-ups"]},
+  "Copenhagen Plank":{muscles:"Inner thighs (adductors), core",instructions:"Side plank with the top leg resting on a bench; lift the bottom leg up to meet it and hold. Bend the top knee onto the bench to make it easier.",benefit:"Gold-standard adductor (inner-thigh) and groin strengthener for hip resilience.",alts:["Adductor Squeeze (ball)","Side-Lying Inner-Thigh Lift","Lateral Lunge"]},
+  "Single-Leg Calf Raises":{muscles:"Calves",instructions:"Balance on one foot on a step, raise the heel high, then lower for a deep stretch.",benefit:"Builds calf strength and ankle stability one side at a time.",alts:["Double-Leg Calf Raise","Seated Calf Raise","Jump Rope"]},
+  "Monster Walks":{muscles:"Glutes (medius/max), hips",instructions:"With a band around the legs, drop into a half-squat and step diagonally forward and back, keeping constant tension.",benefit:"Fires up the glutes and improves hip stability.",alts:["Lateral Band Walks","Clamshells","Cable Kickback"]},
+  "Dead Bug":{muscles:"Deep core (transverse abdominis)",instructions:"On your back with the arms up and knees bent 90°, lower the opposite arm and leg without arching the back, then return.",benefit:"Builds anti-extension core control and protects the lower back.",alts:["Bird Dog","Hollow Hold","Plank"]},
+  "Bicycle Crunches":{muscles:"Abs, obliques",instructions:"Hands behind the head, bring the opposite elbow to the knee while extending the other leg; alternate smoothly.",benefit:"Hits the obliques and rectus abdominis through rotation.",alts:["Russian Twists","Reverse Crunch","Mountain Climbers"]},
+  "Plank Hold":{muscles:"Core, shoulders, glutes",instructions:"Forearms and toes down, body in a straight line. Brace the abs and squeeze the glutes; don't let the hips sag.",benefit:"Builds whole-body bracing and core endurance.",alts:["Knee Plank","Dead Bug","Hollow Hold"]},
+  "Russian Twists":{muscles:"Obliques, abs",instructions:"Seated, lean back slightly with the feet up or down and rotate a weight side to side under control.",benefit:"Strengthens the obliques and rotational core.",alts:["Bicycle Crunches","Pallof Press","Woodchopper"]},
+  "Hollow Hold":{muscles:"Deep core, hip flexors",instructions:"On your back, press the lower back into the floor and lift the shoulders and legs into a shallow banana shape; hold.",benefit:"Builds total anterior-core tension used in every lift.",alts:["Dead Bug","Plank","Leg Raises"]}
+};
+
+var SP={4:["Upper A","Lower A","Upper B","Lower B"],5:["Upper A","Lower A","Upper B","Lower B","Cardio"],6:["Upper A","Lower A","Upper B","Lower B","Upper A","Cardio"]};
 var DAYS=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
 var MNAMES=["January","February","March","April","May","June","July","August","September","October","November","December"];
-var CMAP={"Upper A":"#c9a99a","Upper B":"#b8887a","Lower A":"#88a880","Lower B":"#6b9068"};
+var SMON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+var CMAP={"Upper A":"#c9a99a","Upper B":"#b8887a","Lower A":"#88a880","Lower B":"#6b9068","Cardio":"#d0a24e"};
+
+// id -> name map (built from every strength/opt exercise) so old history,
+// which stores logs by exercise id, resolves to a movement name.
+var ID2NAME={};
+(function(){
+  var dk=Object.keys(DATA);
+  for(var i=0;i<dk.length;i++){
+    var s=DATA[dk[i]];
+    ["strength","opt"].forEach(function(f){
+      if(s[f])for(var j=0;j<s[f].length;j++)ID2NAME[s[f][j].id]=s[f][j].name;
+    });
+  }
+})();
+// Normalized name index into LIB
+var LIBIDX={};
+(function(){var ks=Object.keys(LIB);for(var i=0;i<ks.length;i++)LIBIDX[normName(ks[i])]=LIB[ks[i]];})();
 
 var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null};
 (function(){
@@ -259,9 +374,68 @@ function td(){return new Date().toISOString().slice(0,10);}
 function csk(){return S.sess+"_"+td();}
 function sv(){try{localStorage.setItem("spt3",JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist}));}catch(e){}}
 function pad2(n){return n<10?"0"+n:String(n);}
+function normName(s){return String(s).toLowerCase().replace(/\s+/g," ").trim();}
+function isCardio(s){return !!(s.cardio||s.abs);}
+function libFor(name){return LIBIDX[normName(name)]||null;}
+function fmtDate(iso){var p=String(iso).split("-");return parseInt(p[2],10)+" "+SMON[parseInt(p[1],10)-1];}
+
+// ---- Progressive overload: match a movement by name across all history ----
+function eachMatch(name, side, cb){
+  var nn=normName(name);
+  for(var i=0;i<S.hist.length;i++){
+    var e=S.hist[i]; if(!e.logs)continue;
+    var keys=Object.keys(e.logs);
+    for(var j=0;j<keys.length;j++){
+      var lk=keys[j], ls=null, id=lk;
+      if(lk.slice(-2)==="_L"||lk.slice(-2)==="_R"){ls=lk.slice(-1);id=lk.slice(0,-2);}
+      if(side){if(ls!==side)continue;}else{if(ls)continue;}
+      var nm=ID2NAME[id]; if(!nm||normName(nm)!==nn)continue;
+      if(cb(e,e.logs[lk]))return;
+    }
+  }
+}
+function lastForName(name,side){
+  var res=null;
+  eachMatch(name,side,function(e,sets){
+    for(var s=0;s<sets.length;s++){if(sets[s]&&(sets[s].w||sets[s].r)){res={date:e.date,sess:e.sess,sets:sets};return true;}}
+    return false;
+  });
+  return res;
+}
+function bestForName(name,side){
+  var best=null;
+  eachMatch(name,side,function(e,sets){
+    for(var s=0;s<sets.length;s++){var sd=sets[s];if(sd&&sd.w){var w=parseFloat(sd.w);if(!isNaN(w)&&(!best||w>best.w))best={w:w,r:sd.r};}}
+    return false;
+  });
+  return best;
+}
+function histForName(name,side){
+  var out=[];
+  eachMatch(name,side,function(e,sets){
+    for(var s=0;s<sets.length;s++){if(sets[s]&&(sets[s].w||sets[s].r)){out.push({date:e.date,sess:e.sess,sets:sets});break;}}
+    return false;
+  });
+  return out;
+}
+function fmtSets(sets){
+  var a=[];
+  for(var i=0;i<sets.length;i++){var sd=sets[i];if(sd&&(sd.w||sd.r))a.push((sd.w?sd.w+"kg":"-")+(sd.r?"×"+sd.r:""));}
+  return a.join(" &middot; ");
+}
+function ovHint(name,side){
+  var last=lastForName(name,side);
+  if(!last)return '<div class="ovhint ovnone">No previous data yet — log your first set to start tracking</div>';
+  var best=bestForName(name,side);
+  var when=fmtDate(last.date)+(last.sess!==S.sess?", "+last.sess:"");
+  var h='<div class="ovhint"><b>Last</b> ('+when+'): '+fmtSets(last.sets);
+  if(best&&best.w)h+=' &nbsp;&middot;&nbsp; <b>Best</b> '+best.w+'kg'+(best.r?'×'+best.r:'');
+  h+='</div>';
+  return h;
+}
 
 function goTab(name){
-  var tabs=["today","split","calendar","history","settings"];
+  var tabs=["today","split","calendar","library","history","settings"];
   for(var i=0;i<tabs.length;i++){
     document.getElementById("t-"+tabs[i]).className="tab"+(tabs[i]===name?" on":"");
     document.getElementById("nb-"+tabs[i]).className="nbtn"+(tabs[i]===name?" on":"");
@@ -269,30 +443,36 @@ function goTab(name){
   if(name==="today")rToday();
   else if(name==="split")rSplit();
   else if(name==="calendar")rCal();
+  else if(name==="library")rLibrary();
   else if(name==="history")rHist();
   else rSet();
 }
 
 function calcPct(){
-  var s=DATA[S.sess];
-  var ex=s.strength.concat(S.opt?s.opt:[]);
-  var k=csk(); var lg=0;
-  for(var i=0;i<ex.length;i++){
-    var e=ex[i];
-    if(e.uni){
-      var dl=S.logs[k]&&S.logs[k][e.id+"_L"];
-      var dr=S.logs[k]&&S.logs[k][e.id+"_R"];
-      if(dl&&(dl[0]&&(dl[0].w||dl[0].r))) lg+=0.5;
-      if(dr&&(dr[0]&&(dr[0].w||dr[0].r))) lg+=0.5;
-    } else {
-      var d=S.logs[k]&&S.logs[k][e.id];
-      if(d&&d[0]&&(d[0].w||d[0].r)) lg++;
+  var s=DATA[S.sess]; var k=csk(); var done=0, total=0;
+  if(s.warmup){for(var i=0;i<s.warmup.length;i++){total++;if(S.checks[k+"_wu"+i])done++;}}
+  if(isCardio(s)){
+    ["cardio","abs"].forEach(function(f){
+      if(s[f])for(var i=0;i<s[f].length;i++){total++;if(S.checks[k+"_"+s[f][i].id])done++;}
+    });
+  } else {
+    var ex=s.strength.concat(S.opt?s.opt:[]);
+    for(var i=0;i<ex.length;i++){
+      var e=ex[i];
+      if(e.uni){
+        total++;
+        var dl=S.logs[k]&&S.logs[k][e.id+"_L"];
+        var dr=S.logs[k]&&S.logs[k][e.id+"_R"];
+        if(dl&&dl[0]&&(dl[0].w||dl[0].r))done+=0.5;
+        if(dr&&dr[0]&&(dr[0].w||dr[0].r))done+=0.5;
+      } else {
+        total++;
+        var d=S.logs[k]&&S.logs[k][e.id];
+        if(d&&d[0]&&(d[0].w||d[0].r))done++;
+      }
     }
   }
-  var pd=0;
-  for(var j=0;j<s.pilates.length;j++){if(S.checks[k+"_"+s.pilates[j].id])pd++;}
-  var total=ex.length+s.pilates.length;
-  return total?Math.round((lg+pd)/total*100):0;
+  return total?Math.round(done/total*100):0;
 }
 function updPct(){
   var p=calcPct();
@@ -322,9 +502,12 @@ function buildSetRows(exId, sets, side){
   return h;
 }
 
+function nameTap(name){return '<span class="exname-tap" onclick="openExDetail(\''+name+'\')">'+name+'<span class="exinfo">&#9432;</span></span>';}
+
 function rToday(){
   var s=DATA[S.sess]; var k=csk(); var p=calcPct();
-  var ex=s.strength.concat(S.opt?s.opt:[]);
+  var cardio=isCardio(s);
+  var ex=cardio?[]:s.strength.concat(S.opt?s.opt:[]);
   var h="";
   if(S.deload)h+='<div class="deload-banner">&#127800; DELOAD WEEK — drop 1-2 sets, lighter weights</div>';
 
@@ -335,54 +518,64 @@ function rToday(){
   h+='<div class="pbar"><div class="pfill" id="pfill" style="width:'+p+'%"></div></div>';
   h+='<div class="plbl" id="plbl">Session progress: '+p+'%</div></div>';
 
-  // Warmup
-  h+='<div class="card"><div class="stitle">Warm-up (5-10 min)</div>';
+  // Activation warm-up circuit
+  h+='<div class="card"><div class="stitle">Activation Warm-up (5-10 min)</div>';
   for(var i=0;i<s.warmup.length;i++){
-    var ck=k+"_wu"+i;
-    h+='<div class="crow"><input type="checkbox"'+(S.checks[ck]?" checked":"")+' onchange="togCk(\''+ck+'\')"/><span class="clbl">'+s.warmup[i]+'</span></div>';
-  }
-  h+='</div>';
-
-  // Strength
-  h+='<div class="card"><div class="opthdr"><div class="stitle" style="margin:0">Strength Block</div>';
-  h+='<button class="pill sm'+(S.opt?" on":"")+'" onclick="togOpt()">'+(S.opt?"Hide Optional":"+ Optional")+'</button></div>';
-
-  for(var i=0;i<ex.length;i++){
-    var e=ex[i];
-    h+='<div class="exblock"><div class="exname">'+e.name;
-    if(e.left)h+='<span class="lbadge">&#9666; LEFT</span>';
-    if(e.sets&&e.reps)h+='<span class="sbadge">'+e.sets+' sets &middot; '+e.reps+' reps</span>';
-    h+='</div>';
-    if(e.note)h+='<div class="exnote">&#8594; '+e.note+'</div>';
-    if(e.rest)h+='<div class="exmeta">Rest: '+e.rest+'</div>';
-
-    if(e.uni){
-      // Separate left and right leg sections
-      h+='<div class="leg-section"><div class="leg-label"><span class="lbadge">&#9666; LEFT</span></div>';
-      h+=buildSetRows(e.id,e.sets,"L");
-      h+='</div>';
-      h+='<div class="leg-section" style="margin-top:10px"><div class="leg-label"><span class="rbadge">RIGHT</span></div>';
-      h+=buildSetRows(e.id,e.sets,"R");
-      h+='</div>';
-    } else {
-      h+=buildSetRows(e.id,e.sets,null);
-    }
-    h+='</div>';
-  }
-  h+='</div>';
-
-  // Pilates
-  h+='<div class="card"><div class="stitle">Pilates Finisher (15-30 min)</div>';
-  for(var i=0;i<s.pilates.length;i++){
-    var pl=s.pilates[i]; var ck=k+"_"+pl.id;
+    var w=s.warmup[i]; var ck=k+"_wu"+i;
     h+='<div class="crow"><input type="checkbox"'+(S.checks[ck]?" checked":"")+' onchange="togCk(\''+ck+'\')"/>';
-    h+='<div style="flex:1"><div class="clbl" style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">'+pl.name;
-    if(pl.left)h+='<span class="lbadge">&#9666; LEFT</span>';
-    h+='</div>';
-    if(pl.note)h+='<div class="exnote">&#8594; '+pl.note+'</div>';
+    h+='<div style="flex:1"><span class="clbl">'+w.name+'</span>';
+    if(w.note)h+='<div class="exnote">&#8594; '+w.note+'</div>';
     h+='</div></div>';
   }
   h+='</div>';
+
+  if(cardio){
+    // Cardio block (pick one)
+    h+='<div class="card"><div class="stitle">Cardio &middot; pick one</div>';
+    for(var i=0;i<s.cardio.length;i++){
+      var cd=s.cardio[i]; var ck=k+"_"+cd.id;
+      h+='<div class="crow"><input type="checkbox"'+(S.checks[ck]?" checked":"")+' onchange="togCk(\''+ck+'\')"/><span class="clbl">'+cd.name+'</span></div>';
+    }
+    h+='</div>';
+    // Abdominal circuit
+    h+='<div class="card"><div class="stitle">Abdominal Circuit</div>';
+    for(var i=0;i<s.abs.length;i++){
+      var ab=s.abs[i]; var ck=k+"_"+ab.id;
+      h+='<div class="crow"><input type="checkbox"'+(S.checks[ck]?" checked":"")+' onchange="togCk(\''+ck+'\')"/>';
+      h+='<div style="flex:1"><span class="clbl">'+nameTap(ab.name)+'</span>';
+      if(ab.note)h+='<div class="exnote">&#8594; '+ab.note+'</div>';
+      h+='</div></div>';
+    }
+    h+='</div>';
+  } else {
+    // Strength
+    h+='<div class="card"><div class="opthdr"><div class="stitle" style="margin:0">Strength Block</div>';
+    h+='<button class="pill sm'+(S.opt?" on":"")+'" onclick="togOpt()">'+(S.opt?"Hide Optional":"+ Optional")+'</button></div>';
+    for(var i=0;i<ex.length;i++){
+      var e=ex[i];
+      h+='<div class="exblock"><div class="exname">'+nameTap(e.name);
+      if(e.left)h+='<span class="lbadge">&#9666; LEFT</span>';
+      if(e.sets&&e.reps)h+='<span class="sbadge">'+e.sets+' sets &middot; '+e.reps+' reps</span>';
+      h+='</div>';
+      if(e.note)h+='<div class="exnote">&#8594; '+e.note+'</div>';
+      if(e.rest)h+='<div class="exmeta">Rest: '+e.rest+'</div>';
+      if(e.uni){
+        h+='<div class="leg-section"><div class="leg-label"><span class="lbadge">&#9666; LEFT</span></div>';
+        h+=ovHint(e.name,"L");
+        h+=buildSetRows(e.id,e.sets,"L");
+        h+='</div>';
+        h+='<div class="leg-section" style="margin-top:10px"><div class="leg-label"><span class="rbadge">RIGHT</span></div>';
+        h+=ovHint(e.name,"R");
+        h+=buildSetRows(e.id,e.sets,"R");
+        h+='</div>';
+      } else {
+        h+=ovHint(e.name,null);
+        h+=buildSetRows(e.id,e.sets,null);
+      }
+      h+='</div>';
+    }
+    h+='</div>';
+  }
 
   // Feels
   var ff=[
@@ -422,15 +615,15 @@ function rSplit(){
   }
   h+='</div><div style="font-size:0.7rem;color:#9c7b72;margin-top:6px">';
   if(S.split===4)h+='PCOS-friendly. 3 rest days, maximum recovery.';
-  else if(S.split===5)h+='Balanced — one repeat session, two rest days.';
-  else h+='Full double split. Rest Wed + Sun recommended.';
+  else if(S.split===5)h+='Balanced — four lifts plus a cardio + core day, two rest days.';
+  else h+='Full split with a dedicated cardio + core day. Rest Wed + Sun recommended.';
   h+='</div></div>';
   h+='<div class="card"><div class="stitle">Asymmetry Protocol</div>';
-  var tips=["Left leg performs first in every lower-body session","Left leg gets 2-5 extra reps on Pilates accessories","Single-leg goblet squats and deadlifts are your asymmetry-fixers","Progress left-leg weights faster until it matches right"];
+  var tips=["Left leg performs first in every lower-body session","Left leg gets 2-5 extra reps on accessory work","Single-leg goblet squats and deadlifts are your asymmetry-fixers","Progress left-leg weights faster until it matches right"];
   for(var i=0;i<tips.length;i++)h+='<div class="prow"><span class="lbadge" style="margin-top:1px;flex-shrink:0">&#9666;</span><span style="font-size:0.79rem">'+tips[i]+'</span></div>';
   h+='</div>';
   h+='<div class="card"><div class="stitle">PCOS Adjustment Flags</div>';
-  var flags=[{c:"Knees worse 24hr after lower-body",a:"Reduce goblet squat reps, add extra rest day"},{c:"Lower back tingling",a:"Skip deadlifts next session, increase Pilates time"},{c:"Inflammation trending up",a:"Drop to 4 days, increase rest-day walks"}];
+  var flags=[{c:"Knees worse 24hr after lower-body",a:"Reduce goblet squat reps, add extra rest day"},{c:"Lower back tingling",a:"Skip deadlifts next session, add extra warm-up + mobility"},{c:"Inflammation trending up",a:"Drop to 4 days, increase rest-day walks"}];
   for(var i=0;i<flags.length;i++)h+='<div class="frow2"><div class="fcond">&#9888; '+flags[i].c+'</div><div class="fact">&#8594; '+flags[i].a+'</div></div>';
   h+='</div>';
   document.getElementById("t-split").innerHTML=h;
@@ -498,6 +691,61 @@ function rCal(){
 function calNav(dir){S.calm+=dir;if(S.calm>11){S.calm=0;S.caly++;}else if(S.calm<0){S.calm=11;S.caly--;}rCal();}
 function calSel(ds){S.calsel=(S.calsel===ds?null:ds);rCal();}
 
+function rLibrary(){
+  var groups=[
+    {t:"Upper Body",src:["Upper A","Upper B"],fields:["strength","opt"]},
+    {t:"Lower Body",src:["Lower A","Lower B"],fields:["strength","opt"]},
+    {t:"Core / Abs",src:["Cardio"],fields:["abs"]}
+  ];
+  var h='<div class="card"><div class="stitle">Exercise Library</div>';
+  h+='<div style="font-size:0.74rem;color:#9c7b72;line-height:1.5">Tap any movement for how to do it, the muscles it targets, why it helps, alternatives, and your own progress over time.</div></div>';
+  for(var g=0;g<groups.length;g++){
+    var grp=groups[g]; var seen={}; var rows="";
+    for(var si=0;si<grp.src.length;si++){
+      var s=DATA[grp.src[si]]; if(!s)continue;
+      for(var fi=0;fi<grp.fields.length;fi++){
+        var arr=s[grp.fields[fi]]; if(!arr)continue;
+        for(var i=0;i<arr.length;i++){
+          var name=arr[i].name; var nn=normName(name);
+          if(seen[nn])continue; seen[nn]=1;
+          var lib=libFor(name);
+          rows+='<div class="librow" onclick="openExDetail(\''+name+'\')"><div class="libtxt"><div class="libname">'+name+'</div>'+(lib?'<div class="libmus">'+lib.muscles+'</div>':'')+'</div><span class="libchev">&#8250;</span></div>';
+        }
+      }
+    }
+    h+='<div class="card"><div class="stitle">'+grp.t+'</div>'+rows+'</div>';
+  }
+  document.getElementById("t-library").innerHTML=h;
+}
+
+function openExDetail(name){
+  var lib=libFor(name);
+  var h='<div class="exm-title">'+name+'</div>';
+  if(lib){
+    h+='<div class="exm-muscle">'+lib.muscles+'</div>';
+    h+='<div class="exm-sec"><div class="exm-h">How to do it</div><div class="exm-t">'+lib.instructions+'</div></div>';
+    h+='<div class="exm-sec"><div class="exm-h">Why it helps</div><div class="exm-t">'+lib.benefit+'</div></div>';
+    if(lib.alts&&lib.alts.length)h+='<div class="exm-sec"><div class="exm-h">Alternatives</div><div class="exm-t">'+lib.alts.join(" &middot; ")+'</div></div>';
+  } else {
+    h+='<div class="exm-t" style="color:#9c7b72">No description for this movement yet.</div>';
+  }
+  var sides=[null,"L","R"]; var prog="";
+  for(var si=0;si<sides.length;si++){
+    var hh=histForName(name,sides[si]); if(!hh.length)continue;
+    var lbl=sides[si]?(sides[si]==="L"?"Left":"Right"):"";
+    var best=bestForName(name,sides[si]);
+    prog+='<div class="exm-h">'+(lbl?lbl+" — ":"")+'Progression'+(best&&best.w?' (best '+best.w+'kg'+(best.r?'×'+best.r:'')+')':'')+'</div>';
+    for(var r=0;r<Math.min(hh.length,12);r++){
+      prog+='<div class="exm-prow"><span class="exm-pd">'+fmtDate(hh[r].date)+' &middot; '+hh[r].sess+'</span><span class="exm-ps">'+fmtSets(hh[r].sets)+'</span></div>';
+    }
+  }
+  if(prog)h+='<div class="exm-sec">'+prog+'</div>';
+  else h+='<div class="exm-sec"><div class="exm-h">Progression</div><div class="exm-t" style="color:#9c7b72">No logged sets yet — once you save sessions with this movement, your history shows here.</div></div>';
+  document.getElementById("exModalBody").innerHTML=h;
+  document.getElementById("exModal").className="exmodal on";
+}
+function closeExDetail(){document.getElementById("exModal").className="exmodal";}
+
 function rHist(){
   var h=S.hist;
   if(!h.length){document.getElementById("t-history").innerHTML='<div class="empty">No sessions logged yet.<br>Complete a session and tap Save &#10003;</div>';return;}
@@ -505,9 +753,6 @@ function rHist(){
   for(var i=0;i<h.length;i++){if(h[i].feels&&h[i].feels.inflam==="Low")low++;}
   var out='<div class="srow"><div class="sc"><div class="snum">'+h.length+'</div><div class="slbl">Sessions logged</div></div>';
   out+='<div class="sc"><div class="snum">'+low+'</div><div class="slbl">Low inflammation days</div></div></div>';
-  var allEx=[];
-  var dk=Object.keys(DATA);
-  for(var i=0;i<dk.length;i++)allEx=allEx.concat(DATA[dk[i]].strength,DATA[dk[i]].opt);
   for(var i=0;i<h.length;i++){
     var e=h[i];
     out+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start">';
@@ -525,9 +770,8 @@ function rHist(){
         var logKey=lk[j];
         var side=null; var exId=logKey;
         if(logKey.slice(-2)==="_L"||logKey.slice(-2)==="_R"){side=logKey.slice(-1);exId=logKey.slice(0,-2);}
-        var ex=null;
-        for(var x=0;x<allEx.length;x++){if(allEx[x].id===exId){ex=allEx[x];break;}}
-        if(!ex)continue;
+        var nm=ID2NAME[exId];
+        if(!nm)continue;
         var sets=e.logs[logKey];
         if(!sets||!sets.length)continue;
         var setStrs=[];
@@ -536,7 +780,7 @@ function rHist(){
           if(sd&&(sd.w||sd.r))setStrs.push("Set "+(s+1)+": "+(sd.w?sd.w+"kg":"-")+(sd.r?" x "+sd.r:"")+(sd.n?" ("+sd.n+")":""));
         }
         if(setStrs.length){
-          lines+='<div class="hlog"><div class="hlog-name">'+ex.name+(side?" — "+(side==="L"?"Left":"Right"):"")+'</div>';
+          lines+='<div class="hlog"><div class="hlog-name">'+nm+(side?" — "+(side==="L"?"Left":"Right"):"")+'</div>';
           lines+='<div class="hlog-sets">'+setStrs.join(" &middot; ")+'</div></div>';
         }
       }
@@ -556,8 +800,14 @@ function rSet(){
   h+='<button class="pill sm'+(S.split===5?" on":"")+'" onclick="setSplit(5)">5-Day</button>';
   h+='<button class="pill sm'+(S.split===6?" on":"")+'" onclick="setSplit(6)">6-Day</button>';
   h+='</div></div></div>';
+  h+='<div class="card"><div class="stitle">Backup &amp; Restore</div>';
+  h+='<div style="font-size:0.74rem;color:#9c7b72;line-height:1.5">Move your data between devices. <b>Export</b> copies a backup (and downloads a file). <b>Import</b> merges a backup into this device — your existing history is kept and de-duplicated.</div>';
+  h+='<textarea id="impexp" class="impexp-ta" placeholder="Paste backup JSON here, then tap Import…"></textarea>';
+  h+='<button class="sbtn" id="expbtn" onclick="exportData()">Export my data</button>';
+  h+='<button class="sbtn alt" onclick="importData()">Import from box</button>';
+  h+='</div>';
   h+='<div class="card"><div class="stitle">Rep and Weight Guide</div>';
-  var guide=[{t:"Main compound",r:"8-12 reps",f:"RPE 7-8"},{t:"Secondary compound",r:"10-15 reps",f:"RPE 6-7"},{t:"Isolation",r:"12-15 reps",f:"RPE 5-6"},{t:"Pilates",r:"Slow / isometric",f:"BW or light"}];
+  var guide=[{t:"Main compound",r:"8-12 reps",f:"RPE 7-8"},{t:"Secondary compound",r:"10-15 reps",f:"RPE 6-7"},{t:"Isolation",r:"12-15 reps",f:"RPE 5-6"},{t:"Core / abs",r:"Slow / isometric",f:"BW or light"}];
   for(var i=0;i<guide.length;i++)h+='<div class="rrow"><span style="font-weight:bold">'+guide[i].t+'</span><span style="color:#9c7b72;font-size:0.7rem">'+guide[i].r+' &middot; '+guide[i].f+'</span></div>';
   h+='</div>';
   h+='<div class="card"><div class="stitle">About</div><div style="font-size:0.76rem;color:#9c7b72;line-height:1.7">Strength + Pilates Hybrid Tracker<br>Upper/Lower Split &middot; 4-6 Days Flexible<br><br>Data saved locally on your device.</div></div>';
@@ -586,9 +836,48 @@ function saveSess(){
   var entry={date:td(),sess:S.sess,logs:S.logs[k]||{},feels:S.feels[k]||{},note:S.notes[k]||""};
   var nh=[];
   for(var i=0;i<S.hist.length;i++){if(!(S.hist[i].date===entry.date&&S.hist[i].sess===entry.sess))nh.push(S.hist[i]);}
-  nh.unshift(entry);if(nh.length>60)nh=nh.slice(0,60);S.hist=nh;sv();
-  var btn=document.querySelector(".sbtn");
-  if(btn){btn.textContent="&#10003; Saved!";btn.style.background="#88a880";setTimeout(function(){btn.textContent="Save Session &#10003;";btn.style.background="#c9a99a";},1800);}
+  nh.unshift(entry);if(nh.length>200)nh=nh.slice(0,200);S.hist=nh;sv();
+  var btn=document.querySelector("#t-today .sbtn");
+  if(btn){btn.innerHTML="&#10003; Saved!";btn.style.background="#88a880";setTimeout(function(){btn.innerHTML="Save Session &#10003;";btn.style.background="#c9a99a";},1800);}
+}
+
+// ---- Backup / restore ----
+function exportData(){
+  var data=localStorage.getItem("spt3");
+  if(!data)data=JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist});
+  var ta=document.getElementById("impexp"); if(ta)ta.value=data;
+  try{if(navigator.clipboard&&navigator.clipboard.writeText)navigator.clipboard.writeText(data);}catch(e){}
+  try{var a=document.createElement("a");a.href="data:application/json;charset=utf-8,"+encodeURIComponent(data);a.download="workout-backup-"+td()+".json";document.body.appendChild(a);a.click();document.body.removeChild(a);}catch(e){}
+  var btn=document.getElementById("expbtn");
+  if(btn){var o=btn.textContent;btn.textContent="Copied + downloaded ✓";setTimeout(function(){btn.textContent=o;},1800);}
+}
+function importData(){
+  var ta=document.getElementById("impexp"); if(!ta)return;
+  var txt=(ta.value||"").trim();
+  if(!txt){alert("Paste your backup JSON into the box first.");return;}
+  var p; try{p=JSON.parse(txt);}catch(e){alert("That doesn't look like valid backup JSON.");return;}
+  if(!confirm("Import this data? It will merge into what's already on this device."))return;
+  var kk;
+  if(p.logs)for(kk in p.logs)S.logs[kk]=p.logs[kk];
+  if(p.checks)for(kk in p.checks)S.checks[kk]=p.checks[kk];
+  if(p.feels)for(kk in p.feels)S.feels[kk]=p.feels[kk];
+  if(p.notes)for(kk in p.notes)S.notes[kk]=p.notes[kk];
+  if(typeof p.split!=="undefined"&&SP[p.split])S.split=p.split;
+  if(typeof p.deload!=="undefined")S.deload=p.deload;
+  if(p.hist&&p.hist.length){
+    var map={}, i;
+    for(i=0;i<S.hist.length;i++)map[S.hist[i].date+"|"+S.hist[i].sess]=S.hist[i];
+    for(i=0;i<p.hist.length;i++){if(p.hist[i]&&p.hist[i].date)map[p.hist[i].date+"|"+p.hist[i].sess]=p.hist[i];}
+    var arr=[]; for(var key in map)arr.push(map[key]);
+    arr.sort(function(a,b){return a.date<b.date?1:(a.date>b.date?-1:0);});
+    if(arr.length>200)arr=arr.slice(0,200);
+    S.hist=arr;
+  }
+  sv();
+  document.getElementById("hsub").textContent="Upper/Lower Hybrid · "+S.split+"-Day Split"+(S.deload?" · DELOAD":"");
+  ta.value="";
+  rSet();
+  alert("Imported. Your history and logs are updated.");
 }
 
 document.getElementById("hsub").textContent="Upper/Lower Hybrid · "+S.split+"-Day Split"+(S.deload?" · DELOAD":"");
