@@ -36,6 +36,11 @@ body{background:#fdf6f0;font-family:Georgia,serif;color:#3d2b24;padding-bottom:8
 .lbadge{background:#d4a0a0;color:#fff;border-radius:5px;padding:1px 6px;font-size:0.6rem;font-weight:bold;white-space:nowrap}
 .rbadge{background:#9c7b72;color:#fff;border-radius:5px;padding:1px 6px;font-size:0.6rem;font-weight:bold;white-space:nowrap}
 .sbadge{font-size:0.62rem;color:#9c7b72;margin-left:auto;white-space:nowrap}
+/* Superset / triset group */
+.ssgroup{border:1.5px solid #e6d3cc;border-radius:11px;background:#fdf3ef;padding:2px 11px;margin:12px 0}
+.sshead{font-size:0.64rem;font-weight:bold;letter-spacing:1.2px;text-transform:uppercase;color:#b8887a;padding:9px 0 1px}
+.sshint{font-size:0.63rem;color:#9c7b72;margin-bottom:2px}
+.swapsel{font-family:Georgia,serif;font-size:0.7rem;color:#9c7b72;background:#fff;border:1.5px solid #ecddd8;border-radius:14px;padding:4px 8px;margin-bottom:7px;max-width:100%}
 /* Overload hint */
 .ovhint{font-size:0.67rem;color:#5f7d57;background:#eef4ea;border-radius:7px;padding:5px 9px;margin-bottom:7px;line-height:1.4}
 .ovhint.ovnone{color:#9c7b72;background:#f5efe9}
@@ -194,19 +199,19 @@ var DATA = {
   "Upper A":{
     focus:"Chest, shoulders, triceps, core",
     warmup:[
-      {name:"Band pull-aparts x15"},
-      {name:"Scapular push-ups x10"},
-      {name:"Cat-cow x10"},
-      {name:"Light DB overhead press x12",note:"Very light — prime the shoulders"}
+      {name:"Dumbbell Lateral Raises",note:"3 × 20 · light"},
+      {name:"Reverse Flys",note:"3 × 20 · light"},
+      {name:"Overhead Press",note:"3 × 20 · light"},
+      {name:"Band Pull-Aparts",note:"3 × 20"}
     ],
     strength:[
-      {id:"ua1",name:"Dumbbell Chest Press",sets:4,reps:"10-12",rest:"60s"},
-      {id:"ua2",name:"Single-Arm Dumbbell Rows",sets:4,reps:"10",rest:"60s",left:1,note:"Left arm first each set",uni:1},
-      {id:"ua3",name:"Incline Push-ups",sets:3,reps:"8-12",rest:"45s"},
-      {id:"ua4",name:"Overhead Press",sets:3,reps:"12-15",rest:"45s"},
-      {id:"ua5",name:"Lateral Raises",sets:3,reps:"12-15",rest:"45s"},
-      {id:"ua6",name:"Tricep Dips",sets:3,reps:"8-12",rest:"45s"},
-      {id:"ua7",name:"Bicep Curls",sets:3,reps:"12-15",rest:"45s"}
+      {id:"ua1",name:"Dumbbell Chest Press",sets:4,reps:"10-12",rest:"60s",grp:"A"},
+      {id:"ua2",name:"Single-Arm Dumbbell Rows",sets:4,reps:"10",rest:"60s",left:1,note:"Left arm first each set",uni:1,grp:"A"},
+      {id:"ua3",name:"Incline Push-ups",sets:3,reps:"8-12",rest:"45s",grp:"B"},
+      {id:"ua4",name:"Overhead Press",sets:3,reps:"12-15",rest:"45s",grp:"B"},
+      {id:"ua5",name:"Lateral Raises",sets:3,reps:"12-15",rest:"45s",grp:"C"},
+      {id:"ua6",name:"Tricep Dips",sets:3,reps:"8-12",rest:"45s",grp:"C"},
+      {id:"ua7",name:"Bicep Curls",sets:3,reps:"12-15",rest:"45s",grp:"C"}
     ],
     opt:[
       {id:"ua8",name:"Overhead Tricep Extension",sets:2,reps:"12-15"},
@@ -216,19 +221,22 @@ var DATA = {
   "Upper B":{
     focus:"Back, rear shoulders, biceps/triceps, rotational core",
     warmup:[
-      {name:"Band pull-aparts x15"},
-      {name:"Prone Y-T-W raises x8 each"},
-      {name:"Cat-cow x10"},
-      {name:"Light DB rows x12",note:"Light — wake up the back"}
+      {name:"Reverse Flys",note:"3 × 20 · light"},
+      {name:"Face Pulls",note:"3 × 20 · light"},
+      {name:"Band Pull-Aparts",note:"3 × 20"},
+      {name:"Prone Y-Raises",note:"3 × 15 · light"}
     ],
     strength:[
       {id:"ub1",name:"Barbell / Dumbbell Deadlift",sets:4,reps:"8-10",rest:"90s"},
-      {id:"ub2",name:"Prone Single-Arm Dumbbell Rows",sets:3,reps:"10",rest:"60s",left:1,note:"Left arm first each set",uni:1},
-      {id:"ub3",name:"Assisted Pull-ups / Lat Pulldowns",sets:4,reps:"8-12",rest:"60s"},
-      {id:"ub4",name:"Face Pulls",sets:3,reps:"12-15",rest:"45s"},
-      {id:"ub5",name:"Y-Raises",sets:3,reps:"12-15",rest:"45s"},
-      {id:"ub8",name:"Overhead Tricep Extension",sets:3,reps:"10-12",rest:"45s"},
-      {id:"ub9",name:"Hammer Curls",sets:3,reps:"10-12",rest:"45s"}
+      {id:"ub10",name:"Seated Cable Row",sets:4,reps:"10-12",rest:"60s",grp:"A",alts:[
+        {id:"ub2",name:"Prone Single-Arm Dumbbell Rows",sets:3,reps:"10",rest:"60s",left:1,note:"Left arm first each set",uni:1},
+        {id:"ub11",name:"Chest-Supported Row",sets:4,reps:"10-12",rest:"60s"}
+      ]},
+      {id:"ub3",name:"Assisted Pull-ups / Lat Pulldowns",sets:4,reps:"8-12",rest:"60s",grp:"A"},
+      {id:"ub4",name:"Face Pulls",sets:3,reps:"12-15",rest:"45s",grp:"B"},
+      {id:"ub5",name:"Y-Raises",sets:3,reps:"12-15",rest:"45s",grp:"B"},
+      {id:"ub8",name:"Overhead Tricep Extension",sets:3,reps:"10-12",rest:"45s",grp:"C"},
+      {id:"ub9",name:"Hammer Curls",sets:3,reps:"10-12",rest:"45s",grp:"C"}
     ],
     opt:[
       {id:"ub6",name:"Single-Arm Farmer Carry",sets:3,reps:"40 steps",uni:1},
@@ -315,6 +323,8 @@ var LIB = {
   "Concentration Curls":{muscles:"Biceps (peak)",instructions:"Seated with the elbow braced on the inner thigh, curl one dumbbell with strict form and a hard squeeze.",benefit:"Maximal biceps isolation to even out arm-to-arm differences.",alts:["Bicep Curls","Preacher Curls","Cable Curls"]},
   "Barbell / Dumbbell Deadlift":{muscles:"Glutes, hamstrings, lower back, lats",instructions:"Hinge at the hips with a flat back, grip the weight, and drive through the floor to stand tall; lower under control.",benefit:"Full posterior-chain strength and the foundation of hip-hinge power.",alts:["Romanian Deadlift","Trap-Bar Deadlift","Hip Thrust"]},
   "Prone Single-Arm Dumbbell Rows":{muscles:"Lats, mid-back, rear delts",instructions:"Lie chest-down on an incline bench and row one dumbbell to the hip with a controlled squeeze.",benefit:"Removes momentum so each side of the back works through a full range.",alts:["Single-Arm Dumbbell Rows","Chest-Supported Row","Seated Cable Row"]},
+  "Seated Cable Row":{muscles:"Lats, mid-back, biceps, rear delts",instructions:"Sit tall with a slight knee bend, pull the handle to your stomach driving the elbows back, squeeze the shoulder blades, then return under control without rounding the back.",benefit:"Constant cable tension builds back thickness through a full range and is easy to load progressively.",alts:["Prone Single-Arm Dumbbell Rows","Chest-Supported Row","Bent-Over Row"]},
+  "Chest-Supported Row":{muscles:"Lats, mid-back, rear delts",instructions:"Lie chest-down on an incline bench and row dumbbells to your hips with the elbows tracking back; pause and squeeze at the top.",benefit:"Braces the torso so the back does the work without lower-back strain.",alts:["Seated Cable Row","Prone Single-Arm Dumbbell Rows","Bent-Over Row"]},
   "Assisted Pull-ups / Lat Pulldowns":{muscles:"Lats, biceps, mid-back",instructions:"Pull the bar or handle to the upper chest leading with the elbows; control the way back up.",benefit:"Builds vertical pulling strength toward unassisted pull-ups.",alts:["Band-Assisted Pull-ups","Lat Pulldown","Inverted Rows"]},
   "Face Pulls":{muscles:"Rear delts, rotator cuff, upper traps",instructions:"Pull a rope or band toward your face with the hands splitting apart and elbows high; squeeze the rear delts.",benefit:"Balances pressing volume and supports healthy shoulder posture.",alts:["Reverse Flyes","Band Pull-Aparts","Rear-Delt Row"]},
   "Y-Raises":{muscles:"Lower traps, rear delts",instructions:"Raise light dumbbells overhead into a Y shape with thumbs up; control the lowering.",benefit:"Strengthens the lower traps for scapular stability.",alts:["Prone Y-Raise","Face Pulls","Wall Slides"]},
@@ -357,7 +367,10 @@ var ID2NAME={};
   for(var i=0;i<dk.length;i++){
     var s=DATA[dk[i]];
     ["strength","opt"].forEach(function(f){
-      if(s[f])for(var j=0;j<s[f].length;j++)ID2NAME[s[f][j].id]=s[f][j].name;
+      if(s[f])for(var j=0;j<s[f].length;j++){
+        var ex=s[f][j]; ID2NAME[ex.id]=ex.name;
+        if(ex.alts)for(var a=0;a<ex.alts.length;a++)ID2NAME[ex.alts[a].id]=ex.alts[a].name;
+      }
     });
   }
 })();
@@ -365,14 +378,22 @@ var ID2NAME={};
 var LIBIDX={};
 (function(){var ks=Object.keys(LIB);for(var i=0;i<ks.length;i++)LIBIDX[normName(ks[i])]=LIB[ks[i]];})();
 
-var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null};
+var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],swaps:{},caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null};
 (function(){
-  try{var x=localStorage.getItem("spt3");if(x){var p=JSON.parse(x);S.sess=p.sess||S.sess;S.split=p.split||S.split;S.deload=p.deload||false;S.opt=false;S.logs=p.logs||{};S.checks=p.checks||{};S.feels=p.feels||{};S.notes=p.notes||{};S.hist=p.hist||[];}}catch(e){}
+  try{var x=localStorage.getItem("spt3");if(x){var p=JSON.parse(x);S.sess=p.sess||S.sess;S.split=p.split||S.split;S.deload=p.deload||false;S.opt=false;S.logs=p.logs||{};S.checks=p.checks||{};S.feels=p.feels||{};S.notes=p.notes||{};S.hist=p.hist||[];S.swaps=p.swaps||{};}}catch(e){}
 })();
 
 function td(){return new Date().toISOString().slice(0,10);}
 function csk(){return S.sess+"_"+td();}
-function sv(){try{localStorage.setItem("spt3",JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist}));}catch(e){}}
+function sv(){try{localStorage.setItem("spt3",JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist,swaps:S.swaps}));}catch(e){}}
+// Resolve an exercise to the alternative the user has swapped in (sticky per session-type)
+function resolveSwap(e){
+  if(!e.alts)return e;
+  var sel=S.swaps[S.sess+"_"+e.id];
+  if(!sel||sel==="default")return e;
+  for(var i=0;i<e.alts.length;i++)if(e.alts[i].id===sel)return e.alts[i];
+  return e;
+}
 function pad2(n){return n<10?"0"+n:String(n);}
 function normName(s){return String(s).toLowerCase().replace(/\s+/g," ").trim();}
 function isCardio(s){return !!(s.cardio||s.abs);}
@@ -458,7 +479,7 @@ function calcPct(){
   } else {
     var ex=s.strength.concat(S.opt?s.opt:[]);
     for(var i=0;i<ex.length;i++){
-      var e=ex[i];
+      var e=resolveSwap(ex[i]);
       if(e.uni){
         total++;
         var dl=S.logs[k]&&S.logs[k][e.id+"_L"];
@@ -504,6 +525,44 @@ function buildSetRows(exId, sets, side){
 
 function nameTap(name){return '<span class="exname-tap" onclick="openExDetail(\''+name+'\')">'+name+'<span class="exinfo">&#9432;</span></span>';}
 
+// Dropdown to swap a slot for one of its alternatives
+function swapSelect(slot){
+  var cur=S.swaps[S.sess+"_"+slot.id]||"default";
+  var h='<select class="swapsel" onchange="setSwap(\''+slot.id+'\',this.value)">';
+  h+='<option value="default"'+(cur==="default"?" selected":"")+'>'+slot.name+' (default)</option>';
+  for(var i=0;i<slot.alts.length;i++){var a=slot.alts[i];h+='<option value="'+a.id+'"'+(cur===a.id?" selected":"")+'>'+a.name+'</option>';}
+  h+='</select>';
+  return h;
+}
+function setSwap(slotId,val){S.swaps[S.sess+"_"+slotId]=val;sv();rToday();}
+
+// Render one strength slot (resolving any swap) as an exercise block
+function renderEx(slot){
+  var e=resolveSwap(slot);
+  var h='<div class="exblock"><div class="exname">'+nameTap(e.name);
+  if(e.left)h+='<span class="lbadge">&#9666; LEFT</span>';
+  if(e.sets&&e.reps)h+='<span class="sbadge">'+e.sets+' sets &middot; '+e.reps+' reps</span>';
+  h+='</div>';
+  if(slot.alts&&slot.alts.length)h+=swapSelect(slot);
+  if(e.note)h+='<div class="exnote">&#8594; '+e.note+'</div>';
+  if(e.rest)h+='<div class="exmeta">Rest: '+e.rest+'</div>';
+  if(e.uni){
+    h+='<div class="leg-section"><div class="leg-label"><span class="lbadge">&#9666; LEFT</span></div>';
+    h+=ovHint(e.name,"L");
+    h+=buildSetRows(e.id,e.sets,"L");
+    h+='</div>';
+    h+='<div class="leg-section" style="margin-top:10px"><div class="leg-label"><span class="rbadge">RIGHT</span></div>';
+    h+=ovHint(e.name,"R");
+    h+=buildSetRows(e.id,e.sets,"R");
+    h+='</div>';
+  } else {
+    h+=ovHint(e.name,null);
+    h+=buildSetRows(e.id,e.sets,null);
+  }
+  h+='</div>';
+  return h;
+}
+
 function rToday(){
   var s=DATA[S.sess]; var k=csk(); var p=calcPct();
   var cardio=isCardio(s);
@@ -548,31 +607,22 @@ function rToday(){
     }
     h+='</div>';
   } else {
-    // Strength
+    // Strength — exercises with a shared consecutive grp render as a superset/triset
     h+='<div class="card"><div class="opthdr"><div class="stitle" style="margin:0">Strength Block</div>';
     h+='<button class="pill sm'+(S.opt?" on":"")+'" onclick="togOpt()">'+(S.opt?"Hide Optional":"+ Optional")+'</button></div>';
-    for(var i=0;i<ex.length;i++){
-      var e=ex[i];
-      h+='<div class="exblock"><div class="exname">'+nameTap(e.name);
-      if(e.left)h+='<span class="lbadge">&#9666; LEFT</span>';
-      if(e.sets&&e.reps)h+='<span class="sbadge">'+e.sets+' sets &middot; '+e.reps+' reps</span>';
-      h+='</div>';
-      if(e.note)h+='<div class="exnote">&#8594; '+e.note+'</div>';
-      if(e.rest)h+='<div class="exmeta">Rest: '+e.rest+'</div>';
-      if(e.uni){
-        h+='<div class="leg-section"><div class="leg-label"><span class="lbadge">&#9666; LEFT</span></div>';
-        h+=ovHint(e.name,"L");
-        h+=buildSetRows(e.id,e.sets,"L");
-        h+='</div>';
-        h+='<div class="leg-section" style="margin-top:10px"><div class="leg-label"><span class="rbadge">RIGHT</span></div>';
-        h+=ovHint(e.name,"R");
-        h+=buildSetRows(e.id,e.sets,"R");
+    var gi=0;
+    while(gi<ex.length){
+      var g=ex[gi].grp; var run=[ex[gi]]; var gj=gi+1;
+      if(g){while(gj<ex.length&&ex[gj].grp===g){run.push(ex[gj]);gj++;}}
+      if(run.length>1){
+        var lbl=run.length===2?"Superset":(run.length===3?"Triset":run.length+"-Set Circuit");
+        h+='<div class="ssgroup"><div class="sshead">&#9889; '+lbl+'</div><div class="sshint">Alternate exercises &middot; rest after each round</div>';
+        for(var r=0;r<run.length;r++)h+=renderEx(run[r]);
         h+='</div>';
       } else {
-        h+=ovHint(e.name,null);
-        h+=buildSetRows(e.id,e.sets,null);
+        h+=renderEx(run[0]);
       }
-      h+='</div>';
+      gi=gj;
     }
     h+='</div>';
   }
@@ -862,6 +912,7 @@ function importData(){
   if(p.checks)for(kk in p.checks)S.checks[kk]=p.checks[kk];
   if(p.feels)for(kk in p.feels)S.feels[kk]=p.feels[kk];
   if(p.notes)for(kk in p.notes)S.notes[kk]=p.notes[kk];
+  if(p.swaps)for(kk in p.swaps)S.swaps[kk]=p.swaps[kk];
   if(typeof p.split!=="undefined"&&SP[p.split])S.split=p.split;
   if(typeof p.deload!=="undefined")S.deload=p.deload;
   if(p.hist&&p.hist.length){
