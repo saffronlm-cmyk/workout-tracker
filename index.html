@@ -246,17 +246,19 @@ var DATA = {
   "Lower A":{
     focus:"Glutes, quads, inner thigh, left-leg stability",
     warmup:[
-      {name:"Glute bridges x15"},
-      {name:"Leg swings x10 each (front/back + lateral)"},
-      {name:"Bodyweight squats x12"},
-      {name:"Banded lateral walks x10 each way"}
+      {name:"Glute Bridges",note:"3 × 20"},
+      {name:"Banded Lateral Walks",note:"3 × 20 steps each way"},
+      {name:"Goblet Squats",note:"3 × 20 · light"},
+      {name:"Clamshells",note:"3 × 20 each · light band"}
     ],
     strength:[
       {id:"la1",name:"Goblet Squats",sets:4,reps:"10-12",rest:"90s"},
-      {id:"la2",name:"Single-Leg Glute Bridges",sets:4,reps:"12",rest:"60s",left:1,note:"Left: 3-4 extra reps, 2s hold",uni:1},
-      {id:"la3",name:"Banded Glute Kickbacks",sets:3,reps:"15",rest:"45s",left:1,note:"Left: 2-3 extra reps",uni:1},
-      {id:"la4",name:"Reverse Lunges",sets:3,reps:"10",rest:"60s",left:1,note:"Left leg slower, heavier if able",uni:1},
-      {id:"la5",name:"Step-ups",sets:3,reps:"10",rest:"45s",left:1,note:"Left leg leads",uni:1},
+      {id:"la2",name:"Single-Leg Glute Bridges",sets:4,reps:"12",rest:"60s",left:1,note:"Left: 3-4 extra reps, 2s hold",uni:1,grp:"A"},
+      {id:"la9",name:"Dumbbell Donkey Kicks",sets:3,reps:"15",rest:"45s",left:1,note:"Left: 2-3 extra reps. Hold the dumbbell behind the knee",uni:1,grp:"A",alts:[
+        {id:"la3",name:"Banded Glute Kickbacks",sets:3,reps:"15",rest:"45s",left:1,note:"Left: 2-3 extra reps",uni:1}
+      ]},
+      {id:"la4",name:"Reverse Lunges",sets:3,reps:"10",rest:"60s",left:1,note:"Left leg slower, heavier if able",uni:1,grp:"B"},
+      {id:"la5",name:"Step-ups",sets:3,reps:"10",rest:"45s",left:1,note:"Left leg leads",uni:1,grp:"B"},
       {id:"la8",name:"Sumo Goblet Squat",sets:3,reps:"10-12",rest:"60s",note:"Wide stance, toes out — drive the knees out to load the inner thighs"}
     ],
     opt:[
@@ -267,16 +269,16 @@ var DATA = {
   "Lower B":{
     focus:"Left-leg stability, glute asymmetry, inner thigh, single-leg strength",
     warmup:[
-      {name:"Glute bridges x15"},
-      {name:"Cossack squats x6 each side"},
-      {name:"Single-leg RDL reach x8 each",note:"Balance + hamstring prep"},
-      {name:"Clamshells x12 each"}
+      {name:"Glute Bridges",note:"3 × 20"},
+      {name:"Cossack Squats",note:"3 × 10 each · light"},
+      {name:"Single-Leg RDL Reach",note:"3 × 12 each · balance + hamstring prep"},
+      {name:"Clamshells",note:"3 × 20 each · light band"}
     ],
     strength:[
-      {id:"lb1",name:"Single-Leg Goblet Squats",sets:3,reps:"8-10",rest:"90s",left:1,note:"Left leg first",uni:1},
-      {id:"lb2",name:"Single-Leg Glute Bridges",sets:4,reps:"12-15",rest:"60s",left:1,note:"Left: 4-5 extra reps, 2s hold",uni:1},
-      {id:"lb3",name:"Single-Leg Deadlifts",sets:3,reps:"8-10",rest:"60s",left:1,note:"Left leg first",uni:1},
-      {id:"lb4",name:"Bulgarian Split Squats",sets:3,reps:"10",rest:"60s",left:1,note:"Left leg leads, 2-3 extra reps",uni:1},
+      {id:"lb1",name:"Single-Leg Goblet Squats",sets:3,reps:"8-10",rest:"90s",left:1,note:"Left leg first",uni:1,grp:"A"},
+      {id:"lb2",name:"Single-Leg Glute Bridges",sets:4,reps:"12-15",rest:"60s",left:1,note:"Left: 4-5 extra reps, 2s hold",uni:1,grp:"A"},
+      {id:"lb3",name:"Single-Leg Deadlifts",sets:3,reps:"8-10",rest:"60s",left:1,note:"Left leg first",uni:1,grp:"B"},
+      {id:"lb4",name:"Bulgarian Split Squats",sets:3,reps:"10",rest:"60s",left:1,note:"Left leg leads, 2-3 extra reps",uni:1,grp:"B"},
       {id:"lb5",name:"Lateral Lunges",sets:3,reps:"10",rest:"45s",left:1,note:"Left: 2-3 extra reps",uni:1},
       {id:"lb8",name:"Copenhagen Plank",sets:3,reps:"20-30s each",rest:"45s",left:1,note:"Inner thigh — bend the top knee to scale. Left side first",uni:1}
     ],
@@ -333,7 +335,8 @@ var LIB = {
   "Reverse Flyes":{muscles:"Rear delts, mid-back",instructions:"Hinge forward and raise dumbbells out to the sides with soft elbows; squeeze the shoulder blades.",benefit:"Targets the rear delts to balance the shoulders.",alts:["Face Pulls","Band Pull-Aparts","Machine Rear Delt"]},
   "Goblet Squats":{muscles:"Quads, glutes, core",instructions:"Hold a dumbbell at your chest, squat between the knees to depth, and drive up through the mid-foot.",benefit:"Teaches an upright squat pattern while building leg strength.",alts:["Front Squat","Leg Press","Bodyweight Squat"]},
   "Single-Leg Glute Bridges":{muscles:"Glutes, hamstrings, core",instructions:"On your back with one foot planted and the other leg extended, drive the hips up squeezing the glute; lower under control.",benefit:"Isolates each glute to correct side-to-side strength gaps.",alts:["Hip Thrust","Double-Leg Glute Bridge","Step-ups"]},
-  "Banded Glute Kickbacks":{muscles:"Glutes (max)",instructions:"With a band around the ankles, drive one leg straight back squeezing the glute; control the return.",benefit:"Adds direct glute volume and improves hip extension.",alts:["Cable Kickback","Donkey Kicks","Hip Thrust"]},
+  "Banded Glute Kickbacks":{muscles:"Glutes (max)",instructions:"With a band around the ankles, drive one leg straight back squeezing the glute; control the return.",benefit:"Adds direct glute volume and improves hip extension.",alts:["Dumbbell Donkey Kicks","Cable Kickback","Hip Thrust"]},
+  "Dumbbell Donkey Kicks":{muscles:"Glutes (max)",instructions:"On all fours, tuck a dumbbell behind the knee and drive the foot toward the ceiling keeping the shin level; squeeze the glute at the top, lower under control without arching the lower back.",benefit:"Loadable glute isolation that lets you progress the weight over time, unlike a band that maxes out.",alts:["Banded Glute Kickbacks","Cable Kickback","Hip Thrust"]},
   "Reverse Lunges":{muscles:"Quads, glutes, hamstrings",instructions:"Step back into a lunge, lower the back knee toward the floor, and drive through the front heel to stand.",benefit:"Knee-friendly single-leg builder for balanced leg strength.",alts:["Forward Lunge","Split Squat","Step-ups"]},
   "Step-ups":{muscles:"Quads, glutes",instructions:"Drive through the lead foot to step onto a box, stand tall, then lower under control.",benefit:"Single-leg strength and balance with a big glute and quad demand.",alts:["Reverse Lunge","Bulgarian Split Squat","Box Squat"]},
   "Sumo Goblet Squat":{muscles:"Inner thighs (adductors), glutes, quads",instructions:"Take a wide stance with the toes turned out and hold a dumbbell at the chest. Squat straight down, keeping the knees tracking over the toes.",benefit:"Emphasises the inner-thigh adductors and glutes that a normal-stance squat under-trains.",alts:["Sumo Deadlift","Cossack Squat","Adductor Machine"]},
