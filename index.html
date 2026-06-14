@@ -381,6 +381,21 @@ var ID2NAME={};
 // Normalized name index into LIB
 var LIBIDX={};
 (function(){var ks=Object.keys(LIB);for(var i=0;i<ks.length;i++)LIBIDX[normName(ks[i])]=LIB[ks[i]];})();
+// Register every library-suggested alternative under its slug id so swapped logs
+// and history resolve back to a movement name.
+(function(){
+  var dk=Object.keys(DATA);
+  for(var i=0;i<dk.length;i++){
+    var s=DATA[dk[i]];
+    ["strength","opt"].forEach(function(f){
+      if(!s[f])return;
+      for(var j=0;j<s[f].length;j++){
+        var lib=LIBIDX[normName(s[f][j].name)];
+        if(lib&&lib.alts)for(var a=0;a<lib.alts.length;a++)ID2NAME[slug(lib.alts[a])]=lib.alts[a];
+      }
+    });
+  }
+})();
 
 var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],swaps:{},caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null};
 (function(){
@@ -390,12 +405,26 @@ var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},
 function td(){return new Date().toISOString().slice(0,10);}
 function csk(){return S.sess+"_"+td();}
 function sv(){try{localStorage.setItem("spt3",JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist,swaps:S.swaps}));}catch(e){}}
+// Build the full swap menu for a slot: the default exercise, any curated
+// alternatives (full objects, with real ids for history continuity), then the
+// library's suggested alternatives (by name, inheriting the slot's set scheme).
+function slug(name){return "x_"+normName(name).replace(/[^a-z0-9]+/g,"_").replace(/^_+|_+$/g,"");}
+function getSwapOptions(e){
+  var opts=[e]; var seen={}; seen[normName(e.name)]=1;
+  if(e.alts)for(var i=0;i<e.alts.length;i++){var a=e.alts[i];if(seen[normName(a.name)])continue;seen[normName(a.name)]=1;opts.push(a);}
+  var lib=libFor(e.name);
+  if(lib&&lib.alts)for(var j=0;j<lib.alts.length;j++){
+    var nm=lib.alts[j]; if(seen[normName(nm)])continue; seen[normName(nm)]=1;
+    opts.push({id:slug(nm),name:nm,sets:e.sets,reps:e.reps,rest:e.rest,uni:e.uni,left:e.left,note:e.note});
+  }
+  return opts;
+}
 // Resolve an exercise to the alternative the user has swapped in (sticky per session-type)
 function resolveSwap(e){
-  if(!e.alts)return e;
   var sel=S.swaps[S.sess+"_"+e.id];
   if(!sel||sel==="default")return e;
-  for(var i=0;i<e.alts.length;i++)if(e.alts[i].id===sel)return e.alts[i];
+  var opts=getSwapOptions(e);
+  for(var i=0;i<opts.length;i++)if(opts[i].id===sel)return opts[i];
   return e;
 }
 function pad2(n){return n<10?"0"+n:String(n);}
@@ -531,10 +560,12 @@ function nameTap(name){return '<span class="exname-tap" onclick="openExDetail(\'
 
 // Dropdown to swap a slot for one of its alternatives
 function swapSelect(slot){
+  var opts=getSwapOptions(slot);
+  if(opts.length<2)return "";
   var cur=S.swaps[S.sess+"_"+slot.id]||"default";
   var h='<select class="swapsel" onchange="setSwap(\''+slot.id+'\',this.value)">';
   h+='<option value="default"'+(cur==="default"?" selected":"")+'>'+slot.name+' (default)</option>';
-  for(var i=0;i<slot.alts.length;i++){var a=slot.alts[i];h+='<option value="'+a.id+'"'+(cur===a.id?" selected":"")+'>'+a.name+'</option>';}
+  for(var i=1;i<opts.length;i++){var a=opts[i];h+='<option value="'+a.id+'"'+(cur===a.id?" selected":"")+'>'+a.name+'</option>';}
   h+='</select>';
   return h;
 }
@@ -547,7 +578,7 @@ function renderEx(slot){
   if(e.left)h+='<span class="lbadge">&#9666; LEFT</span>';
   if(e.sets&&e.reps)h+='<span class="sbadge">'+e.sets+' sets &middot; '+e.reps+' reps</span>';
   h+='</div>';
-  if(slot.alts&&slot.alts.length)h+=swapSelect(slot);
+  h+=swapSelect(slot);
   if(e.note)h+='<div class="exnote">&#8594; '+e.note+'</div>';
   if(e.rest)h+='<div class="exmeta">Rest: '+e.rest+'</div>';
   if(e.uni){
