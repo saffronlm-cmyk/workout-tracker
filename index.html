@@ -44,6 +44,7 @@ body{background:#fdf6f0;font-family:Georgia,serif;color:#3d2b24;padding-bottom:8
 /* Overload hint */
 .ovhint{font-size:0.67rem;color:#5f7d57;background:#eef4ea;border-radius:7px;padding:5px 9px;margin-bottom:7px;line-height:1.4}
 .ovhint.ovnone{color:#9c7b72;background:#f5efe9}
+.ovhint.ovtone{color:#9c6f8a;background:#f6eef3}
 .ovhint b{color:#3d2b24}
 /* Set rows table */
 .set-table{width:100%;border-collapse:collapse}
@@ -160,7 +161,7 @@ textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;
 <body>
 <div class="hdr">
   <h1>&#128170; Strength + Pilates</h1>
-  <p id="hsub">Upper/Lower Hybrid &middot; 5-Day Split</p>
+  <p id="hsub">Lean &amp; Tone &middot; Pilates Hybrid &middot; 5-Day Split</p>
 </div>
 <div id="t-today" class="tab on"></div>
 <div id="t-split" class="tab"></div>
@@ -197,7 +198,7 @@ textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;
 // sets = number of set rows to show
 var DATA = {
   "Upper A":{
-    focus:"Chest, shoulders, triceps, core",
+    focus:"Chest, shoulders, triceps, core — lean & tone, higher reps, short rest",
     warmup:[
       {name:"Dumbbell Lateral Raises",note:"3 × 20 · light"},
       {name:"Reverse Flys",note:"3 × 20 · light"},
@@ -205,21 +206,21 @@ var DATA = {
       {name:"Band Pull-Aparts",note:"3 × 20"}
     ],
     strength:[
-      {id:"ua1",name:"Dumbbell Chest Press",sets:4,reps:"10-12",rest:"60s",grp:"A"},
-      {id:"ua2",name:"Single-Arm Dumbbell Rows",sets:4,reps:"10",rest:"60s",left:1,note:"Left arm first each set",uni:1,grp:"A"},
-      {id:"ua3",name:"Incline Push-ups",sets:3,reps:"8-12",rest:"45s",grp:"B"},
-      {id:"ua4",name:"Overhead Press",sets:3,reps:"12-15",rest:"45s",grp:"B"},
-      {id:"ua5",name:"Lateral Raises",sets:3,reps:"12-15",rest:"45s",grp:"C"},
-      {id:"ua6",name:"Tricep Dips",sets:3,reps:"8-12",rest:"45s",grp:"C"},
-      {id:"ua7",name:"Bicep Curls",sets:3,reps:"12-15",rest:"45s",grp:"C"}
+      {id:"ua1",name:"Dumbbell Chest Press",sets:3,reps:"12-15",rest:"45s",note:"Lighter than before — smooth, controlled reps",grp:"A"},
+      {id:"ua2",name:"Single-Arm Dumbbell Rows",sets:3,reps:"12-15",rest:"45s",left:1,note:"Left arm first each set · controlled tempo",uni:1,grp:"A"},
+      {id:"ua3",name:"Incline Push-ups",sets:3,reps:"12-15",rest:"30s",tone:1,grp:"B"},
+      {id:"ua4",name:"Overhead Press",sets:3,reps:"15",rest:"30s",tone:1,grp:"B"},
+      {id:"ua5",name:"Lateral Raises",sets:3,reps:"15-20",rest:"30s",tone:1,grp:"C"},
+      {id:"ua6",name:"Tricep Dips",sets:3,reps:"12-15",rest:"30s",tone:1,grp:"C"},
+      {id:"ua7",name:"Bicep Curls",sets:3,reps:"15-20",rest:"30s",tone:1,grp:"C"}
     ],
     opt:[
-      {id:"ua8",name:"Overhead Tricep Extension",sets:2,reps:"12-15"},
-      {id:"ua9",name:"Concentration Curls",sets:2,reps:"12-15",uni:1,left:1,note:"Left arm first"}
+      {id:"ua8",name:"Overhead Tricep Extension",sets:2,reps:"15-20",tone:1},
+      {id:"ua9",name:"Concentration Curls",sets:2,reps:"15-20",uni:1,left:1,tone:1,note:"Left arm first"}
     ]
   },
   "Upper B":{
-    focus:"Back, rear shoulders, biceps/triceps, rotational core",
+    focus:"Back, rear shoulders, arms, rotational core — lean & tone, higher reps",
     warmup:[
       {name:"Reverse Flys",note:"3 × 20 · light"},
       {name:"Face Pulls",note:"3 × 20 · light"},
@@ -227,47 +228,51 @@ var DATA = {
       {name:"Prone Y-Raises",note:"3 × 15 · light"}
     ],
     strength:[
-      {id:"ub1",name:"Barbell / Dumbbell Deadlift",sets:4,reps:"8-10",rest:"90s"},
-      {id:"ub10",name:"Seated Single-Arm Cable Row",sets:4,reps:"10-12",rest:"60s",left:1,note:"Left arm first each set, slight extra emphasis",uni:1,grp:"A",alts:[
-        {id:"ub2",name:"Prone Single-Arm Dumbbell Rows",sets:3,reps:"10",rest:"60s",left:1,note:"Left arm first each set",uni:1},
-        {id:"ub11",name:"Chest-Supported Row",sets:4,reps:"10-12",rest:"60s"}
+      {id:"ub1",name:"Barbell / Dumbbell Deadlift",sets:3,reps:"10-12",rest:"75s",note:"Lighter, higher reps — hinge for a long stretch, no grinding"},
+      {id:"ub10",name:"Seated Single-Arm Cable Row",sets:3,reps:"12-15",rest:"45s",left:1,note:"Left arm first each set · controlled, full range",uni:1,grp:"A",alts:[
+        {id:"ub2",name:"Prone Single-Arm Dumbbell Rows",sets:3,reps:"12-15",rest:"45s",left:1,note:"Left arm first each set",uni:1},
+        {id:"ub11",name:"Chest-Supported Row",sets:3,reps:"12-15",rest:"45s"}
       ]},
-      {id:"ub3",name:"Assisted Pull-ups / Lat Pulldowns",sets:4,reps:"8-12",rest:"60s",grp:"A"},
-      {id:"ub4",name:"Face Pulls",sets:3,reps:"12-15",rest:"45s",grp:"B"},
-      {id:"ub5",name:"Y-Raises",sets:3,reps:"12-15",rest:"45s",grp:"B"},
-      {id:"ub8",name:"Overhead Tricep Extension",sets:3,reps:"10-12",rest:"45s",grp:"C"},
-      {id:"ub9",name:"Hammer Curls",sets:3,reps:"10-12",rest:"45s",grp:"C"}
+      {id:"ub3",name:"Assisted Pull-ups / Lat Pulldowns",sets:3,reps:"10-12",rest:"45s",grp:"A"},
+      {id:"ub4",name:"Face Pulls",sets:3,reps:"15-20",rest:"30s",tone:1,grp:"B"},
+      {id:"ub5",name:"Y-Raises",sets:3,reps:"15-20",rest:"30s",tone:1,grp:"B"},
+      {id:"ub8",name:"Overhead Tricep Extension",sets:3,reps:"15",rest:"30s",tone:1,grp:"C"},
+      {id:"ub9",name:"Hammer Curls",sets:3,reps:"15",rest:"30s",tone:1,grp:"C"}
     ],
     opt:[
-      {id:"ub6",name:"Single-Arm Farmer Carry",sets:3,reps:"40 steps",uni:1},
-      {id:"ub7",name:"Reverse Flyes",sets:3,reps:"12-15"}
+      {id:"ub6",name:"Single-Arm Farmer Carry",sets:3,reps:"40 steps",uni:1,tone:1},
+      {id:"ub7",name:"Reverse Flyes",sets:3,reps:"15-20",tone:1}
     ]
   },
   "Lower A":{
-    focus:"Glutes, quads, inner thigh, left-leg stability",
+    focus:"Glutes, thighs & hips — Pilates-circuit sculpt: light load, high reps, lengthen",
     warmup:[
       {name:"Glute Bridges",note:"3 × 20"},
       {name:"Banded Lateral Walks",note:"3 × 20 steps each way"},
-      {name:"Goblet Squats",note:"3 × 20 · light"},
+      {name:"Bodyweight Squats",note:"3 × 15 · slow tempo"},
       {name:"Clamshells",note:"3 × 20 each · light band"}
     ],
     strength:[
-      {id:"la1",name:"Goblet Squats",sets:4,reps:"10-12",rest:"90s"},
-      {id:"la2",name:"Single-Leg Glute Bridges",sets:4,reps:"12",rest:"60s",left:1,note:"Left: 3-4 extra reps, 2s hold",uni:1,grp:"A"},
-      {id:"la9",name:"Dumbbell Donkey Kicks",sets:3,reps:"15",rest:"45s",left:1,note:"Left: 2-3 extra reps. Hold the dumbbell behind the knee",uni:1,grp:"A",alts:[
-        {id:"la3",name:"Banded Glute Kickbacks",sets:3,reps:"15",rest:"45s",left:1,note:"Left: 2-3 extra reps",uni:1}
+      {id:"la10",name:"Glute Bridge March",sets:3,reps:"20-25 slow",rest:"30s",tone:1,note:"Bodyweight or light · drive through the heels, ribs down, no lower-back arch",grp:"A",alts:[
+        {id:"x_hip_thrust",name:"Hip Thrust",sets:3,reps:"15-20",rest:"45s",note:"If you want a little more load — still controlled, no grinding"}
       ]},
-      {id:"la4",name:"Reverse Lunges",sets:3,reps:"10",rest:"60s",left:1,note:"Left leg slower, heavier if able",uni:1,grp:"B"},
-      {id:"la5",name:"Step-ups",sets:3,reps:"10",rest:"45s",left:1,note:"Left leg leads",uni:1,grp:"B"},
-      {id:"la8",name:"Sumo Goblet Squat",sets:3,reps:"10-12",rest:"60s",note:"Wide stance, toes out — drive the knees out to load the inner thighs"}
+      {id:"la2",name:"Single-Leg Glute Bridges",sets:3,reps:"15-20",rest:"30s",left:1,note:"Left: 3-4 extra reps, 2s hold at the top",uni:1,tone:1,grp:"A"},
+      {id:"la9",name:"Banded Donkey Kicks",sets:3,reps:"20-25",rest:"30s",left:1,note:"Left: 2-3 extra reps · pulse at the top and squeeze the glute",uni:1,tone:1,grp:"A",alts:[
+        {id:"la3",name:"Banded Glute Kickbacks",sets:3,reps:"20-25",rest:"30s",left:1,note:"Left: 2-3 extra reps",uni:1,tone:1},
+        {id:"x_dumbbell_donkey_kicks",name:"Dumbbell Donkey Kicks",sets:3,reps:"15",rest:"45s",left:1,note:"If you want load — hold the dumbbell behind the knee",uni:1}
+      ]},
+      {id:"la11",name:"Curtsy Lunge Pulses",sets:3,reps:"15-20 each",rest:"30s",left:1,note:"Left leg leads · stay light, pulse low and controlled",uni:1,tone:1,grp:"B"},
+      {id:"la12",name:"Side-Lying Inner-Thigh Lifts",sets:3,reps:"15-20 each",rest:"30s",left:1,note:"Pilates adductor lift · slow, long leg lines",uni:1,tone:1,grp:"B"},
+      {id:"la7",name:"Lateral Band Walks",sets:3,reps:"15-20 steps each way",rest:"30s",tone:1,grp:"B"},
+      {id:"la6",name:"Single-Leg Romanian Deadlifts",sets:3,reps:"12-15",rest:"45s",left:1,note:"Light · hinge for a long hamstring stretch. Left: 2-3 extra reps",uni:1,tone:1}
     ],
     opt:[
-      {id:"la6",name:"Single-Leg Romanian Deadlifts",sets:3,reps:"8-10",uni:1,left:1,note:"Left: 2-3 extra reps"},
-      {id:"la7",name:"Lateral Band Walks",sets:3,reps:"12 steps each way"}
+      {id:"la13",name:"Wall Sit",sets:3,reps:"30-45s hold",tone:1,note:"Isometric quad & glute endurance — log seconds in the reps box"},
+      {id:"la14",name:"Fire Hydrants",sets:3,reps:"15-20 each",uni:1,left:1,tone:1,note:"Band · lift the knee out to the side, keep the hips square"}
     ]
   },
   "Lower B":{
-    focus:"Left-leg stability, glute asymmetry, inner thigh, single-leg strength",
+    focus:"Single-leg stability, inner thigh & lengthening — Pilates sculpt, light & controlled",
     warmup:[
       {name:"Glute Bridges",note:"3 × 20"},
       {name:"Cossack Squats",note:"3 × 10 each · light"},
@@ -275,16 +280,18 @@ var DATA = {
       {name:"Clamshells",note:"3 × 20 each · light band"}
     ],
     strength:[
-      {id:"lb1",name:"Single-Leg Goblet Squats",sets:3,reps:"8-10",rest:"90s",left:1,note:"Left leg first",uni:1,grp:"A"},
-      {id:"lb2",name:"Single-Leg Glute Bridges",sets:4,reps:"12-15",rest:"60s",left:1,note:"Left: 4-5 extra reps, 2s hold",uni:1,grp:"A"},
-      {id:"lb3",name:"Single-Leg Deadlifts",sets:3,reps:"8-10",rest:"60s",left:1,note:"Left leg first",uni:1,grp:"B"},
-      {id:"lb4",name:"Bulgarian Split Squats",sets:3,reps:"10",rest:"60s",left:1,note:"Left leg leads, 2-3 extra reps",uni:1,grp:"B"},
-      {id:"lb5",name:"Lateral Lunges",sets:3,reps:"10",rest:"45s",left:1,note:"Left: 2-3 extra reps",uni:1},
-      {id:"lb8",name:"Copenhagen Plank",sets:3,reps:"20-30s each",rest:"45s",left:1,note:"Inner thigh — bend the top knee to scale. Left side first",uni:1}
+      {id:"lb1",name:"Single-Leg Goblet Squats",sets:3,reps:"10-12",rest:"45s",left:1,note:"Light · slow and controlled to a box. Left leg first",uni:1,tone:1,grp:"A"},
+      {id:"lb2",name:"Single-Leg Glute Bridges",sets:3,reps:"15-20",rest:"30s",left:1,note:"Left: 4-5 extra reps, 2s hold",uni:1,tone:1,grp:"A"},
+      {id:"lb4",name:"Bulgarian Split Squats",sets:3,reps:"12-15",rest:"45s",left:1,note:"Bodyweight or light · slow tempo. Left leg leads, 2-3 extra reps",uni:1,tone:1,grp:"B"},
+      {id:"lb5",name:"Lateral Lunges",sets:3,reps:"15-20",rest:"30s",left:1,note:"Bodyweight · sit the hips back, long opposite leg. Left: 2-3 extra reps",uni:1,tone:1,grp:"B"},
+      {id:"lb8",name:"Copenhagen Plank",sets:3,reps:"20-30s each",rest:"30s",left:1,note:"Inner thigh — bend the top knee to scale. Left side first",uni:1,tone:1,grp:"C"},
+      {id:"lb9",name:"Inner-Thigh Squeeze & Lift",sets:3,reps:"15-20 each",rest:"30s",left:1,note:"Pilates adductor work · slow lifts, long lines",uni:1,tone:1,grp:"C"},
+      {id:"lb3",name:"Single-Leg Deadlifts",sets:3,reps:"12-15",rest:"45s",left:1,note:"Light · long hamstring stretch, square hips. Left leg first",uni:1,tone:1}
     ],
     opt:[
-      {id:"lb6",name:"Single-Leg Calf Raises",sets:3,reps:"12-15",uni:1,left:1,note:"Left: extra 3-5 reps"},
-      {id:"lb7",name:"Monster Walks",sets:3,reps:"12 fwd + 12 back"}
+      {id:"lb6",name:"Single-Leg Calf Raises",sets:3,reps:"15-20",uni:1,left:1,tone:1,note:"Left: extra 3-5 reps"},
+      {id:"lb7",name:"Monster Walks",sets:3,reps:"15 fwd + 15 back",tone:1},
+      {id:"lb10",name:"Standing Pilates Leg Circles",sets:3,reps:"12-15 each direction",uni:1,left:1,tone:1,note:"Long supporting leg · small controlled circles for hip control"}
     ]
   },
   "Cardio":{
@@ -298,14 +305,17 @@ var DATA = {
     cardio:[
       {id:"cd1",name:"Steady-state 25-30 min — incline walk / cycle / row (Zone 2, can hold a conversation)"},
       {id:"cd2",name:"Intervals — 8 x (1 min hard / 1 min easy)"},
-      {id:"cd3",name:"Low-impact 20 min — elliptical / swim + 5 min mobility"}
+      {id:"cd3",name:"Low-impact 20 min — elliptical / swim + 5 min mobility"},
+      {id:"cd4",name:"Pilates / sculpt / barre class — sub here if your gym offers one"}
     ],
     abs:[
       {id:"ab1",name:"Dead Bug",note:"3 x 10 each side"},
       {id:"ab2",name:"Bicycle Crunches",note:"3 x 15 each"},
       {id:"ab3",name:"Plank Hold",note:"3 x 45s"},
       {id:"ab4",name:"Russian Twists",note:"3 x 20"},
-      {id:"ab5",name:"Hollow Hold",note:"3 x 30s"}
+      {id:"ab5",name:"Hollow Hold",note:"3 x 30s"},
+      {id:"ab6",name:"Side Plank",note:"3 x 20-30s each side"},
+      {id:"ab7",name:"Pilates Hundred",note:"3 x 100 beats · long legs, steady breath"}
     ],
     strength:[],opt:[]
   }
@@ -354,7 +364,74 @@ var LIB = {
   "Bicycle Crunches":{muscles:"Abs, obliques",instructions:"Hands behind the head, bring the opposite elbow to the knee while extending the other leg; alternate smoothly.",benefit:"Hits the obliques and rectus abdominis through rotation.",alts:["Russian Twists","Reverse Crunch","Mountain Climbers"]},
   "Plank Hold":{muscles:"Core, shoulders, glutes",instructions:"Forearms and toes down, body in a straight line. Brace the abs and squeeze the glutes; don't let the hips sag.",benefit:"Builds whole-body bracing and core endurance.",alts:["Knee Plank","Dead Bug","Hollow Hold"]},
   "Russian Twists":{muscles:"Obliques, abs",instructions:"Seated, lean back slightly with the feet up or down and rotate a weight side to side under control.",benefit:"Strengthens the obliques and rotational core.",alts:["Bicycle Crunches","Pallof Press","Woodchopper"]},
-  "Hollow Hold":{muscles:"Deep core, hip flexors",instructions:"On your back, press the lower back into the floor and lift the shoulders and legs into a shallow banana shape; hold.",benefit:"Builds total anterior-core tension used in every lift.",alts:["Dead Bug","Plank","Leg Raises"]}
+  "Hollow Hold":{muscles:"Deep core, hip flexors",instructions:"On your back, press the lower back into the floor and lift the shoulders and legs into a shallow banana shape; hold.",benefit:"Builds total anterior-core tension used in every lift.",alts:["Dead Bug","Plank","Leg Raises"]},
+  "Glute Bridge March":{muscles:"Glutes, hamstrings, deep core",instructions:"Lie on your back with the hips bridged up and ribs down. Keeping the hips level and still, slowly march one knee up toward the chest, lower, and alternate. Move under control — the glutes hold the bridge the whole time.",benefit:"High-rep glute and core endurance that tones and stabilises the hips without heavy loading, so it shapes rather than bulks.",alts:["Hip Thrust","Single-Leg Glute Bridge","Glute Bridge Hold"]},
+  "Hip Thrust":{muscles:"Glutes, hamstrings",instructions:"Upper back on a bench, weight or bodyweight across the hips. Drive the hips up to a flat tabletop, squeeze the glutes hard, then lower under control.",benefit:"Direct glute strength and shape; kept light and controlled here it tones without adding heavy size.",alts:["Glute Bridge March","Single-Leg Glute Bridge","Banded Donkey Kicks"]},
+  "Banded Donkey Kicks":{muscles:"Glutes (max)",instructions:"On all fours with a band around the thighs or under the foot, drive one foot toward the ceiling keeping the shin level and the back flat. Pulse and squeeze at the top, lower under control.",benefit:"Light, high-rep glute isolation that shapes and lifts the glutes without the load that builds bulk.",alts:["Banded Glute Kickbacks","Fire Hydrants","Dumbbell Donkey Kicks"]},
+  "Curtsy Lunge Pulses":{muscles:"Glutes (medius), outer thighs, quads",instructions:"Step one leg back and across behind the other into a curtsy. Drop into a small range and pulse low and controlled, keeping the front knee tracking over the toes. Stay light or bodyweight.",benefit:"Targets the side glutes and outer thighs with high-rep pulses to tone and tighten without bulk.",alts:["Lateral Lunge","Reverse Lunge","Cossack Squat"]},
+  "Side-Lying Inner-Thigh Lifts":{muscles:"Inner thighs (adductors)",instructions:"Lie on your side, top leg crossed in front. Keep the bottom leg long and lift it slowly toward the ceiling, then lower with control. Long lines, no momentum.",benefit:"Classic Pilates adductor sculpting — lengthens and tones the inner thigh that heavy squats miss.",alts:["Copenhagen Plank","Inner-Thigh Squeeze & Lift","Lateral Lunge"]},
+  "Inner-Thigh Squeeze & Lift":{muscles:"Inner thighs (adductors), deep core",instructions:"Lie on your back or side and squeeze a ball or cushion between the knees or ankles; or lift the bottom leg in a side-lying position. Hold the squeeze, then add slow controlled lifts.",benefit:"Low-load Pilates adductor work that firms and lengthens the inner thigh.",alts:["Side-Lying Inner-Thigh Lifts","Copenhagen Plank","Sumo Goblet Squat"]},
+  "Wall Sit":{muscles:"Quads, glutes",instructions:"Back flat against a wall, slide down until the thighs are parallel to the floor, knees over ankles. Hold and breathe; log the seconds.",benefit:"Isometric leg endurance that builds tone and stamina with zero impact and no added load.",alts:["Goblet Squat Hold","Bodyweight Squat","Step-ups"]},
+  "Fire Hydrants":{muscles:"Glutes (medius), hips",instructions:"On all fours with a band around the thighs, lift one knee out to the side keeping the hips square and the back flat; lower under control.",benefit:"Side-glute and hip toning that improves shape and stability without heavy loading.",alts:["Banded Donkey Kicks","Clamshells","Monster Walks"]},
+  "Standing Pilates Leg Circles":{muscles:"Glutes, hip stabilisers, core",instructions:"Stand tall on one long supporting leg. Extend the other leg and draw small, slow, controlled circles in each direction, keeping the hips level and core braced.",benefit:"Builds hip control, balance and long-line toning for the legs and glutes.",alts:["Fire Hydrants","Single-Leg RDL","Lateral Band Walks"]},
+  "Side Plank":{muscles:"Obliques, deep core, glute medius",instructions:"On one forearm with the body in a straight line, stack or stagger the feet and lift the hips. Hold tall, then switch sides.",benefit:"Anti-lateral-flexion core and side-glute strength for a strong, lean midline.",alts:["Plank Hold","Copenhagen Plank","Pallof Press"]},
+  "Pilates Hundred":{muscles:"Deep core (transverse abdominis), hip flexors",instructions:"On your back, curl the head and shoulders up, extend the legs to a height you can control, and pump the arms up and down while breathing in for 5 and out for 5, to 100 beats.",benefit:"Signature Pilates core endurance move that builds a flat, controlled midline.",alts:["Hollow Hold","Dead Bug","Plank Hold"]},
+  // --- Suggested alternatives (appear as swap options) — instructions so nothing is ever blank ---
+  "Barbell Bench Press":{muscles:"Chest, front delts, triceps",instructions:"Lie on a bench, lower the bar to mid-chest with the elbows tucked ~45°, then press back up to straight arms.",benefit:"Heaviest horizontal press for building pushing strength; keep it light and higher-rep for toning.",alts:["Dumbbell Chest Press","Push-ups","Machine Chest Press"]},
+  "Push-ups":{muscles:"Chest, shoulders, triceps, core",instructions:"Hands just wider than the shoulders, body in a straight line. Lower the chest toward the floor, then press back up without letting the hips sag.",benefit:"Bodyweight pressing that builds upper-body tone and core control anywhere.",alts:["Incline Push-ups","Knee Push-ups","Dumbbell Chest Press"]},
+  "Machine Chest Press":{muscles:"Chest, front delts, triceps",instructions:"Sit with the handles at chest height, press forward to nearly straight arms, then return under control.",benefit:"Guided pressing that's easy to load lightly and control for higher-rep toning.",alts:["Dumbbell Chest Press","Push-ups","Barbell Bench Press"]},
+  "Bent-Over Row":{muscles:"Lats, mid-back, biceps, rear delts",instructions:"Hinge forward with a flat back and row the weight to your stomach, driving the elbows back and squeezing the shoulder blades.",benefit:"Builds back thickness and posture strength through a full pulling range.",alts:["Single-Arm Dumbbell Rows","Chest-Supported Row","Seated Cable Row"]},
+  "Knee Push-ups":{muscles:"Chest, shoulders, triceps",instructions:"From the knees with the body in a straight line from head to knees, lower the chest and press back up.",benefit:"Scaled push-up for building pressing tone while you work toward full reps.",alts:["Incline Push-ups","Push-ups","Machine Chest Press"]},
+  "Standard Push-ups":{muscles:"Chest, shoulders, triceps, core",instructions:"Hands under the shoulders, full plank line. Lower with the elbows ~45°, then press back up.",benefit:"Classic full-body pressing and bracing move that tones the upper body.",alts:["Incline Push-ups","Knee Push-ups","Dumbbell Chest Press"]},
+  "Seated DB Press":{muscles:"Shoulders, triceps",instructions:"Seated with back support, press dumbbells from shoulder height to overhead, then lower under control.",benefit:"Stable overhead press that builds shoulder tone with less lower-back involvement.",alts:["Overhead Press","Arnold Press","Lateral Raises"]},
+  "Arnold Press":{muscles:"Shoulders (all heads), triceps",instructions:"Start with palms facing you at shoulder height, rotate the palms forward as you press overhead, then reverse on the way down.",benefit:"Hits all three delt heads through rotation for balanced shoulder shape.",alts:["Overhead Press","Seated DB Press","Lateral Raises"]},
+  "Landmine Press":{muscles:"Shoulders, upper chest, core",instructions:"Hold the end of a barbell at the shoulder and press up and slightly forward at an angle, bracing the core.",benefit:"Shoulder-friendly pressing angle that also challenges the core.",alts:["Overhead Press","Seated DB Press","Incline Push-ups"]},
+  "Cable Lateral Raise":{muscles:"Side deltoids",instructions:"Stand side-on to a low cable, raise the handle out to shoulder height with a soft elbow, then lower slowly.",benefit:"Constant cable tension isolates the side delts for shoulder shape.",alts:["Lateral Raises","Machine Lateral Raise","Upright Row"]},
+  "Upright Row":{muscles:"Side delts, traps",instructions:"Hold the weight in front of the thighs and pull it up toward the chin leading with the elbows; keep it light and pain-free.",benefit:"Builds the side delts and upper traps; stop if the shoulders pinch.",alts:["Lateral Raises","Cable Lateral Raise","Face Pulls"]},
+  "Machine Lateral Raise":{muscles:"Side deltoids",instructions:"Sit with the pads against the outer arms and raise to shoulder height, then lower under control.",benefit:"Guided side-delt isolation that's easy to keep light and high-rep.",alts:["Lateral Raises","Cable Lateral Raise","Upright Row"]},
+  "Bench Dips":{muscles:"Triceps, chest, front delts",instructions:"Hands on a bench behind you, lower the hips by bending the elbows to ~90°, then press back up.",benefit:"Bodyweight triceps builder you can scale by moving the feet.",alts:["Tricep Dips","Close-Grip Push-ups","Overhead Tricep Extension"]},
+  "Close-Grip Push-ups":{muscles:"Triceps, chest",instructions:"Push-up with the hands close together under the chest and the elbows tucked tight to the body.",benefit:"Shifts push-up emphasis onto the triceps for arm tone.",alts:["Tricep Dips","Bench Dips","Push-ups"]},
+  "Cable Curls":{muscles:"Biceps",instructions:"Curl a low cable with the elbows pinned to your sides, squeeze at the top, and lower slowly.",benefit:"Constant tension on the biceps through the whole range.",alts:["Bicep Curls","Cable Rope Curls","Resistance-Band Curls"]},
+  "Resistance-Band Curls":{muscles:"Biceps, forearms",instructions:"Stand on a band and curl the handles with the elbows fixed; control the band on the way down.",benefit:"Joint-friendly biceps work with tension that builds toward the top.",alts:["Bicep Curls","Cable Curls","Hammer Curls"]},
+  "Cable Pushdown":{muscles:"Triceps",instructions:"At a high cable, push the bar or rope down to straight arms with the elbows tucked, then return under control.",benefit:"Easy-to-load triceps isolation with constant tension.",alts:["Overhead Tricep Extension","Skull Crushers","Tricep Dips"]},
+  "Skull Crushers":{muscles:"Triceps",instructions:"Lying down, lower a light weight toward the forehead by bending the elbows, then extend back up keeping the upper arms still.",benefit:"Stretches and strengthens the triceps; keep it light to protect the elbows.",alts:["Overhead Tricep Extension","Cable Pushdown","Close-Grip Push-ups"]},
+  "Preacher Curls":{muscles:"Biceps (lower)",instructions:"With the upper arms on a preacher pad, curl the weight with strict form and lower fully under control.",benefit:"Removes momentum for strict biceps isolation.",alts:["Concentration Curls","Bicep Curls","Cable Curls"]},
+  "Romanian Deadlift":{muscles:"Hamstrings, glutes, lower back",instructions:"With a soft knee bend, hinge at the hips pushing them back, lowering the weight along the legs with a flat back; stand by squeezing the glutes.",benefit:"Builds and lengthens the hamstrings and glutes through a big hip hinge.",alts:["Single-Leg Romanian Deadlifts","Good Morning","Barbell / Dumbbell Deadlift"]},
+  "Trap-Bar Deadlift":{muscles:"Glutes, quads, hamstrings, back",instructions:"Stand inside the trap bar, hinge and bend to grip the handles, then drive through the floor to stand tall.",benefit:"More upright, lower-back-friendly deadlift variation.",alts:["Barbell / Dumbbell Deadlift","Romanian Deadlift","Hip Thrust"]},
+  "Band-Assisted Pull-ups":{muscles:"Lats, biceps, mid-back",instructions:"Loop a band over the bar and into the foot or knee; pull the chest to the bar, then lower under control.",benefit:"Builds pulling strength toward unassisted pull-ups.",alts:["Assisted Pull-ups / Lat Pulldowns","Lat Pulldown","Inverted Rows"]},
+  "Lat Pulldown":{muscles:"Lats, biceps, mid-back",instructions:"Sit with the thighs anchored, pull the bar to the upper chest leading with the elbows, then control the way up.",benefit:"Scalable vertical pulling for back width and shape.",alts:["Assisted Pull-ups / Lat Pulldowns","Band-Assisted Pull-ups","Inverted Rows"]},
+  "Inverted Rows":{muscles:"Mid-back, lats, biceps",instructions:"Under a bar set at hip height, body straight, pull the chest to the bar and lower under control; raise the feet to make it harder.",benefit:"Bodyweight horizontal pull that builds the back and posture.",alts:["Assisted Pull-ups / Lat Pulldowns","Lat Pulldown","Bent-Over Row"]},
+  "Band Pull-Aparts":{muscles:"Rear delts, mid-back",instructions:"Hold a band at shoulder height and pull it apart by squeezing the shoulder blades, then return slowly.",benefit:"Easy high-rep rear-delt and posture work.",alts:["Face Pulls","Reverse Flyes","Rear-Delt Row"]},
+  "Rear-Delt Row":{muscles:"Rear delts, mid-back",instructions:"Hinge forward and row the weight high toward the chest with the elbows flared out, squeezing the rear delts.",benefit:"Targets the rear delts to balance pressing volume.",alts:["Face Pulls","Reverse Flyes","Bent-Over Row"]},
+  "Prone Y-Raise":{muscles:"Lower traps, rear delts",instructions:"Lie face-down on an incline and raise light weights overhead into a Y with the thumbs up; lower slowly.",benefit:"Strengthens the lower traps for scapular stability and posture.",alts:["Y-Raises","Face Pulls","Wall Slides"]},
+  "Wall Slides":{muscles:"Lower traps, shoulders, posture",instructions:"Back and arms against a wall, slide the arms up and down keeping contact with the wall throughout.",benefit:"Improves overhead mobility and posture with no load.",alts:["Y-Raises","Prone Y-Raise","Face Pulls"]},
+  "Cable Rope Curls":{muscles:"Biceps, forearms",instructions:"Curl a rope on a low cable with a neutral grip, spreading the rope at the top; lower under control.",benefit:"Neutral-grip biceps and forearm work with constant tension.",alts:["Hammer Curls","Cable Curls","Bicep Curls"]},
+  "Reverse Curls":{muscles:"Brachialis, forearms",instructions:"Curl with an overhand (palms-down) grip, keeping the elbows still; lower slowly.",benefit:"Builds the brachialis and forearms for fuller-looking arms.",alts:["Hammer Curls","Bicep Curls","Cable Rope Curls"]},
+  "Suitcase Carry":{muscles:"Core, grip, traps",instructions:"Hold one weight at your side and walk tall, bracing the core so you don't lean toward the weight.",benefit:"Anti-lean core and grip strength, like a Single-Arm Farmer Carry.",alts:["Single-Arm Farmer Carry","Side Plank","Pallof Press"]},
+  "Pallof Press":{muscles:"Deep core (anti-rotation)",instructions:"Side-on to a cable or band at chest height, press the handle straight out and resist the pull rotating you; return slowly.",benefit:"Builds deep anti-rotation core control that protects the spine.",alts:["Dead Bug","Side Plank","Single-Arm Farmer Carry"]},
+  "Machine Rear Delt":{muscles:"Rear delts, mid-back",instructions:"Sit facing the pad and open the arms back in a reverse-fly path, squeezing the rear delts; return under control.",benefit:"Guided rear-delt isolation for balanced shoulders.",alts:["Reverse Flyes","Face Pulls","Rear-Delt Row"]},
+  "Single-Leg Glute Bridge":{muscles:"Glutes, hamstrings, core",instructions:"On your back with one foot planted and the other leg extended, drive the hips up squeezing the glute; lower under control.",benefit:"Isolates each glute to fix side-to-side strength gaps.",alts:["Single-Leg Glute Bridges","Glute Bridge March","Hip Thrust"]},
+  "Glute Bridge Hold":{muscles:"Glutes, core",instructions:"Bridge the hips up to a straight line from knees to shoulders and hold, squeezing the glutes the whole time.",benefit:"Isometric glute endurance that tones without any load.",alts:["Glute Bridge March","Single-Leg Glute Bridge","Wall Sit"]},
+  "Double-Leg Glute Bridge":{muscles:"Glutes, hamstrings",instructions:"Both feet planted, drive the hips up squeezing the glutes at the top, then lower slowly.",benefit:"Foundational glute toning and activation.",alts:["Single-Leg Glute Bridges","Glute Bridge March","Hip Thrust"]},
+  "Lateral Lunge":{muscles:"Inner thighs (adductors), glutes, quads",instructions:"Step wide to one side and sit back into that hip while the other leg stays straight; push back to centre.",benefit:"Trains the adductors and side-to-side movement most leg work misses.",alts:["Lateral Lunges","Cossack Squat","Curtsy Lunge Pulses"]},
+  "Reverse Lunge":{muscles:"Quads, glutes, hamstrings",instructions:"Step back into a lunge, lower the back knee toward the floor, then drive through the front heel to stand.",benefit:"Knee-friendly single-leg toning and balance.",alts:["Curtsy Lunge Pulses","Bulgarian Split Squats","Lateral Lunges"]},
+  "Cossack Squat":{muscles:"Inner thighs, glutes, hips",instructions:"In a wide stance, shift the weight over one bent leg keeping the other straight with the toes up; stay low as you switch sides.",benefit:"Builds adductor strength and deep hip mobility for long, toned legs.",alts:["Lateral Lunges","Curtsy Lunge Pulses","Side-Lying Inner-Thigh Lifts"]},
+  "Clamshells":{muscles:"Glute medius (hip rotators)",instructions:"Lie on your side with the knees bent and a band around the thighs; keeping the feet together, open the top knee, then lower slowly.",benefit:"Fires up the side glutes for hip stability and shape.",alts:["Lateral Band Walks","Monster Walks","Fire Hydrants"]},
+  "Cable Hip Abduction":{muscles:"Glute medius (hip abductors)",instructions:"With a cuff on the ankle, stand side-on and sweep the leg out to the side against the cable; return under control.",benefit:"Loadable side-glute work for hip stability and shape.",alts:["Lateral Band Walks","Clamshells","Fire Hydrants"]},
+  "Good Morning":{muscles:"Hamstrings, glutes, lower back",instructions:"With a light load on the upper back, hinge forward pushing the hips back with a flat back, then stand by squeezing the glutes.",benefit:"Lengthens and strengthens the posterior chain; keep it light.",alts:["Romanian Deadlift","Single-Leg Romanian Deadlifts","Single-Leg Deadlifts"]},
+  "Goblet Squat Hold":{muscles:"Quads, glutes, core",instructions:"Hold a light weight at the chest and sit into the bottom of a squat, holding the position tall and braced.",benefit:"Isometric leg endurance and ankle/hip mobility.",alts:["Wall Sit","Bodyweight Squat","Single-Leg Goblet Squats"]},
+  "Bodyweight Squat":{muscles:"Quads, glutes, core",instructions:"Feet shoulder-width, sit back and down to depth keeping the chest up, then drive through the mid-foot to stand.",benefit:"Foundational high-rep leg toning you can do anywhere.",alts:["Goblet Squat Hold","Wall Sit","Single-Leg Goblet Squats"]},
+  "Pistol Squat":{muscles:"Quads, glutes, balance",instructions:"Standing on one leg with the other extended forward, lower under control to depth and stand back up; hold support as needed.",benefit:"Advanced single-leg strength and balance.",alts:["Single-Leg Goblet Squats","Bulgarian Split Squats","Step-ups"]},
+  "Bulgarian Split Squat":{muscles:"Quads, glutes, adductors",instructions:"Rear foot on a bench, lower straight down on the front leg, then drive up through the heel.",benefit:"One of the best single-leg builders for shape and balance.",alts:["Bulgarian Split Squats","Split Squat","Curtsy Lunge Pulses"]},
+  "Split Squat":{muscles:"Quads, glutes",instructions:"In a staggered stance with both feet on the floor, lower the back knee toward the ground, then drive up through the front heel.",benefit:"Stable single-leg toning before progressing to the Bulgarian version.",alts:["Bulgarian Split Squats","Reverse Lunge","Step-ups"]},
+  "Side Step-ups":{muscles:"Glutes, quads",instructions:"Stand side-on to a box, step up sideways driving through the leading foot, then lower under control.",benefit:"Side-glute and quad work with a balance challenge.",alts:["Step-ups","Lateral Lunges","Curtsy Lunge Pulses"]},
+  "Adductor Squeeze (ball)":{muscles:"Inner thighs (adductors)",instructions:"Lying or seated, squeeze a ball or cushion between the knees, hold the squeeze, and pulse gently.",benefit:"Simple low-load inner-thigh toning and activation.",alts:["Inner-Thigh Squeeze & Lift","Side-Lying Inner-Thigh Lifts","Copenhagen Plank"]},
+  "Side-Lying Inner-Thigh Lift":{muscles:"Inner thighs (adductors)",instructions:"On your side with the top leg crossed in front, lift the long bottom leg slowly toward the ceiling, then lower with control.",benefit:"Classic Pilates adductor sculpting that lengthens the inner thigh.",alts:["Side-Lying Inner-Thigh Lifts","Inner-Thigh Squeeze & Lift","Copenhagen Plank"]},
+  "Single-Leg RDL":{muscles:"Hamstrings, glutes, core",instructions:"Balance on one leg and hinge to lower the weight toward the floor with a flat back; return by squeezing the glute.",benefit:"Posterior-chain strength and single-leg balance.",alts:["Single-Leg Romanian Deadlifts","Single-Leg Deadlifts","Romanian Deadlift"]},
+  "Double-Leg Calf Raise":{muscles:"Calves",instructions:"Stand on a step, raise both heels high, then lower for a deep stretch under control.",benefit:"Builds calf strength and ankle resilience.",alts:["Single-Leg Calf Raises","Seated Calf Raise","Jump Rope"]},
+  "Seated Calf Raise":{muscles:"Calves (soleus)",instructions:"Seated with weight on the knees, raise the heels high, then lower slowly for a stretch.",benefit:"Targets the deeper soleus for full calf shape.",alts:["Single-Leg Calf Raises","Double-Leg Calf Raise","Jump Rope"]},
+  "Jump Rope":{muscles:"Calves, conditioning",instructions:"Skip with small, quick bounces staying on the balls of the feet, keeping the elbows close and turning the rope with the wrists.",benefit:"Low-equipment calf and cardio conditioning.",alts:["Double-Leg Calf Raise","Single-Leg Calf Raises","Monster Walks"]},
+  "Cable Kickback":{muscles:"Glutes (max)",instructions:"With a cuff on the ankle, drive the leg straight back squeezing the glute, then return under control without arching the back.",benefit:"Loadable glute isolation with constant tension.",alts:["Banded Donkey Kicks","Banded Glute Kickbacks","Monster Walks"]}
 };
 
 var SP={4:["Upper A","Lower A","Upper B","Lower B"],5:["Upper A","Lower A","Upper B","Lower B","Cardio"],6:["Upper A","Lower A","Upper B","Lower B","Upper A","Cardio"]};
@@ -378,6 +455,10 @@ var ID2NAME={};
     });
   }
 })();
+// Movements retired from the program (legacy ids) so older logged history
+// still resolves to a readable name in the History tab and progress views.
+var LEGACY={la1:"Goblet Squats",la4:"Reverse Lunges",la5:"Step-ups",la8:"Sumo Goblet Squat"};
+(function(){for(var k in LEGACY)if(!ID2NAME[k])ID2NAME[k]=LEGACY[k];})();
 // Normalized name index into LIB
 var LIBIDX={};
 (function(){var ks=Object.keys(LIB);for(var i=0;i<ks.length;i++)LIBIDX[normName(ks[i])]=LIB[ks[i]];})();
@@ -397,14 +478,15 @@ var LIBIDX={};
   }
 })();
 
-var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],swaps:{},caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null};
+var STEP_GOAL=15000;
+var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],swaps:{},daily:{},caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null};
 (function(){
-  try{var x=localStorage.getItem("spt3");if(x){var p=JSON.parse(x);S.sess=p.sess||S.sess;S.split=p.split||S.split;S.deload=p.deload||false;S.opt=false;S.logs=p.logs||{};S.checks=p.checks||{};S.feels=p.feels||{};S.notes=p.notes||{};S.hist=p.hist||[];S.swaps=p.swaps||{};}}catch(e){}
+  try{var x=localStorage.getItem("spt3");if(x){var p=JSON.parse(x);S.sess=p.sess||S.sess;S.split=p.split||S.split;S.deload=p.deload||false;S.opt=false;S.logs=p.logs||{};S.checks=p.checks||{};S.feels=p.feels||{};S.notes=p.notes||{};S.hist=p.hist||[];S.swaps=p.swaps||{};S.daily=p.daily||{};}}catch(e){}
 })();
 
 function td(){return new Date().toISOString().slice(0,10);}
 function csk(){return S.sess+"_"+td();}
-function sv(){try{localStorage.setItem("spt3",JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist,swaps:S.swaps}));}catch(e){}}
+function sv(){try{localStorage.setItem("spt3",JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist,swaps:S.swaps,daily:S.daily}));}catch(e){}}
 // Build the full swap menu for a slot: the default exercise, any curated
 // alternatives (full objects, with real ids for history continuity), then the
 // library's suggested alternatives (by name, inheriting the slot's set scheme).
@@ -415,7 +497,7 @@ function getSwapOptions(e){
   var lib=libFor(e.name);
   if(lib&&lib.alts)for(var j=0;j<lib.alts.length;j++){
     var nm=lib.alts[j]; if(seen[normName(nm)])continue; seen[normName(nm)]=1;
-    opts.push({id:slug(nm),name:nm,sets:e.sets,reps:e.reps,rest:e.rest,uni:e.uni,left:e.left,note:e.note});
+    opts.push({id:slug(nm),name:nm,sets:e.sets,reps:e.reps,rest:e.rest,uni:e.uni,left:e.left,note:e.note,tone:e.tone});
   }
   return opts;
 }
@@ -432,6 +514,7 @@ function normName(s){return String(s).toLowerCase().replace(/\s+/g," ").trim();}
 function isCardio(s){return !!(s.cardio||s.abs);}
 function libFor(name){return LIBIDX[normName(name)]||null;}
 function fmtDate(iso){var p=String(iso).split("-");return parseInt(p[2],10)+" "+SMON[parseInt(p[1],10)-1];}
+function subtitle(){return "Lean & Tone · Pilates Hybrid · "+S.split+"-Day Split"+(S.deload?" · DELOAD":"");}
 
 // ---- Progressive overload: match a movement by name across all history ----
 function eachMatch(name, side, cb){
@@ -477,11 +560,19 @@ function fmtSets(sets){
   for(var i=0;i<sets.length;i++){var sd=sets[i];if(sd&&(sd.w||sd.r))a.push((sd.w?sd.w+"kg":"-")+(sd.r?"×"+sd.r:""));}
   return a.join(" &middot; ");
 }
-function ovHint(name,side){
+function ovHint(name,side,tone){
   var last=lastForName(name,side);
-  if(!last)return '<div class="ovhint ovnone">No previous data yet — log your first set to start tracking</div>';
-  var best=bestForName(name,side);
+  if(!last){
+    return tone
+      ? '<div class="ovhint ovtone">&#10047; Tone &amp; lengthen — keep it light, slow the tempo, chase reps not weight</div>'
+      : '<div class="ovhint ovnone">No previous data yet — log your first set to start tracking</div>';
+  }
   var when=fmtDate(last.date)+(last.sess!==S.sess?", "+last.sess:"");
+  if(tone){
+    // Toning work: surface reps/endurance, not load — so the app stops nudging toward bulk
+    return '<div class="ovhint ovtone">&#10047; <b>Last</b> ('+when+'): '+fmtSets(last.sets)+' &nbsp;&middot;&nbsp; add reps or slow the tempo before adding load</div>';
+  }
+  var best=bestForName(name,side);
   var h='<div class="ovhint"><b>Last</b> ('+when+'): '+fmtSets(last.sets);
   if(best&&best.w)h+=' &nbsp;&middot;&nbsp; <b>Best</b> '+best.w+'kg'+(best.r?'×'+best.r:'');
   h+='</div>';
@@ -583,19 +674,55 @@ function renderEx(slot){
   if(e.rest)h+='<div class="exmeta">Rest: '+e.rest+'</div>';
   if(e.uni){
     h+='<div class="leg-section"><div class="leg-label"><span class="lbadge">&#9666; LEFT</span></div>';
-    h+=ovHint(e.name,"L");
+    h+=ovHint(e.name,"L",e.tone);
     h+=buildSetRows(e.id,e.sets,"L");
     h+='</div>';
     h+='<div class="leg-section" style="margin-top:10px"><div class="leg-label"><span class="rbadge">RIGHT</span></div>';
-    h+=ovHint(e.name,"R");
+    h+=ovHint(e.name,"R",e.tone);
     h+=buildSetRows(e.id,e.sets,"R");
     h+='</div>';
   } else {
-    h+=ovHint(e.name,null);
+    h+=ovHint(e.name,null,e.tone);
     h+=buildSetRows(e.id,e.sets,null);
   }
   h+='</div>';
   return h;
+}
+
+// ---- Daily movement (cycling + steps), keyed by calendar date ----
+function dayRec(d){d=d||td();if(!S.daily[d])S.daily[d]={};return S.daily[d];}
+function dailyCard(){
+  var r=dayRec(); var steps=parseInt(r.steps,10); if(isNaN(steps))steps=0;
+  var pct=Math.min(100,Math.round(steps/STEP_GOAL*100)); var hit=steps>=STEP_GOAL;
+  var h='<div class="card"><div class="stitle">Today\'s Movement</div>';
+  // Pre-workout cycling
+  h+='<div class="crow"><input type="checkbox"'+(r.cycle?" checked":"")+' onchange="togCycle()"/>';
+  h+='<div style="flex:1"><span class="clbl">Pre-workout cycling</span>';
+  h+='<div class="exnote">&#8594; 20-35 min before the program &middot; aim 3-4&times;/week</div>';
+  if(r.cycle){
+    h+='<div class="frow" style="margin-top:6px;align-items:center;gap:8px"><span style="font-size:0.72rem;color:#9c7b72">Minutes</span>';
+    h+='<input class="set-input" type="number" inputmode="numeric" placeholder="30" value="'+(r.cmin||"")+'" onchange="setCycleMin(this.value)" style="width:72px"/>';
+    h+='<span class="rbadge" style="background:#88a880">&#10003; slotted in</span></div>';
+  }
+  h+='</div></div>';
+  // Step count
+  h+='<div class="fsec" style="margin-top:12px;margin-bottom:0"><div class="flbl" style="display:flex;justify-content:space-between">';
+  h+='<span>&#128099; Step count</span><span style="color:#9c7b72;font-weight:normal;font-size:0.7rem">goal '+STEP_GOAL.toLocaleString()+'</span></div>';
+  h+='<input class="set-input" type="number" inputmode="numeric" placeholder="Enter today’s steps…" value="'+(r.steps||"")+'" onchange="setSteps(this.value)" style="width:100%"/>';
+  h+='<div class="pbar" style="margin-top:8px"><div class="pfill" style="width:'+pct+'%'+(hit?';background:linear-gradient(90deg,#88a880,#a9c79f)':'')+'"></div></div>';
+  h+='<div class="plbl">'+steps.toLocaleString()+' / '+STEP_GOAL.toLocaleString()+(hit?' &middot; goal hit! &#127881;':(steps?' &middot; '+(STEP_GOAL-steps).toLocaleString()+' to go':''))+'</div>';
+  h+='</div></div>';
+  return h;
+}
+
+// Compact tags for a day's cycling + steps (used in History and Calendar)
+function dailyTags(date){
+  var r=S.daily[date]; if(!r)return "";
+  var out="";
+  if(r.cycle)out+='<span class="htag">&#128692; Cycling'+(r.cmin?' '+r.cmin+' min':'')+'</span>';
+  var steps=parseInt(r.steps,10);
+  if(!isNaN(steps)&&steps>0)out+='<span class="htag">&#128099; '+steps.toLocaleString()+(steps>=STEP_GOAL?' &#10003;':'')+' steps</span>';
+  return out;
 }
 
 function rToday(){
@@ -611,6 +738,9 @@ function rToday(){
   h+='</div><div class="sfocus">'+s.focus+'</div>';
   h+='<div class="pbar"><div class="pfill" id="pfill" style="width:'+p+'%"></div></div>';
   h+='<div class="plbl" id="plbl">Session progress: '+p+'%</div></div>';
+
+  // Daily movement — pre-workout cycling + end-of-day step count (per calendar day)
+  h+=dailyCard();
 
   // Activation warm-up circuit
   h+='<div class="card"><div class="stitle">Activation Warm-up (5-10 min)</div>';
@@ -632,7 +762,7 @@ function rToday(){
     }
     h+='</div>';
     // Abdominal circuit
-    h+='<div class="card"><div class="stitle">Abdominal Circuit</div>';
+    h+='<div class="card"><div class="stitle">Core &amp; Pilates Flow</div>';
     for(var i=0;i<s.abs.length;i++){
       var ab=s.abs[i]; var ck=k+"_"+ab.id;
       h+='<div class="crow"><input type="checkbox"'+(S.checks[ck]?" checked":"")+' onchange="togCk(\''+ck+'\')"/>';
@@ -700,15 +830,15 @@ function rSplit(){
   }
   h+='</div><div style="font-size:0.7rem;color:#9c7b72;margin-top:6px">';
   if(S.split===4)h+='PCOS-friendly. 3 rest days, maximum recovery.';
-  else if(S.split===5)h+='Balanced — four lifts plus a cardio + core day, two rest days.';
-  else h+='Full split with a dedicated cardio + core day. Rest Wed + Sun recommended.';
+  else if(S.split===5)h+='Balanced — two upper + two lower sculpt days plus a cardio + Pilates-core day, two rest days.';
+  else h+='Full split with a dedicated cardio + Pilates-core day. Rest Wed + Sun recommended.';
   h+='</div></div>';
   h+='<div class="card"><div class="stitle">Asymmetry Protocol</div>';
-  var tips=["Left leg performs first in every lower-body session","Left leg gets 2-5 extra reps on accessory work","Single-leg goblet squats and deadlifts are your asymmetry-fixers","Progress left-leg weights faster until it matches right"];
+  var tips=["Left leg performs first in every lower-body session","Left leg gets 2-5 extra reps on accessory work","Single-leg squats and deadlifts are your asymmetry-fixers","Progress left-leg reps & control faster until it matches right"];
   for(var i=0;i<tips.length;i++)h+='<div class="prow"><span class="lbadge" style="margin-top:1px;flex-shrink:0">&#9666;</span><span style="font-size:0.79rem">'+tips[i]+'</span></div>';
   h+='</div>';
   h+='<div class="card"><div class="stitle">PCOS Adjustment Flags</div>';
-  var flags=[{c:"Knees worse 24hr after lower-body",a:"Reduce goblet squat reps, add extra rest day"},{c:"Lower back tingling",a:"Skip deadlifts next session, add extra warm-up + mobility"},{c:"Inflammation trending up",a:"Drop to 4 days, increase rest-day walks"}];
+  var flags=[{c:"Knees worse 24hr after lower-body",a:"Drop the lunges/squats to bodyweight, add an extra rest day"},{c:"Lower back tingling",a:"Skip deadlifts next session, add extra warm-up + mobility"},{c:"Inflammation trending up",a:"Drop to 4 days, increase rest-day walks"}];
   for(var i=0;i<flags.length;i++)h+='<div class="frow2"><div class="fcond">&#9888; '+flags[i].c+'</div><div class="fact">&#8594; '+flags[i].a+'</div></div>';
   h+='</div>';
   document.getElementById("t-split").innerHTML=h;
@@ -755,8 +885,10 @@ function rCal(){
   if(S.calsel){
     var ss=dmap[S.calsel]||[];
     h+='<div class="cal-detail"><div class="cal-detail-date">'+S.calsel+'</div>';
+    var dt=dailyTags(S.calsel);
     if(ss.length){
       for(var i=0;i<ss.length;i++)h+='<span class="cal-sess-pill" style="background:'+(CMAP[ss[i]]||"#c9a99a")+'">'+ss[i]+'</span>';
+      if(dt)h+='<div class="htags">'+dt+'</div>';
       var he=null;
       for(var i=0;i<S.hist.length;i++){if(S.hist[i].date===S.calsel&&S.hist[i].sess===ss[0]){he=S.hist[i];break;}}
       if(he&&he.feels&&Object.keys(he.feels).length){
@@ -766,6 +898,7 @@ function rCal(){
         h+='</div>';
       }
       if(he&&he.note)h+='<div class="hnote">"'+he.note+'"</div>';
+    } else if(dt){h+='<div class="htags">'+dt+'</div>';
     } else {h+='<div style="font-size:0.78rem;color:#9c7b72">No session logged this day</div>';}
     h+='</div>';
   }
@@ -842,6 +975,8 @@ function rHist(){
     var e=h[i];
     out+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start">';
     out+='<div><div style="font-weight:bold;font-size:0.88rem">'+e.sess+'</div><div style="font-size:0.68rem;color:#9c7b72">'+e.date+'</div></div></div>';
+    var dt=dailyTags(e.date);
+    if(dt)out+='<div class="htags">'+dt+'</div>';
     if(e.feels&&Object.keys(e.feels).length){
       out+='<div class="htags">';
       var fk=Object.keys(e.feels);
@@ -891,16 +1026,20 @@ function rSet(){
   h+='<button class="sbtn" id="expbtn" onclick="exportData()">Export my data</button>';
   h+='<button class="sbtn alt" onclick="importData()">Import from box</button>';
   h+='</div>';
-  h+='<div class="card"><div class="stitle">Rep and Weight Guide</div>';
-  var guide=[{t:"Main compound",r:"8-12 reps",f:"RPE 7-8"},{t:"Secondary compound",r:"10-15 reps",f:"RPE 6-7"},{t:"Isolation",r:"12-15 reps",f:"RPE 5-6"},{t:"Core / abs",r:"Slow / isometric",f:"BW or light"}];
+  h+='<div class="card"><div class="stitle">Rep &amp; Tempo Guide</div>';
+  h+='<div style="font-size:0.72rem;color:#9c7b72;line-height:1.5;margin-bottom:8px">Goal: lengthen &amp; tone. Keep loads light-to-moderate, never grinding — build reps, control and endurance before adding weight.</div>';
+  var guide=[{t:"Upper compound",r:"10-15 reps",f:"RPE 6-7 · light-mod"},{t:"Sculpt / Pilates circuit",r:"15-25 reps",f:"RPE 5-6 · slow control"},{t:"Isometric holds",r:"20-45s",f:"steady breathing"},{t:"Core / Pilates",r:"Slow / controlled",f:"BW or light"}];
   for(var i=0;i<guide.length;i++)h+='<div class="rrow"><span style="font-weight:bold">'+guide[i].t+'</span><span style="color:#9c7b72;font-size:0.7rem">'+guide[i].r+' &middot; '+guide[i].f+'</span></div>';
   h+='</div>';
-  h+='<div class="card"><div class="stitle">About</div><div style="font-size:0.76rem;color:#9c7b72;line-height:1.7">Strength + Pilates Hybrid Tracker<br>Upper/Lower Split &middot; 4-6 Days Flexible<br><br>Data saved locally on your device.</div></div>';
+  h+='<div class="card"><div class="stitle">About</div><div style="font-size:0.76rem;color:#9c7b72;line-height:1.7">Lean &amp; Tone · Strength + Pilates Hybrid Tracker<br>Upper/Lower Sculpt Split &middot; 4-6 Days Flexible<br><br>Data saved locally on your device.</div></div>';
   document.getElementById("t-settings").innerHTML=h;
 }
 
 // Actions
 function setSess(nm){S.sess=nm;sv();rToday();}
+function togCycle(){var r=dayRec();r.cycle=!r.cycle;if(!r.cycle)r.cmin="";sv();rToday();}
+function setCycleMin(v){dayRec().cmin=v;sv();}
+function setSteps(v){var n=parseInt(v,10);dayRec().steps=isNaN(n)?"":n;sv();rToday();}
 function togOpt(){S.opt=!S.opt;rToday();}
 function togCk(key){S.checks[key]=!S.checks[key];sv();updPct();}
 function setLg(exId,side,setIdx,field,val){
@@ -914,8 +1053,8 @@ function setLg(exId,side,setIdx,field,val){
 }
 function setFeel(field,val){var k=csk();if(!S.feels[k])S.feels[k]={};S.feels[k][field]=val;sv();rToday();}
 function setNote(val){S.notes[csk()]=val;sv();}
-function setSplit(n){S.split=n;sv();document.getElementById("hsub").textContent="Upper/Lower Hybrid · "+n+"-Day Split"+(S.deload?" · DELOAD":"");var at=document.querySelector(".tab.on").id.replace("t-","");if(at==="split")rSplit();else if(at==="settings")rSet();else if(at==="calendar")rCal();}
-function togDeload(){S.deload=!S.deload;sv();document.getElementById("hsub").textContent="Upper/Lower Hybrid · "+S.split+"-Day Split"+(S.deload?" · DELOAD":"");rSet();rToday();}
+function setSplit(n){S.split=n;sv();document.getElementById("hsub").textContent=subtitle();var at=document.querySelector(".tab.on").id.replace("t-","");if(at==="split")rSplit();else if(at==="settings")rSet();else if(at==="calendar")rCal();}
+function togDeload(){S.deload=!S.deload;sv();document.getElementById("hsub").textContent=subtitle();rSet();rToday();}
 function saveSess(){
   var k=csk();
   var entry={date:td(),sess:S.sess,logs:S.logs[k]||{},feels:S.feels[k]||{},note:S.notes[k]||""};
@@ -948,6 +1087,7 @@ function importData(){
   if(p.feels)for(kk in p.feels)S.feels[kk]=p.feels[kk];
   if(p.notes)for(kk in p.notes)S.notes[kk]=p.notes[kk];
   if(p.swaps)for(kk in p.swaps)S.swaps[kk]=p.swaps[kk];
+  if(p.daily)for(kk in p.daily)S.daily[kk]=p.daily[kk];
   if(typeof p.split!=="undefined"&&SP[p.split])S.split=p.split;
   if(typeof p.deload!=="undefined")S.deload=p.deload;
   if(p.hist&&p.hist.length){
@@ -960,13 +1100,13 @@ function importData(){
     S.hist=arr;
   }
   sv();
-  document.getElementById("hsub").textContent="Upper/Lower Hybrid · "+S.split+"-Day Split"+(S.deload?" · DELOAD":"");
+  document.getElementById("hsub").textContent=subtitle();
   ta.value="";
   rSet();
   alert("Imported. Your history and logs are updated.");
 }
 
-document.getElementById("hsub").textContent="Upper/Lower Hybrid · "+S.split+"-Day Split"+(S.deload?" · DELOAD":"");
+document.getElementById("hsub").textContent=subtitle();
 rToday();
 </script>
 </body>
