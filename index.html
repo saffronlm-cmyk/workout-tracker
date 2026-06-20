@@ -478,14 +478,15 @@ var LIBIDX={};
   }
 })();
 
-var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],swaps:{},caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null};
+var STEP_GOAL=15000;
+var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],swaps:{},daily:{},caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null};
 (function(){
-  try{var x=localStorage.getItem("spt3");if(x){var p=JSON.parse(x);S.sess=p.sess||S.sess;S.split=p.split||S.split;S.deload=p.deload||false;S.opt=false;S.logs=p.logs||{};S.checks=p.checks||{};S.feels=p.feels||{};S.notes=p.notes||{};S.hist=p.hist||[];S.swaps=p.swaps||{};}}catch(e){}
+  try{var x=localStorage.getItem("spt3");if(x){var p=JSON.parse(x);S.sess=p.sess||S.sess;S.split=p.split||S.split;S.deload=p.deload||false;S.opt=false;S.logs=p.logs||{};S.checks=p.checks||{};S.feels=p.feels||{};S.notes=p.notes||{};S.hist=p.hist||[];S.swaps=p.swaps||{};S.daily=p.daily||{};}}catch(e){}
 })();
 
 function td(){return new Date().toISOString().slice(0,10);}
 function csk(){return S.sess+"_"+td();}
-function sv(){try{localStorage.setItem("spt3",JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist,swaps:S.swaps}));}catch(e){}}
+function sv(){try{localStorage.setItem("spt3",JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist,swaps:S.swaps,daily:S.daily}));}catch(e){}}
 // Build the full swap menu for a slot: the default exercise, any curated
 // alternatives (full objects, with real ids for history continuity), then the
 // library's suggested alternatives (by name, inheriting the slot's set scheme).
@@ -688,6 +689,42 @@ function renderEx(slot){
   return h;
 }
 
+// ---- Daily movement (cycling + steps), keyed by calendar date ----
+function dayRec(d){d=d||td();if(!S.daily[d])S.daily[d]={};return S.daily[d];}
+function dailyCard(){
+  var r=dayRec(); var steps=parseInt(r.steps,10); if(isNaN(steps))steps=0;
+  var pct=Math.min(100,Math.round(steps/STEP_GOAL*100)); var hit=steps>=STEP_GOAL;
+  var h='<div class="card"><div class="stitle">Today\'s Movement</div>';
+  // Pre-workout cycling
+  h+='<div class="crow"><input type="checkbox"'+(r.cycle?" checked":"")+' onchange="togCycle()"/>';
+  h+='<div style="flex:1"><span class="clbl">Pre-workout cycling</span>';
+  h+='<div class="exnote">&#8594; 20-35 min before the program &middot; aim 3-4&times;/week</div>';
+  if(r.cycle){
+    h+='<div class="frow" style="margin-top:6px;align-items:center;gap:8px"><span style="font-size:0.72rem;color:#9c7b72">Minutes</span>';
+    h+='<input class="set-input" type="number" inputmode="numeric" placeholder="30" value="'+(r.cmin||"")+'" onchange="setCycleMin(this.value)" style="width:72px"/>';
+    h+='<span class="rbadge" style="background:#88a880">&#10003; slotted in</span></div>';
+  }
+  h+='</div></div>';
+  // Step count
+  h+='<div class="fsec" style="margin-top:12px;margin-bottom:0"><div class="flbl" style="display:flex;justify-content:space-between">';
+  h+='<span>&#128099; Step count</span><span style="color:#9c7b72;font-weight:normal;font-size:0.7rem">goal '+STEP_GOAL.toLocaleString()+'</span></div>';
+  h+='<input class="set-input" type="number" inputmode="numeric" placeholder="Enter today’s steps…" value="'+(r.steps||"")+'" onchange="setSteps(this.value)" style="width:100%"/>';
+  h+='<div class="pbar" style="margin-top:8px"><div class="pfill" style="width:'+pct+'%'+(hit?';background:linear-gradient(90deg,#88a880,#a9c79f)':'')+'"></div></div>';
+  h+='<div class="plbl">'+steps.toLocaleString()+' / '+STEP_GOAL.toLocaleString()+(hit?' &middot; goal hit! &#127881;':(steps?' &middot; '+(STEP_GOAL-steps).toLocaleString()+' to go':''))+'</div>';
+  h+='</div></div>';
+  return h;
+}
+
+// Compact tags for a day's cycling + steps (used in History and Calendar)
+function dailyTags(date){
+  var r=S.daily[date]; if(!r)return "";
+  var out="";
+  if(r.cycle)out+='<span class="htag">&#128692; Cycling'+(r.cmin?' '+r.cmin+' min':'')+'</span>';
+  var steps=parseInt(r.steps,10);
+  if(!isNaN(steps)&&steps>0)out+='<span class="htag">&#128099; '+steps.toLocaleString()+(steps>=STEP_GOAL?' &#10003;':'')+' steps</span>';
+  return out;
+}
+
 function rToday(){
   var s=DATA[S.sess]; var k=csk(); var p=calcPct();
   var cardio=isCardio(s);
@@ -701,6 +738,9 @@ function rToday(){
   h+='</div><div class="sfocus">'+s.focus+'</div>';
   h+='<div class="pbar"><div class="pfill" id="pfill" style="width:'+p+'%"></div></div>';
   h+='<div class="plbl" id="plbl">Session progress: '+p+'%</div></div>';
+
+  // Daily movement — pre-workout cycling + end-of-day step count (per calendar day)
+  h+=dailyCard();
 
   // Activation warm-up circuit
   h+='<div class="card"><div class="stitle">Activation Warm-up (5-10 min)</div>';
@@ -845,8 +885,10 @@ function rCal(){
   if(S.calsel){
     var ss=dmap[S.calsel]||[];
     h+='<div class="cal-detail"><div class="cal-detail-date">'+S.calsel+'</div>';
+    var dt=dailyTags(S.calsel);
     if(ss.length){
       for(var i=0;i<ss.length;i++)h+='<span class="cal-sess-pill" style="background:'+(CMAP[ss[i]]||"#c9a99a")+'">'+ss[i]+'</span>';
+      if(dt)h+='<div class="htags">'+dt+'</div>';
       var he=null;
       for(var i=0;i<S.hist.length;i++){if(S.hist[i].date===S.calsel&&S.hist[i].sess===ss[0]){he=S.hist[i];break;}}
       if(he&&he.feels&&Object.keys(he.feels).length){
@@ -856,6 +898,7 @@ function rCal(){
         h+='</div>';
       }
       if(he&&he.note)h+='<div class="hnote">"'+he.note+'"</div>';
+    } else if(dt){h+='<div class="htags">'+dt+'</div>';
     } else {h+='<div style="font-size:0.78rem;color:#9c7b72">No session logged this day</div>';}
     h+='</div>';
   }
@@ -932,6 +975,8 @@ function rHist(){
     var e=h[i];
     out+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start">';
     out+='<div><div style="font-weight:bold;font-size:0.88rem">'+e.sess+'</div><div style="font-size:0.68rem;color:#9c7b72">'+e.date+'</div></div></div>';
+    var dt=dailyTags(e.date);
+    if(dt)out+='<div class="htags">'+dt+'</div>';
     if(e.feels&&Object.keys(e.feels).length){
       out+='<div class="htags">';
       var fk=Object.keys(e.feels);
@@ -992,6 +1037,9 @@ function rSet(){
 
 // Actions
 function setSess(nm){S.sess=nm;sv();rToday();}
+function togCycle(){var r=dayRec();r.cycle=!r.cycle;if(!r.cycle)r.cmin="";sv();rToday();}
+function setCycleMin(v){dayRec().cmin=v;sv();}
+function setSteps(v){var n=parseInt(v,10);dayRec().steps=isNaN(n)?"":n;sv();rToday();}
 function togOpt(){S.opt=!S.opt;rToday();}
 function togCk(key){S.checks[key]=!S.checks[key];sv();updPct();}
 function setLg(exId,side,setIdx,field,val){
@@ -1039,6 +1087,7 @@ function importData(){
   if(p.feels)for(kk in p.feels)S.feels[kk]=p.feels[kk];
   if(p.notes)for(kk in p.notes)S.notes[kk]=p.notes[kk];
   if(p.swaps)for(kk in p.swaps)S.swaps[kk]=p.swaps[kk];
+  if(p.daily)for(kk in p.daily)S.daily[kk]=p.daily[kk];
   if(typeof p.split!=="undefined"&&SP[p.split])S.split=p.split;
   if(typeof p.deload!=="undefined")S.deload=p.deload;
   if(p.hist&&p.hist.length){
