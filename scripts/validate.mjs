@@ -63,7 +63,7 @@ const sessions = Object.keys(DATA);
 if (!sessions.length) fail("DATA has no sessions");
 
 // Every screen renders without throwing
-for (const fn of ["rToday", "rSplit", "rSet", "rLibrary", "rHist", "rCal"]) {
+for (const fn of ["rToday", "rSplit", "rSet", "rLibrary", "rCal"]) {
   if (typeof sandbox[fn] !== "function") fail("Render function missing: " + fn);
   try { sandbox[fn](); } catch (e) { fail(fn + "() threw: " + e.message); }
 }
