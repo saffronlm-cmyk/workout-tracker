@@ -156,6 +156,15 @@ textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;
 .wk-cell.done .wk-cell-d{color:rgba(255,255,255,0.9)}
 .wk-cell-s{font-size:0.5rem;color:#9c7b72;margin-top:2px}
 .wk-cell.done .wk-cell-s{color:rgba(255,255,255,0.85)}
+/* Active-date control (Today tab back-fill) */
+.datebar{display:flex;align-items:center;gap:8px}
+.dateinput{flex:1;border:1.5px solid #ecddd8;border-radius:9px;padding:8px 10px;font-size:0.82rem;font-family:Georgia,serif;background:#fff;color:#3d2b24}
+.calarw[disabled]{opacity:0.35;cursor:default}
+.datehint{font-size:0.7rem;color:#c47a7a;margin-top:8px}
+.datelink{color:#9c7b72;text-decoration:underline;cursor:pointer}
+.cal-sess-block{margin-top:6px;padding-top:8px;border-top:1px solid #ecddd8}
+.cal-sess-block:first-of-type{border-top:none}
+.cal-sess-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:5px}
 </style>
 </head>
 <body>
@@ -167,7 +176,6 @@ textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;
 <div id="t-split" class="tab"></div>
 <div id="t-calendar" class="tab"></div>
 <div id="t-library" class="tab"></div>
-<div id="t-history" class="tab"></div>
 <div id="t-settings" class="tab"></div>
 <nav class="bnav">
   <button class="nbtn on" id="nb-today" onclick="goTab('today')">
@@ -181,9 +189,6 @@ textarea{width:100%;border:1px solid #ecddd8;border-radius:9px;padding:8px 10px;
   </button>
   <button class="nbtn" id="nb-library" onclick="goTab('library')">
     <svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>Library
-  </button>
-  <button class="nbtn" id="nb-history" onclick="goTab('history')">
-    <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>History
   </button>
   <button class="nbtn" id="nb-settings" onclick="goTab('settings')">
     <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>Settings
@@ -479,13 +484,18 @@ var LIBIDX={};
 })();
 
 var STEP_GOAL=15000;
-var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],swaps:{},daily:{},caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null};
+// actdate = the calendar day the Today tab is logging against (defaults to today,
+// can be moved into the past to back-fill a forgotten workout). In-memory only —
+// never persisted, so a reopened app always starts on the real today.
+var S={sess:"Upper A",split:5,deload:false,opt:false,logs:{},checks:{},feels:{},notes:{},hist:[],swaps:{},daily:{},caly:new Date().getFullYear(),calm:new Date().getMonth(),calsel:null,actdate:new Date().toISOString().slice(0,10)};
 (function(){
   try{var x=localStorage.getItem("spt3");if(x){var p=JSON.parse(x);S.sess=p.sess||S.sess;S.split=p.split||S.split;S.deload=p.deload||false;S.opt=false;S.logs=p.logs||{};S.checks=p.checks||{};S.feels=p.feels||{};S.notes=p.notes||{};S.hist=p.hist||[];S.swaps=p.swaps||{};S.daily=p.daily||{};}}catch(e){}
 })();
 
 function td(){return new Date().toISOString().slice(0,10);}
-function csk(){return S.sess+"_"+td();}
+// Composite key for logs/feels/notes — bound to the active (editable) date, not
+// necessarily today, so back-filling a past day reads & writes the right slot.
+function csk(){return S.sess+"_"+S.actdate;}
 function sv(){try{localStorage.setItem("spt3",JSON.stringify({sess:S.sess,split:S.split,deload:S.deload,logs:S.logs,checks:S.checks,feels:S.feels,notes:S.notes,hist:S.hist,swaps:S.swaps,daily:S.daily}));}catch(e){}}
 // Build the full swap menu for a slot: the default exercise, any curated
 // alternatives (full objects, with real ids for history continuity), then the
@@ -514,6 +524,22 @@ function normName(s){return String(s).toLowerCase().replace(/\s+/g," ").trim();}
 function isCardio(s){return !!(s.cardio||s.abs);}
 function libFor(name){return LIBIDX[normName(name)]||null;}
 function fmtDate(iso){var p=String(iso).split("-");return parseInt(p[2],10)+" "+SMON[parseInt(p[1],10)-1];}
+function fmtFullDate(iso){var p=String(iso).split("-");return parseInt(p[2],10)+" "+MNAMES[parseInt(p[1],10)-1]+" "+p[0];}
+// Per-exercise set breakdown for one saved session entry (folded in from History)
+function exLogLines(entry){
+  if(!entry||!entry.logs)return "";
+  var lk=Object.keys(entry.logs); var lines="";
+  for(var j=0;j<lk.length;j++){
+    var logKey=lk[j]; var side=null; var exId=logKey;
+    if(logKey.slice(-2)==="_L"||logKey.slice(-2)==="_R"){side=logKey.slice(-1);exId=logKey.slice(0,-2);}
+    var nm=ID2NAME[exId]; if(!nm)continue;
+    var sets=entry.logs[logKey]; if(!sets||!sets.length)continue;
+    var setStrs=[];
+    for(var s=0;s<sets.length;s++){var sd=sets[s];if(sd&&(sd.w||sd.r))setStrs.push("Set "+(s+1)+": "+(sd.w?sd.w+"kg":"-")+(sd.r?" x "+sd.r:"")+(sd.n?" ("+sd.n+")":""));}
+    if(setStrs.length)lines+='<div class="hlog"><div class="hlog-name">'+nm+(side?" — "+(side==="L"?"Left":"Right"):"")+'</div><div class="hlog-sets">'+setStrs.join(" &middot; ")+'</div></div>';
+  }
+  return lines?'<div class="hlogs">'+lines+'</div>':"";
+}
 function subtitle(){return "Lean & Tone · Pilates Hybrid · "+S.split+"-Day Split"+(S.deload?" · DELOAD":"");}
 
 // ---- Progressive overload: match a movement by name across all history ----
@@ -580,7 +606,7 @@ function ovHint(name,side,tone){
 }
 
 function goTab(name){
-  var tabs=["today","split","calendar","library","history","settings"];
+  var tabs=["today","split","calendar","library","settings"];
   for(var i=0;i<tabs.length;i++){
     document.getElementById("t-"+tabs[i]).className="tab"+(tabs[i]===name?" on":"");
     document.getElementById("nb-"+tabs[i]).className="nbtn"+(tabs[i]===name?" on":"");
@@ -589,7 +615,6 @@ function goTab(name){
   else if(name==="split")rSplit();
   else if(name==="calendar")rCal();
   else if(name==="library")rLibrary();
-  else if(name==="history")rHist();
   else rSet();
 }
 
@@ -690,7 +715,7 @@ function renderEx(slot){
 }
 
 // ---- Daily movement (cycling + steps), keyed by calendar date ----
-function dayRec(d){d=d||td();if(!S.daily[d])S.daily[d]={};return S.daily[d];}
+function dayRec(d){d=d||S.actdate;if(!S.daily[d])S.daily[d]={};return S.daily[d];}
 function dailyCard(){
   var r=dayRec(); var steps=parseInt(r.steps,10); if(isNaN(steps))steps=0;
   var pct=Math.min(100,Math.round(steps/STEP_GOAL*100)); var hit=steps>=STEP_GOAL;
@@ -731,6 +756,16 @@ function rToday(){
   var ex=cardio?[]:s.strength.concat(S.opt?s.opt:[]);
   var h="";
   if(S.deload)h+='<div class="deload-banner">&#127800; DELOAD WEEK — drop 1-2 sets, lighter weights</div>';
+
+  // Logging date — defaults to today; can be moved back to back-fill a missed day
+  var isToday=S.actdate===td();
+  h+='<div class="card"><div class="stitle">Logging For</div><div class="datebar">';
+  h+='<button class="calarw" onclick="shiftActDate(-1)">&#8249;</button>';
+  h+='<input type="date" class="dateinput" value="'+S.actdate+'" max="'+td()+'" onchange="setActDate(this.value)"/>';
+  h+='<button class="calarw" onclick="shiftActDate(1)"'+(isToday?" disabled":"")+'>&#8250;</button>';
+  h+='</div>';
+  if(!isToday)h+='<div class="datehint">&#9998; Back-filling a past day &middot; <span class="datelink" onclick="setActDate(\''+td()+'\')">back to today</span></div>';
+  h+='</div>';
 
   h+='<div class="card"><div class="stitle">Select Session</div><div class="pills">';
   var sk=Object.keys(DATA);
@@ -883,23 +918,34 @@ function rCal(){
   for(var i=0;i<ck.length;i++)h+='<div class="leg-item"><div class="leg-dot" style="background:'+CMAP[ck[i]]+'"></div>'+ck[i]+'</div>';
   h+='</div>';
   if(S.calsel){
-    var ss=dmap[S.calsel]||[];
-    h+='<div class="cal-detail"><div class="cal-detail-date">'+S.calsel+'</div>';
+    var ss=dmap[S.calsel]||[]; var future=S.calsel>todayStr;
+    h+='<div class="cal-detail"><div class="cal-detail-date">'+fmtFullDate(S.calsel)+'</div>';
     var dt=dailyTags(S.calsel);
+    if(dt)h+='<div class="htags">'+dt+'</div>';
     if(ss.length){
-      for(var i=0;i<ss.length;i++)h+='<span class="cal-sess-pill" style="background:'+(CMAP[ss[i]]||"#c9a99a")+'">'+ss[i]+'</span>';
-      if(dt)h+='<div class="htags">'+dt+'</div>';
-      var he=null;
-      for(var i=0;i<S.hist.length;i++){if(S.hist[i].date===S.calsel&&S.hist[i].sess===ss[0]){he=S.hist[i];break;}}
-      if(he&&he.feels&&Object.keys(he.feels).length){
-        h+='<div class="htags">';
-        var fk=Object.keys(he.feels);
-        for(var i=0;i<fk.length;i++)h+='<span class="htag">'+fk[i]+': '+he.feels[fk[i]]+'</span>';
+      // Full per-session detail (folded in from the old History tab), each editable
+      var entries=[];
+      for(var i=0;i<S.hist.length;i++)if(S.hist[i].date===S.calsel)entries.push(S.hist[i]);
+      for(var ei=0;ei<entries.length;ei++){
+        var he=entries[ei];
+        h+='<div class="cal-sess-block"><div class="cal-sess-head">';
+        h+='<span class="cal-sess-pill" style="background:'+(CMAP[he.sess]||"#c9a99a")+';margin:0">'+he.sess+'</span>';
+        h+='<button class="pill sm" onclick="editDay(\''+S.calsel+'\',\''+he.sess+'\')">Edit</button></div>';
+        if(he.feels&&Object.keys(he.feels).length){
+          h+='<div class="htags">';
+          var fk=Object.keys(he.feels);
+          for(var fi=0;fi<fk.length;fi++)h+='<span class="htag">'+fk[fi]+': '+he.feels[fk[fi]]+'</span>';
+          h+='</div>';
+        }
+        if(he.note)h+='<div class="hnote">"'+he.note+'"</div>';
+        h+=exLogLines(he);
         h+='</div>';
       }
-      if(he&&he.note)h+='<div class="hnote">"'+he.note+'"</div>';
-    } else if(dt){h+='<div class="htags">'+dt+'</div>';
-    } else {h+='<div style="font-size:0.78rem;color:#9c7b72">No session logged this day</div>';}
+      if(!future)h+='<button class="sbtn alt" onclick="editDay(\''+S.calsel+'\')">+ Add another workout</button>';
+    } else {
+      if(!dt)h+='<div style="font-size:0.78rem;color:#9c7b72">No session logged this day</div>';
+      if(!future)h+='<button class="sbtn alt" onclick="editDay(\''+S.calsel+'\')">+ Add a workout</button>';
+    }
     h+='</div>';
   }
   h+='</div>';
@@ -964,53 +1010,6 @@ function openExDetail(name){
 }
 function closeExDetail(){document.getElementById("exModal").className="exmodal";}
 
-function rHist(){
-  var h=S.hist;
-  if(!h.length){document.getElementById("t-history").innerHTML='<div class="empty">No sessions logged yet.<br>Complete a session and tap Save &#10003;</div>';return;}
-  var low=0;
-  for(var i=0;i<h.length;i++){if(h[i].feels&&h[i].feels.inflam==="Low")low++;}
-  var out='<div class="srow"><div class="sc"><div class="snum">'+h.length+'</div><div class="slbl">Sessions logged</div></div>';
-  out+='<div class="sc"><div class="snum">'+low+'</div><div class="slbl">Low inflammation days</div></div></div>';
-  for(var i=0;i<h.length;i++){
-    var e=h[i];
-    out+='<div class="card"><div style="display:flex;justify-content:space-between;align-items:flex-start">';
-    out+='<div><div style="font-weight:bold;font-size:0.88rem">'+e.sess+'</div><div style="font-size:0.68rem;color:#9c7b72">'+e.date+'</div></div></div>';
-    var dt=dailyTags(e.date);
-    if(dt)out+='<div class="htags">'+dt+'</div>';
-    if(e.feels&&Object.keys(e.feels).length){
-      out+='<div class="htags">';
-      var fk=Object.keys(e.feels);
-      for(var j=0;j<fk.length;j++)out+='<span class="htag">'+fk[j]+': '+e.feels[fk[j]]+'</span>';
-      out+='</div>';
-    }
-    if(e.note)out+='<div class="hnote">"'+e.note+'"</div>';
-    if(e.logs){
-      var lk=Object.keys(e.logs); var lines="";
-      for(var j=0;j<lk.length;j++){
-        var logKey=lk[j];
-        var side=null; var exId=logKey;
-        if(logKey.slice(-2)==="_L"||logKey.slice(-2)==="_R"){side=logKey.slice(-1);exId=logKey.slice(0,-2);}
-        var nm=ID2NAME[exId];
-        if(!nm)continue;
-        var sets=e.logs[logKey];
-        if(!sets||!sets.length)continue;
-        var setStrs=[];
-        for(var s=0;s<sets.length;s++){
-          var sd=sets[s];
-          if(sd&&(sd.w||sd.r))setStrs.push("Set "+(s+1)+": "+(sd.w?sd.w+"kg":"-")+(sd.r?" x "+sd.r:"")+(sd.n?" ("+sd.n+")":""));
-        }
-        if(setStrs.length){
-          lines+='<div class="hlog"><div class="hlog-name">'+nm+(side?" — "+(side==="L"?"Left":"Right"):"")+'</div>';
-          lines+='<div class="hlog-sets">'+setStrs.join(" &middot; ")+'</div></div>';
-        }
-      }
-      if(lines)out+='<div class="hlogs">'+lines+'</div>';
-    }
-    out+='</div>';
-  }
-  document.getElementById("t-history").innerHTML=out;
-}
-
 function rSet(){
   var h='<div class="card"><div class="stitle">Settings</div>';
   h+='<div class="setrow"><div><div class="setlbl">Deload Week</div><div class="setsub">Drop 1-2 sets, lighter weights, form focus</div></div>';
@@ -1036,7 +1035,36 @@ function rSet(){
 }
 
 // Actions
-function setSess(nm){S.sess=nm;sv();rToday();}
+function setSess(nm){S.sess=nm;hydrateDay(S.actdate,nm);sv();rToday();}
+// ---- Active-date / back-fill controls ----
+// Pull a saved session's logs/feels/note back into the live editing slots so a
+// past day pre-fills when you open it (only if not already loaded — never clobbers).
+function hydrateDay(date,sess){
+  for(var i=0;i<S.hist.length;i++){
+    var e=S.hist[i];
+    if(e.date===date&&e.sess===sess){
+      var k=sess+"_"+date;
+      if(e.logs&&!S.logs[k])S.logs[k]=e.logs;
+      if(e.feels&&!S.feels[k])S.feels[k]=e.feels;
+      if(e.note&&!S.notes[k])S.notes[k]=e.note;
+      return;
+    }
+  }
+}
+function setActDate(v){if(!v)return;if(v>td())v=td();S.actdate=v;hydrateDay(v,S.sess);rToday();}
+function shiftActDate(dir){
+  var p=S.actdate.split("-");
+  var ns=new Date(Date.UTC(+p[0],+p[1]-1,+p[2]+dir)).toISOString().slice(0,10);
+  if(ns>td())ns=td();
+  setActDate(ns);
+}
+// Open the Today logging screen bound to a chosen day (from the calendar)
+function editDay(ds,sess){
+  if(ds>td())return;
+  S.actdate=ds;
+  if(sess){S.sess=sess;hydrateDay(ds,sess);}
+  goTab("today");
+}
 function togCycle(){var r=dayRec();r.cycle=!r.cycle;if(!r.cycle)r.cmin="";sv();rToday();}
 function setCycleMin(v){dayRec().cmin=v;sv();}
 function setSteps(v){var n=parseInt(v,10);dayRec().steps=isNaN(n)?"":n;sv();rToday();}
@@ -1057,7 +1085,7 @@ function setSplit(n){S.split=n;sv();document.getElementById("hsub").textContent=
 function togDeload(){S.deload=!S.deload;sv();document.getElementById("hsub").textContent=subtitle();rSet();rToday();}
 function saveSess(){
   var k=csk();
-  var entry={date:td(),sess:S.sess,logs:S.logs[k]||{},feels:S.feels[k]||{},note:S.notes[k]||""};
+  var entry={date:S.actdate,sess:S.sess,logs:S.logs[k]||{},feels:S.feels[k]||{},note:S.notes[k]||""};
   var nh=[];
   for(var i=0;i<S.hist.length;i++){if(!(S.hist[i].date===entry.date&&S.hist[i].sess===entry.sess))nh.push(S.hist[i]);}
   nh.unshift(entry);if(nh.length>200)nh=nh.slice(0,200);S.hist=nh;sv();
